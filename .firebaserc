@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "casto-healthy": {
+      "hosting": {
+        "healthy-casto": [
+          "casto-healthy"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "casto-healthy"
+  }
+}
