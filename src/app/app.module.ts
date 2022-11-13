@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 import { provideAnalytics,getAnalytics,ScreenTrackingService,UserTrackingService } from '@angular/fire/analytics';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { provideDatabase,getDatabase } from '@angular/fire/database';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
-    provideDatabase(() => getDatabase())
+    provideDatabase(() => getDatabase()),
+    BrowserAnimationsModule
   ],
   providers: [
     ScreenTrackingService,UserTrackingService
