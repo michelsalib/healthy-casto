@@ -1,15 +1,39 @@
 <mat-toolbar color="primary">
-  <button mat-button routerLink="/">Healthy Casto</button>
+
+  <button mat-button routerLink="/">
+    Healthy Casto
+  </button>
 
   <div class="spacer"></div>
 
-  <button mat-button (click)="logout()" *ngIf="auth.currentUser">
-    logout
-  </button>
+  <div *ngIf="auth.currentUser" class="menu">
+    <button mat-button class="profile-badge" [matMenuTriggerFor]="menu">
+      Menu
+      <img [src]="auth.currentUser.photoURL" referrerpolicy="no-referrer" />
+    </button>
 
-  <a routerLink="/profile" *ngIf="auth.currentUser" class="profile-badge">
-    <img [src]="auth.currentUser.photoURL" referrerpolicy="no-referrer" />
-  </a>
+    <mat-menu #menu>
+      <button mat-menu-item routerLink="/">
+        <mat-icon>dashboard</mat-icon>
+        Accueil
+      </button>
+
+      <button mat-menu-item routerLink="/community">
+        <mat-icon>groups</mat-icon>
+        Communauté
+      </button>
+
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon>account_circle</mat-icon>
+        Mon profile
+      </button>
+
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Déconnexion
+      </button>
+    </mat-menu>
+  </div>
 
 </mat-toolbar>
 

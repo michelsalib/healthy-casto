@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Database, ref, set } from '@angular/fire/database';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { get } from '@firebase/database';
 import { User } from '../models/user';
@@ -12,7 +13,7 @@ import { User } from '../models/user';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public auth: Auth, public router: Router, public db: Database) { }
+  constructor(public auth: Auth, private router: Router, private db: Database, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -23,6 +24,8 @@ export class LoginComponent implements OnInit {
     await this.createUser();
 
     this.router.navigateByUrl('/');
+
+    this.snackBar.open('Bienvenue sur healthy casto 👋');
   }
 
   private async createUser() {

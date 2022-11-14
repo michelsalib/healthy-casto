@@ -10,12 +10,18 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HelloComponent } from './login/hello/hello.component';
+import { UsersListComponent } from './users-list/users-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +29,8 @@ import { HelloComponent } from './login/hello/hello.component';
     LoginComponent,
     HomeComponent,
     ProfileComponent,
-    HelloComponent
+    HelloComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,
@@ -37,10 +44,17 @@ import { HelloComponent } from './login/hello/hello.component';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSnackBarModule,
   ],
   providers: [
     ScreenTrackingService,
     UserTrackingService,
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, verticalPosition: 'top' } }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,14 +1,17 @@
-<div class="profile">
+<div class="profile" *ngIf="(user$ | async); let user;">
     <div class="row">
-        <img [src]="auth.currentUser?.photoURL" referrerpolicy="no-referrer" />
+        <img [src]="user.photoURL" referrerpolicy="no-referrer" />
     </div>
     <div class="row">
-        <strong>Display name</strong>: <span>{{ auth.currentUser?.displayName }}</span>
+        <mat-form-field appearance="fill">
+            <mat-label>Nom</mat-label>
+            <input matInput [(ngModel)]="user.displayName" required="required" (change)="updateDisplayName(user.displayName)">
+        </mat-form-field>
     </div>
     <div class="row">
-        <strong>Email</strong>: <span>{{ auth.currentUser?.email }}</span>
+        <strong>Email</strong>: <span>{{ user.email }}</span>
     </div>
     <div class="row">
-        <strong>Membre depuis</strong>: <span>{{ auth.currentUser?.metadata?.creationTime | date }}</span>
+        <strong>Membre depuis</strong>: <span>{{ user.creationDate | date }}</span>
     </div>
 </div>

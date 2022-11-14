@@ -4,6 +4,7 @@ import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from '@angula
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, ...canActivate(redirectUnauthorizedToLogin) },
   { path: 'login', component: LoginComponent, ...canActivate(() => redirectLoggedInTo([''])) },
   { path: 'profile', component: ProfileComponent, ...canActivate(redirectUnauthorizedToLogin) },
+  { path: 'community', component: UsersListComponent, ...canActivate(redirectUnauthorizedToLogin) },
 ];
 
 @NgModule({

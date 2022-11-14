@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use './app/login/hello/hello.component-theme' as hello;
-@use './app/home/home.component-theme' as home;
+@use './app/users-list/users-list.component-theme' as users-list;
 
 @include mat.core();
 
@@ -16,7 +16,7 @@ $my-theme: mat.define-light-theme((color: (primary: $my-primary,
 
 @include mat.all-component-themes($my-theme);
 @include hello.theme($my-theme);
-@include home.theme($my-theme);
+@include users-list.theme($my-theme);
 
 html,
 body {

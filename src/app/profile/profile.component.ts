@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
+import { Database, objectVal, ref, update } from '@angular/fire/database';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { firstValueFrom, Observable } from 'rxjs';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-profile',
@@ -7,10 +11,21 @@ import { Auth } from '@angular/fire/auth';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  user$: Observable<User>;
 
-  constructor(public auth: Auth) { }
+  constructor(public auth: Auth, private db: Database, private snackBar: MatSnackBar) {
+    this.user$ = objectVal(ref(db, 'users/' + auth.currentUser?.uid));
+  }
 
   ngOnInit(): void {
+  }
+
+  async updateDisplayName(displayName: string) {
+    await update(ref(this.db), {
+      ['users/' + this.auth.currentUser?.uid + '/displayName']: displayName,
+    });
+
+    this.snackBar.open('Changements sauvegardés 👍');
   }
 
 }

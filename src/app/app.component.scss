@@ -1,19 +1,26 @@
 mat-toolbar {
+
+    &>button:first-child {
+        font-size: 20px;
+    }
+
     .spacer {
         flex-grow: 1;
     }
 
-    .profile-badge {
-        height: 80%;
-
-        img {
-            border-radius: 50%;
-            height: 100%;
+    .menu {
+        .profile-badge {
+            img {
+                border-radius: 50%;
+                height: 50px;
+                margin-left: 10px;
+            }
         }
     }
 }
 
 section {
     max-width: 600px;
-    margin: 0 auto;;
+    margin: 0 auto;
+    ;
 }
