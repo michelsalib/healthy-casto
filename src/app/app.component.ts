@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Database, objectVal, ref } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { Auth, signOut } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +8,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'healthy-casto';
-  user$: Observable<any>;
+  constructor(public auth: Auth, public router: Router) { }
 
-  constructor(db: Database) {
-    this.user$ = objectVal(ref(db, 'users/Michel'));
+  async logout() {
+    await signOut(this.auth);
+
+    this.router.navigateByUrl('/login');
   }
 }

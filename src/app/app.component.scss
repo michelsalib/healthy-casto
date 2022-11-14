@@ -1,0 +1,14 @@
+mat-toolbar {
+    .spacer {
+        flex-grow: 1;
+    }
+
+    .profile-badge {
+        height: 80%;
+
+        img {
+            border-radius: 50%;
+            height: 100%;
+        }
+    }
+}

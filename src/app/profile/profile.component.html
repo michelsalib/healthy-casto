@@ -1,0 +1,11 @@
+<div class="profile">
+    <div class="row">
+        <img [src]="auth.currentUser?.photoURL" referrerpolicy="no-referrer" />
+    </div>
+    <div class="row">
+        <strong>Display name</strong>: <span>{{ auth.currentUser?.displayName }}</span>
+    </div>
+    <div class="row">
+        <strong>Email</strong>: <span>{{ auth.currentUser?.email }}</span>
+    </div>
+</div>
