@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Database, objectVal, ref } from '@angular/fire/database';
+import { Database, ref, listVal } from '@angular/fire/database';
 import { Observable } from 'rxjs';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +10,12 @@ import { Observable } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
 
-  user$: Observable<any>;
+  users$: Observable<User[] | null>;
 
   constructor(db: Database) {
-    this.user$ = objectVal(ref(db, 'users/Michel'));
+    this.users$ = listVal<User>(ref(db, 'users'), {
+      keyField: 'id',
+    });
   }
 
   ngOnInit(): void {

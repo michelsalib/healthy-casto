@@ -8,4 +8,7 @@
     <div class="row">
         <strong>Email</strong>: <span>{{ auth.currentUser?.email }}</span>
     </div>
+    <div class="row">
+        <strong>Membre depuis</strong>: <span>{{ auth.currentUser?.metadata?.creationTime | date }}</span>
+    </div>
 </div>

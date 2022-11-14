@@ -6,11 +6,13 @@
   <button mat-button (click)="logout()" *ngIf="auth.currentUser">
     logout
   </button>
-  
+
   <a routerLink="/profile" *ngIf="auth.currentUser" class="profile-badge">
-    <img [src]="auth.currentUser.photoURL" referrerpolicy="no-referrer"/>
+    <img [src]="auth.currentUser.photoURL" referrerpolicy="no-referrer" />
   </a>
-  
+
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<section>
+  <router-outlet></router-outlet>
+</section>
