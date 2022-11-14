@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Database, ref, listVal } from '@angular/fire/database';
 import { Observable } from 'rxjs';
-import { User } from '../models/user';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-users-list',

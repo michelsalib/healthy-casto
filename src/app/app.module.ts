@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
@@ -22,6 +23,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { HelloComponent } from './login/hello/hello.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ObjectivesComponent } from './objectives/objectives.component';
+import { CommunityObjectivesComponent } from './objectives/community-objectives/community-objectives.component';
+import { UserObjectivesComponent } from './objectives/user-objectives/user-objectives.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     ProfileComponent,
     HelloComponent,
-    UsersListComponent
+    UsersListComponent,
+    ObjectivesComponent,
+    CommunityObjectivesComponent,
+    UserObjectivesComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +57,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatInputModule,
     MatSnackBarModule,
+    MatChipsModule,
   ],
   providers: [
     ScreenTrackingService,

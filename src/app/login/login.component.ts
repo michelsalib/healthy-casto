@@ -4,7 +4,7 @@ import { Database, ref, set } from '@angular/fire/database';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { get } from '@firebase/database';
-import { User } from '../models/user';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-login',
@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
       displayName: this.auth.currentUser.displayName || '',
       email: this.auth.currentUser.email|| '',
       photoURL: this.auth.currentUser.photoURL|| '',
+      objectives: [],
     }
 
     await set(userRef, user);

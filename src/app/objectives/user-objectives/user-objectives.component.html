@@ -1,0 +1,10 @@
+<mat-chip-list *ngIf="user$ | async; let user;">
+    <mat-chip *ngFor="let objectiveConfig of user.objectives;">
+        {{ findObjective(objectiveConfig) }}
+        <!-- <ng-container *ngTemplateOutlet="objective;context:{objective: findObjective(objectiveConfig)}">
+        </ng-container>
+        <ng-template #objective let-objective="objective">
+            {{ objective | async | json }}
+        </ng-template> -->
+    </mat-chip>
+</mat-chip-list>

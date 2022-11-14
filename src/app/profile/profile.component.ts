@@ -3,7 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { Database, objectVal, ref, update } from '@angular/fire/database';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, Observable } from 'rxjs';
-import { User } from '../models/user';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-profile',

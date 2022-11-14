@@ -4,4 +4,9 @@ export interface User {
     displayName: string;
     email: string;
     photoURL: string;
+    objectives: ObjectiveConfig[];
+}
+
+export interface ObjectiveConfig {
+    id: string;
 }
