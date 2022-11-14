@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Database, objectVal, ref } from '@angular/fire/database';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'healthy-casto';
+  user$: Observable<any>;
+
+  constructor(db: Database) {
+    this.user$ = objectVal(ref(db, 'users/Michel'));
+  }
 }
