@@ -12,7 +12,7 @@ import { ObjectiveConfig } from 'src/app/models/User';
 })
 export class UserObjectivesComponent implements OnInit {
 
-  @Input() userId: string = '';
+  @Input() userId?: string;
   objectives$: Observable<Objective[] | null> = new Subject();
 
   constructor(private db: Database, public auth: Auth) {
