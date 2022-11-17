@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Database, listVal, objectVal, ref } from '@angular/fire/database';
-import { map, Observable, switchMap, take } from 'rxjs';
+import { combineLatest, Observable, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
-import { User } from 'src/app/models/User';
+import { ObjectiveConfig } from 'src/app/models/User';
 
 @Component({
   selector: 'app-user-objectives',
@@ -13,24 +13,26 @@ import { User } from 'src/app/models/User';
 export class UserObjectivesComponent implements OnInit {
 
   @Input() userId: string = '';
-  user$: Observable<User>;
-  objectives$: Observable<Objective[] | null>;
+  objectives$: Observable<Objective[] | null> = new Subject();
 
   constructor(private db: Database, public auth: Auth) {
-    this.user$ = objectVal<User>(ref(this.db, 'users/' + (this.userId || auth.currentUser?.uid)), {
-      keyField: 'id',
-    });
-
-    this.objectives$ = listVal<Objective>(ref(this.db, 'objectives'), {
-      keyField: 'id',
-    });
   }
 
   ngOnInit(): void {
-  }
+    this.objectives$ = listVal<ObjectiveConfig>(ref(this.db, 'users/' + (this.userId || this.auth.currentUser?.uid) + '/objectives'))
+      .pipe(
+        switchMap(config => {
+          if (!config) {
+            config = [];
+          }
 
-  findObjective(objectiveConfig: { id: string; }): Observable<Objective | undefined> {
-    return 'todo' as any;
+          return combineLatest(config.map(config => {
+            return objectVal<Objective>(ref(this.db, 'objectives/' + config.id), {
+              keyField: 'id',
+            });
+          }));
+        })
+      );
   }
 
 }

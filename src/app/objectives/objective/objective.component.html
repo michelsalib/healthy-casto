@@ -1,0 +1,10 @@
+<mat-card *ngIf="objective">
+    <mat-card-header>
+        <mat-card-title>{{ objective.success }} {{ objective.name }}</mat-card-title>
+        <mat-card-subtitle>{{ objective.description }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions align="end">
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+    </mat-card-actions>
+</mat-card>

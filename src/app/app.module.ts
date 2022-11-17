@@ -26,6 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ObjectivesComponent } from './objectives/objectives.component';
 import { CommunityObjectivesComponent } from './objectives/community-objectives/community-objectives.component';
 import { UserObjectivesComponent } from './objectives/user-objectives/user-objectives.component';
+import { ObjectiveComponent } from './objectives/objective/objective.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { UserObjectivesComponent } from './objectives/user-objectives/user-objec
     UsersListComponent,
     ObjectivesComponent,
     CommunityObjectivesComponent,
-    UserObjectivesComponent
+    UserObjectivesComponent,
+    ObjectiveComponent
   ],
   imports: [
     BrowserModule,

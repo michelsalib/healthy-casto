@@ -1,7 +1,9 @@
 <mat-card class="contqct-card" *ngFor="let user of users$ | async">
     <mat-card-title-group>
         <mat-card-title>{{ user.displayName }}</mat-card-title>
-        <mat-card-subtitle>Depuis {{ user.creationDate | date }}</mat-card-subtitle>
+        <mat-card-subtitle>
+            <app-user-objectives [userId]="user.id"></app-user-objectives>
+        </mat-card-subtitle>
         <img mat-card-avatar [src]="user.photoURL" referrerpolicy="no-referrer">
     </mat-card-title-group>
 </mat-card>
