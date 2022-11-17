@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Database, listVal, objectVal, ref } from '@angular/fire/database';
-import { combineLatest, Observable, Subject, switchMap } from 'rxjs';
+import { combineLatest, Observable, of, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ObjectiveConfig } from 'src/app/models/User';
 
@@ -19,15 +19,15 @@ export class UserObjectivesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.objectives$ = listVal<ObjectiveConfig>(ref(this.db, 'users/' + (this.userId || this.auth.currentUser?.uid) + '/objectives'))
+    this.objectives$ = listVal<ObjectiveConfig>(ref(this.db, 'users/' + (this.userId || this.auth.currentUser?.uid) + '/objectives'), { keyField: 'id' })
       .pipe(
         switchMap(config => {
           if (!config) {
-            config = [];
+            return of(null);
           }
 
-          return combineLatest(config.map(config => {
-            return objectVal<Objective>(ref(this.db, 'objectives/' + config.id), {
+          return combineLatest(config.map(o => {
+            return objectVal<Objective>(ref(this.db, 'objectives/' + o.id), {
               keyField: 'id',
             });
           }));
