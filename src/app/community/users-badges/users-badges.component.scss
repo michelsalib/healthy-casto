@@ -1,7 +1,13 @@
 [mat-card-avatar] {
+    transition: all .1s ease-in-out; 
+
     border-width: 1px;
     border-style: solid;
     margin-right: -15px;
     height: 60px;
     width: 60px;
+
+    &:hover {
+        transform: scale(1.2);
+    }
 }

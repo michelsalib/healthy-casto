@@ -21,6 +21,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -36,6 +37,7 @@ import { UserObjectiveComponent } from './objectives/user-objective/user-objecti
 import { LabelPipe } from './objectives/label.pipe';
 import { UsersBadgesComponent } from './community/users-badges/users-badges.component';
 import { CommunityComponent } from './community/community.component';
+import { ObjectiveFormComponent } from './objectives/objective-form/objective-form.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { CommunityComponent } from './community/community.component';
     UserObjectiveComponent,
     LabelPipe,
     UsersBadgesComponent,
-    CommunityComponent
+    CommunityComponent,
+    ObjectiveFormComponent
   ],
   imports: [
     BrowserModule,
@@ -78,11 +81,12 @@ import { CommunityComponent } from './community/community.component';
     MatSliderModule,
     MatSelectModule,
     MatTooltipModule,
+    MatDialogModule,
   ],
   providers: [
     ScreenTrackingService,
     UserTrackingService,
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, verticalPosition: 'top' } }
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, verticalPosition: 'top' } },
   ],
   bootstrap: [AppComponent]
 })

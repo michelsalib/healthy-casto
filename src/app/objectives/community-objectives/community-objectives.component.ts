@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Database, listVal, ref } from '@angular/fire/database';
+import { Database, listVal, orderByChild, query, ref } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 
@@ -11,8 +11,11 @@ import { Objective } from 'src/app/models/Objective';
 export class CommunityObjectivesComponent implements OnInit {
   objectives$: Observable<Objective[] | null>;
 
-  constructor(private db: Database) { 
-    this.objectives$ = listVal<Objective>(ref(this.db, 'objectives'), {
+  constructor(private db: Database) {
+    this.objectives$ = listVal<Objective>(query(
+      ref(this.db, 'objectives'),
+      orderByChild('name')
+    ), {
       keyField: 'id',
     });
   }
