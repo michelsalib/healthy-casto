@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Database, DatabaseReference, objectVal, ref, remove, set } from '@angular/fire/database';
-import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ObjectiveConfig } from 'src/app/models/User';
+import { LabelPipe } from '../label.pipe';
 
 @Component({
   selector: 'app-objective[objective]',
@@ -51,12 +51,9 @@ export class ObjectiveComponent implements OnInit {
     await set(ref(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}/averageValue`), value);
   }
 
-  label(value: number): string | number {
-    return value == 31 ? '💯' : value;
-  }
-
-  longLabel(value: number): string | number {
-    return value == 31 ? 'tous les jours' : value;
+  
+  tooltip(value: number): string {
+    return new LabelPipe().transform(value, 'short');
   }
 
 }

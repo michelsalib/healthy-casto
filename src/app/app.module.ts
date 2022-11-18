@@ -33,6 +33,7 @@ import { CommunityObjectivesComponent } from './objectives/community-objectives/
 import { UserObjectivesComponent } from './objectives/user-objectives/user-objectives.component';
 import { ObjectiveComponent } from './objectives/objective/objective.component';
 import { UserObjectiveComponent } from './objectives/user-objective/user-objective.component';
+import { LabelPipe } from './objectives/label.pipe';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { UserObjectiveComponent } from './objectives/user-objective/user-objecti
     CommunityObjectivesComponent,
     UserObjectivesComponent,
     ObjectiveComponent,
-    UserObjectiveComponent
+    UserObjectiveComponent,
+    LabelPipe
   ],
   imports: [
     BrowserModule,
