@@ -1,13 +1,32 @@
 <mat-card *ngIf="objective">
     <mat-card-header>
-        <mat-card-title>{{ objective.success }} {{ objective.name }}</mat-card-title>
+        <mat-card-title>
+            <span>{{ objective.name }}</span>
+            <mat-slide-toggle [checked]="(objectiveConfig$ | async) != null" (change)="toggle($event)">
+            </mat-slide-toggle>
+        </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <p>{{ objective.description }}</p>
-        <mat-divider></mat-divider>
+        <ng-container *ngIf="objectiveConfig$ | async as objectiveConfig">
+            <p>
+                <mat-divider></mat-divider>
+            </p>
+
+            <section class="objective">
+                Objectif {{ objective.success }} {{ longLabel(objectiveSlider.value) }}
+                <mat-slider #objectiveSlider [ngModel]="objectiveConfig.target" [thumbLabel]="true" min="0" max="31"
+                    [displayWith]="label" (change)="setTarget($event)"></mat-slider>
+            </section>
+
+            <section class="average">
+                Un {{ objective.average }} compte pour un
+                <mat-select required [ngModel]="objectiveConfig.averageValue" (valueChange)="setAverageValue($event)">
+                    <mat-option [value]="0">echec {{ objective.failure }}</mat-option>
+                    <mat-option [value]="0.5">demi point</mat-option>
+                    <mat-option [value]="1">succès {{ objective.success }}</mat-option>
+                </mat-select>
+            </section>
+        </ng-container>
     </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="accent" *ngIf="(objectiveConfig$ | async) == null" (click)="follow()">Suivre</button>
-        <button mat-button *ngIf="(objectiveConfig$ | async) != null" (click)="unfollow()">Abandonner</button>
-    </mat-card-actions>
 </mat-card>

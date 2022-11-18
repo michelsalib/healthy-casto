@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Database, objectVal, ref, update } from '@angular/fire/database';
+import { Database, objectVal, ref, set } from '@angular/fire/database';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../models/User';
 
 @Component({
@@ -21,9 +21,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async updateDisplayName(displayName: string) {
-    await update(ref(this.db), {
-      ['users/' + this.auth.currentUser?.uid + '/displayName']: displayName,
-    });
+    await set(ref(this.db, 'users/' + this.auth.currentUser?.uid + '/displayName'), displayName);
 
     this.snackBar.open('Changements sauvegardés 👍');
   }

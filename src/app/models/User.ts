@@ -10,4 +10,5 @@ export interface User {
 export interface ObjectiveConfig {
     id: string;
     target: number;
+    averageValue: number;
 }

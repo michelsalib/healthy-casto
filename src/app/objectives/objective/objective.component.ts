@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Database, DatabaseReference, objectVal, ref, remove, set, update } from '@angular/fire/database';
+import { Database, DatabaseReference, objectVal, ref, remove, set } from '@angular/fire/database';
+import { MatSelectChange } from '@angular/material/select';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSliderChange } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, Subject, switchMap, take } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ObjectiveConfig } from 'src/app/models/User';
 
@@ -20,21 +23,40 @@ export class ObjectiveComponent implements OnInit {
   constructor(public db: Database, public auth: Auth, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.ref = ref(this.db, 'users/' + this.auth.currentUser?.uid + '/objectives/' + this.objective.id);
+    this.ref = ref(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}`);
 
     this.objectiveConfig$ = objectVal<ObjectiveConfig>(this.ref);
   }
 
-  async unfollow() {
-    await remove(this.ref);
 
-    this.snackBar.open('Félicitation pour avoir tenu jusque là 🎉');
-  }
+  async toggle(event: MatSlideToggleChange) {
+    if (!event.checked) {
+      await remove(this.ref);
 
-  async follow() {
-    await set(this.ref, { target: 15 });
+      this.snackBar.open('Félicitation pour avoir tenu jusque là 🎉');
+
+      return;
+    }
+
+    await set(this.ref, { target: 15, averageValue: 0 });
 
     this.snackBar.open(`Tu suis maintenant l\'objectif ${this.objective.name} ${this.objective.success}`);
+  }
+
+  async setTarget($event: MatSliderChange) {
+    await set(ref(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}/target`), $event.value);
+  }
+
+  async setAverageValue(value: number) {
+    await set(ref(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}/averageValue`), value);
+  }
+
+  label(value: number): string | number {
+    return value == 31 ? '💯' : value;
+  }
+
+  longLabel(value: number): string | number {
+    return value == 31 ? 'tous les jours' : value;
   }
 
 }
