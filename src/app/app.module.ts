@@ -19,6 +19,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
@@ -31,6 +32,7 @@ import { ObjectivesComponent } from './objectives/objectives.component';
 import { CommunityObjectivesComponent } from './objectives/community-objectives/community-objectives.component';
 import { UserObjectivesComponent } from './objectives/user-objectives/user-objectives.component';
 import { ObjectiveComponent } from './objectives/objective/objective.component';
+import { UserObjectiveComponent } from './objectives/user-objective/user-objective.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { ObjectiveComponent } from './objectives/objective/objective.component';
     ObjectivesComponent,
     CommunityObjectivesComponent,
     UserObjectivesComponent,
-    ObjectiveComponent
+    ObjectiveComponent,
+    UserObjectiveComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +71,7 @@ import { ObjectiveComponent } from './objectives/objective/objective.component';
     MatSlideToggleModule,
     MatSliderModule,
     MatSelectModule,
+    MatTooltipModule,
   ],
   providers: [
     ScreenTrackingService,

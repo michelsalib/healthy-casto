@@ -13,26 +13,13 @@ import { ObjectiveConfig } from 'src/app/models/User';
 export class UserObjectivesComponent implements OnInit {
 
   @Input() userId?: string;
-  objectives$: Observable<Objective[] | null> = new Subject();
+  objectives$: Observable<ObjectiveConfig[] | null> = new Subject();
 
   constructor(private db: Database, public auth: Auth) {
   }
 
   ngOnInit(): void {
-    this.objectives$ = listVal<ObjectiveConfig>(ref(this.db, 'users/' + (this.userId || this.auth.currentUser?.uid) + '/objectives'), { keyField: 'id' })
-      .pipe(
-        switchMap(config => {
-          if (!config) {
-            return of(null);
-          }
-
-          return combineLatest(config.map(o => {
-            return objectVal<Objective>(ref(this.db, 'objectives/' + o.id), {
-              keyField: 'id',
-            });
-          }));
-        })
-      );
+    this.objectives$ = listVal<ObjectiveConfig>(ref(this.db, 'users/' + (this.userId || this.auth.currentUser?.uid) + '/objectives'), { keyField: 'id' });
   }
 
 }

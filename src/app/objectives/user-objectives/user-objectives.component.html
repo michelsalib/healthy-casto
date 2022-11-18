@@ -1,5 +1,12 @@
-<mat-chip-list *ngIf="objectives$ | async; let objectives;">
-    <mat-chip *ngFor="let objective of objectives;">
-        {{ objective.success }} {{ objective.name }}
-    </mat-chip>
-</mat-chip-list>
+<ng-container *ngIf="objectives$ | async; let objectives;">
+    <ng-container *ngIf="objectives.length; else noItem">
+        <mat-chip-list>
+            <ng-container *ngFor="let objective of objectives">
+                <app-user-objective [objectiveConfig]="objective"></app-user-objective>
+            </ng-container>
+        </mat-chip-list>
+    </ng-container>
+    <ng-template #noItem>Au repos</ng-template>
+</ng-container>
+
+

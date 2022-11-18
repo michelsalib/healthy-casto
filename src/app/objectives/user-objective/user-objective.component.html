@@ -1,0 +1,3 @@
+<mat-chip *ngIf="objective$ | async as objective" matTooltip="Avec un objectif de {{ objectiveConfig.target }} {{ objective.success }}">
+    {{ objective.success }} {{ objective.name }}
+</mat-chip>
