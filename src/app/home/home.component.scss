@@ -1,0 +1,10 @@
+:host {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+mat-card {
+    width: 250px;
+    margin: 10px;
+}

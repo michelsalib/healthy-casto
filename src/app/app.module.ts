@@ -26,7 +26,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HelloComponent } from './login/hello/hello.component';
-import { UsersListComponent } from './users-list/users-list.component';
+import { UsersListComponent } from './community/users-list/users-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ObjectivesComponent } from './objectives/objectives.component';
 import { CommunityObjectivesComponent } from './objectives/community-objectives/community-objectives.component';
@@ -34,6 +34,8 @@ import { UserObjectivesComponent } from './objectives/user-objectives/user-objec
 import { ObjectiveComponent } from './objectives/objective/objective.component';
 import { UserObjectiveComponent } from './objectives/user-objective/user-objective.component';
 import { LabelPipe } from './objectives/label.pipe';
+import { UsersBadgesComponent } from './community/users-badges/users-badges.component';
+import { CommunityComponent } from './community/community.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { LabelPipe } from './objectives/label.pipe';
     UserObjectivesComponent,
     ObjectiveComponent,
     UserObjectiveComponent,
-    LabelPipe
+    LabelPipe,
+    UsersBadgesComponent,
+    CommunityComponent
   ],
   imports: [
     BrowserModule,

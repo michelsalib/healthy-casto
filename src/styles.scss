@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use './app/login/hello/hello.component-theme' as hello;
-@use './app/users-list/users-list.component-theme' as users-list;
+@use './app/community/users-list/users-list.component-theme' as users-list;
 
 @include mat.core();
 
