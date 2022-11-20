@@ -23,9 +23,11 @@ export class ObjectivesComponent implements OnInit {
 
     const objective: Objective = await lastValueFrom(dialog.afterClosed());
 
-    await push(ref(this.db, 'objectives'), objective);
-
-    this.snackBar.open('Objectif créée 🫡');
+    if (objective) {
+      await push(ref(this.db, 'objectives'), objective);
+  
+      this.snackBar.open('Objectif créée 🫡');
+    }
   }
 
 }
