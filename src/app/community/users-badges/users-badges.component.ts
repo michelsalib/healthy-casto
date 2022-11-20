@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Database, limitToLast, listVal, orderByChild, query, ref } from '@angular/fire/database';
+import { limitToLast, orderBy } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/User';
+import { UsersService } from 'src/app/services/db/users.service';
 
 @Component({
   selector: 'app-users-badges',
@@ -12,14 +13,8 @@ export class UsersBadgesComponent implements OnInit {
 
   users$: Observable<User[] | null>;
 
-  constructor(public db: Database) {
-    this.users$ = listVal<User>(query(
-      ref(db, 'users'),
-      orderByChild('creationDate'),
-      limitToLast(5)
-    ), {
-      keyField: 'id'
-    });
+  constructor(public users: UsersService) {
+    this.users$ = users.list(orderBy('creationDate'), limitToLast(5));
   }
 
   ngOnInit(): void {

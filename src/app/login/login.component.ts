@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
-import { Database, ref, set } from '@angular/fire/database';
+import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { get } from '@firebase/database';
 import { User } from '../models/User';
 
 @Component({
@@ -13,7 +12,7 @@ import { User } from '../models/User';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public auth: Auth, private router: Router, private db: Database, private snackBar: MatSnackBar) { }
+  constructor(public auth: Auth, private router: Router, private db: Firestore, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -33,9 +32,9 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const userRef = ref(this.db, 'users/' + this.auth.currentUser.uid);
+    const userRef = doc(this.db, 'users/' + this.auth.currentUser.uid);
 
-    if ((await get(userRef)).exists()) {
+    if ((await getDoc(userRef)).exists()) {
       return;
     }
 
@@ -47,7 +46,7 @@ export class LoginComponent implements OnInit {
       objectives: [],
     }
 
-    await set(userRef, user);
+    await setDoc(userRef, user);
   }
 
 }

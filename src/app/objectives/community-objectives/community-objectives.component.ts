@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Database, listVal, orderByChild, query, ref } from '@angular/fire/database';
+import { orderBy } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
+import { ObjectivesService } from 'src/app/services/db/objectives.service';
 
 @Component({
   selector: 'app-community-objectives',
@@ -11,13 +12,8 @@ import { Objective } from 'src/app/models/Objective';
 export class CommunityObjectivesComponent implements OnInit {
   objectives$: Observable<Objective[] | null>;
 
-  constructor(private db: Database) {
-    this.objectives$ = listVal<Objective>(query(
-      ref(this.db, 'objectives'),
-      orderByChild('name')
-    ), {
-      keyField: 'id',
-    });
+  constructor(db: ObjectivesService) {
+    this.objectives$ = db.list(orderBy('name'));
   }
 
   ngOnInit(): void {

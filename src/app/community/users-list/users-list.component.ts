@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Database, ref, listVal } from '@angular/fire/database';
+import { orderBy } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { UsersService } from 'src/app/services/db/users.service';
 import { User } from '../../models/User';
 
 @Component({
@@ -11,10 +12,8 @@ import { User } from '../../models/User';
 export class UsersListComponent implements OnInit {
   users$: Observable<User[] | null>;
 
-  constructor(db: Database) {
-    this.users$ = listVal<User>(ref(db, 'users'), {
-      keyField: 'id',
-    });
+  constructor(users: UsersService) {
+    this.users$ = users.list();
   }
 
   ngOnInit(): void {

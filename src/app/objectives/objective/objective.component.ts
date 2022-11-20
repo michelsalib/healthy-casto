@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Database, DatabaseReference, objectVal, ref, remove, set } from '@angular/fire/database';
+import { deleteDoc, doc, docData, DocumentReference, Firestore, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,41 +17,41 @@ import { LabelPipe } from '../label.pipe';
 export class ObjectiveComponent implements OnInit {
 
   @Input() objective!: Objective;
-  ref!: DatabaseReference;
+  ref!: DocumentReference<ObjectiveConfig>;
   objectiveConfig$: Observable<ObjectiveConfig> = new Subject();
 
-  constructor(public db: Database, public auth: Auth, public snackBar: MatSnackBar) { }
+  constructor(public db: Firestore, public auth: Auth, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.ref = ref(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}`);
+    this.ref = doc(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}`) as DocumentReference<ObjectiveConfig>;
 
-    this.objectiveConfig$ = objectVal<ObjectiveConfig>(this.ref);
+    this.objectiveConfig$ = docData<ObjectiveConfig>(this.ref);
   }
 
 
   async toggle(event: MatSlideToggleChange) {
     if (!event.checked) {
-      await remove(this.ref);
+      await deleteDoc(this.ref);
 
       this.snackBar.open('Félicitation pour avoir tenu jusque là 🎉');
 
       return;
     }
 
-    await set(this.ref, { target: 15, averageValue: 0 });
+    await setDoc(this.ref, { target: 15, averageValue: 0 } as ObjectiveConfig);
 
     this.snackBar.open(`Tu suis maintenant l\'objectif ${this.objective.name} ${this.objective.success}`);
   }
 
   async setTarget($event: MatSliderChange) {
-    await set(ref(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}/target`), $event.value);
+    await updateDoc(this.ref, 'target', $event.value);
   }
 
   async setAverageValue(value: number) {
-    await set(ref(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}/averageValue`), value);
+    await updateDoc(this.ref, 'averageValue', value);
   }
 
-  
+
   tooltip(value: number): string {
     return new LabelPipe().transform(value, 'short');
   }

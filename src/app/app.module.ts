@@ -6,7 +6,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAnalytics, getAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore, enableIndexedDbPersistence } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -63,7 +63,13 @@ import { ObjectiveFormComponent } from './objectives/objective-form/objective-fo
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
-    provideDatabase(() => getDatabase()),
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      // while this works, it provokes binding glitches
+      // enableIndexedDbPersistence(firestore);
+
+      return firestore;
+    }),
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,

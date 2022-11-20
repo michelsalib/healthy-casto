@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Database, push, ref } from '@angular/fire/database';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { lastValueFrom } from 'rxjs';
 import { Objective } from '../models/Objective';
+import { ObjectivesService } from '../services/db/objectives.service';
 import { ObjectiveFormComponent } from './objective-form/objective-form.component';
 
 @Component({
@@ -13,7 +13,7 @@ import { ObjectiveFormComponent } from './objective-form/objective-form.componen
 })
 export class ObjectivesComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, public db: Database, public snackBar: MatSnackBar) { }
+  constructor(public dialog: MatDialog, public objectivesDb: ObjectivesService, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +24,7 @@ export class ObjectivesComponent implements OnInit {
     const objective: Objective = await lastValueFrom(dialog.afterClosed());
 
     if (objective) {
-      await push(ref(this.db, 'objectives'), objective);
+      await this.objectivesDb.add(objective);
   
       this.snackBar.open('Objectif créée 🫡');
     }
