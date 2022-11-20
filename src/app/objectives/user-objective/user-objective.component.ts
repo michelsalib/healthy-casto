@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Database, objectVal, ref } from '@angular/fire/database';
-import { collection, Firestore } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ObjectiveConfig } from 'src/app/models/User';
