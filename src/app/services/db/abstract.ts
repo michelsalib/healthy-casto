@@ -1,10 +1,10 @@
-import { addDoc, collection, collectionData, CollectionReference, doc, docData, DocumentReference, Firestore, query, QueryConstraint } from "@angular/fire/firestore";
+import { addDoc, collection, collectionData, CollectionReference, doc, docData, DocumentReference, Firestore, FirestoreDataConverter, query, QueryConstraint } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 
 export abstract class Db<T extends { id: string }> {
-    private readonly collection;
+    private readonly collection: CollectionReference<T>;
 
-    constructor(private db: Firestore, private path: string) {
+    constructor(private db: Firestore, private path: string, private converter?: FirestoreDataConverter<T>) {
         this.collection = collection(db, path) as CollectionReference<T>;
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
-import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import { doc, Firestore, getDoc, setDoc, Timestamp } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from '../models/User';
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     }
 
     const user: Omit<User, 'id'> = {
-      creationDate: new Date().toISOString(),
+      creationDate: Timestamp.now(),
       displayName: this.auth.currentUser.displayName || '',
       email: this.auth.currentUser.email|| '',
       photoURL: this.auth.currentUser.photoURL|| '',

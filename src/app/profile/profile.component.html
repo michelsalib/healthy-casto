@@ -12,6 +12,6 @@
         <strong>Email</strong>: <span>{{ user.email }}</span>
     </div>
     <div class="row">
-        <strong>Membre depuis</strong>: <span>{{ user.creationDate | date }}</span>
+        <strong>Membre depuis</strong>: <span>{{ user.creationDate.toDate()| date }}</span>
     </div>
 </div>
