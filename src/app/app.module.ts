@@ -38,6 +38,7 @@ import { LabelPipe } from './objectives/label.pipe';
 import { UsersBadgesComponent } from './community/users-badges/users-badges.component';
 import { CommunityComponent } from './community/community.component';
 import { ObjectiveFormComponent } from './objectives/objective-form/objective-form.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,12 @@ import { ObjectiveFormComponent } from './objectives/objective-form/objective-fo
     MatSelectModule,
     MatTooltipModule,
     MatDialogModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     ScreenTrackingService,
