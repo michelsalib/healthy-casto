@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -6,7 +6,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAnalytics, getAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideFirestore, getFirestore, enableIndexedDbPersistence } from '@angular/fire/firestore';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,6 +39,7 @@ import { UsersBadgesComponent } from './community/users-badges/users-badges.comp
 import { CommunityComponent } from './community/community.component';
 import { ObjectiveFormComponent } from './objectives/objective-form/objective-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ActivityComponent } from './activity/activity.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     LabelPipe,
     UsersBadgesComponent,
     CommunityComponent,
-    ObjectiveFormComponent
+    ObjectiveFormComponent,
+    ActivityComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +102,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ScreenTrackingService,
     UserTrackingService,
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, verticalPosition: 'top' } },
+    { provide: LOCALE_ID, useValue: 'fr-FR' }
   ],
   bootstrap: [AppComponent]
 })

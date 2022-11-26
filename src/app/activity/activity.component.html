@@ -1,0 +1,26 @@
+<ng-container *ngIf="activity$ | async as activity">
+    <div *ngFor="let month of months" class="month">
+
+        <h4 class="month-name">
+            {{ month | date:'MMMM' | titlecase }}
+        </h4>
+
+        <div class="month-days">
+            <div *ngFor="let day of daysOf(month)" class="day" [ngClass]="{ monday: isMonday(day) }">
+                <div class="day-letter">
+                    {{ day | date:'EEEEE' }}
+                </div>
+                <div class="day-objective" *ngFor="let objective of objectives">
+                    <mat-select [value]="activity?.[day]?.[objective.id]" (valueChange)="setActivity($event, day, objective.id, !!activity[day])">
+                        <mat-option [value]="undefined">-</mat-option>
+                        <mat-option value="🟥">{{ objective.failure }}</mat-option>
+                        <mat-option value="🟧">{{ objective.average }}</mat-option>
+                        <mat-option value="🟩">{{ objective.success }}</mat-option>
+                    </mat-select>
+                </div>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+    </div>
+</ng-container>

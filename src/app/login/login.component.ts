@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
       displayName: this.auth.currentUser.displayName || '',
       email: this.auth.currentUser.email|| '',
       photoURL: this.auth.currentUser.photoURL|| '',
-      objectives: [],
     }
 
     await setDoc(userRef, user);
