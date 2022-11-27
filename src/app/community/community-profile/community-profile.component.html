@@ -1,3 +1,19 @@
-<p>community-profile works!</p>
+<ng-container *ngIf="user$ | async as user">
 
-{{ userId }}
+    <div class="title">
+        <img [src]="user.photoURL" referrerpolicy="no-referrer" />
+
+        <div class="content">
+            <h1>{{ user.displayName }}</h1>
+
+            <app-user-objectives [userId]="user.id"></app-user-objectives>
+
+            <button *ngIf="isMe" mat-stroked-button routerLink="/objectives">Definir mes objectifs</button>
+        </div>
+    </div>
+
+    <div>
+        <app-activity [userId]="isMe ? undefined : userId"></app-activity>
+    </div>
+
+</ng-container>

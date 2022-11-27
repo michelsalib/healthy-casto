@@ -56,16 +56,19 @@ h2 {
 }
 
 mat-select.🟩,
+.readonly.🟩,
 .mat-option[value="🟩"] {
     background-color: rgb(217, 234, 211);
 }
 
 mat-select.🟧,
+.readonly.🟧,
 .mat-option[value="🟧"] {
     background-color: rgb(252, 229, 205);
 }
 
 mat-select.🟥,
+.readonly.🟥,
 .mat-option[value="🟥"] {
     background-color: rgb(244, 204, 204);
 }

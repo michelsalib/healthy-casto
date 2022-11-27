@@ -8,3 +8,11 @@ mat-card {
     width: 250px;
     margin: 10px;
 }
+
+.activity {
+    .actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

@@ -26,6 +26,10 @@
     </mat-card>
 </div>
 
-<div>
-    <app-activity-month *ngFor="let month of months" [year]="year" [month]="month"></app-activity-month>
+<div class="activity">
+    <app-activity-month *ngFor="let month of months" [month]="month"></app-activity-month>
+
+    <div class="actions">
+        <button mat-stroked-button routerLink="/community/me">Mon historique</button>
+    </div>
 </div>

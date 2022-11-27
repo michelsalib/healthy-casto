@@ -9,15 +9,14 @@ import { ActivityService } from 'src/app/services/db/activity.service';
 import { ObjectivesService } from 'src/app/services/db/objectives.service';
 
 @Component({
-  selector: 'app-activity-month[year][month]',
+  selector: 'app-activity-month[month]',
   templateUrl: './activity-month.component.html',
   styleUrls: ['./activity-month.component.scss']
 })
 export class ActivityMonthComponent implements OnInit {
   @Input() userId?: string;
-  @Input() year!: string;
   @Input() month!: string;
-  
+
   objectiveConfigs: ObjectiveConfig[] = [];
   objectives: Objective[] | null = null;
   activity$: Observable<Record<string, ActivityEntry>> = new Subject();
@@ -25,7 +24,7 @@ export class ActivityMonthComponent implements OnInit {
   days!: string[];
 
   constructor(private activityService: ActivityService, private db: Firestore, private auth: Auth, private objectivesService: ObjectivesService) {
-    
+
   }
 
   ngOnInit(): void {
@@ -42,7 +41,7 @@ export class ActivityMonthComponent implements OnInit {
       this.objectiveConfigs = configs;
     });
 
-    this.activity$ = this.activityService.getMonth(this.year, this.month);
+    this.activity$ = this.activityService.getMonth(this.month, this.userId);
   }
 
   isMonday(day: string): any {
@@ -66,7 +65,20 @@ export class ActivityMonthComponent implements OnInit {
   }
 
   async setActivity(value: string, day: string, activity: string) {
-    this.activityService.updateActivity(this.year, day, activity, value);
+    this.activityService.updateActivity(day, activity, value);
+  }
+
+  getIcon(objective: Objective, value: string | undefined): string {
+    switch (value) {
+      case '🟩':
+        return objective.success;
+      case '🟧':
+        return objective.average;
+      case '🟥':
+        return objective.failure;
+    }
+
+    return ' ';
   }
 
 }

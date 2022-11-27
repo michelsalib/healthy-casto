@@ -1,8 +1,15 @@
 mat-card {
     margin-top: 20px;
+    transition: all .1s ease-in-out; 
+
+    &:hover {
+        transform: scale(1.01);
+        cursor: pointer;
+    }
 }
 
 [mat-card-avatar] {
     border-width: 1px;
     border-style: solid;
 }
+

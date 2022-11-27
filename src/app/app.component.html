@@ -18,6 +18,11 @@
         Accueil
       </button>
 
+      <button mat-menu-item [routerLink]="'/community/' + auth.currentUser.uid">
+        <mat-icon>account_circle</mat-icon>
+        Mon profile
+      </button>
+
       <button mat-menu-item routerLink="/community">
         <mat-icon>groups</mat-icon>
         Communauté
@@ -26,11 +31,6 @@
       <button mat-menu-item routerLink="/objectives">
         <mat-icon>track_changes</mat-icon>
         Objectifs
-      </button>
-
-      <button mat-menu-item [routerLink]="'/community/' + auth.currentUser.uid">
-        <mat-icon>account_circle</mat-icon>
-        Mon profile
       </button>
 
       <button mat-menu-item routerLink="/settings">

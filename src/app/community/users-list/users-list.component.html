@@ -1,4 +1,4 @@
-<mat-card *ngFor="let user of users$ | async">
+<mat-card *ngFor="let user of users$ | async" [routerLink]="'/community/' + user.id">
     <mat-card-title-group>
         <mat-card-title>{{ user.displayName }}</mat-card-title>
         <mat-card-subtitle>
