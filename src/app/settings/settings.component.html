@@ -1,4 +1,4 @@
-<div class="profile" *ngIf="user$ | async; let user;">
+<div *ngIf="user$ | async; let user;">
     <div class="row">
         <img [src]="user.photoURL" referrerpolicy="no-referrer" />
     </div>

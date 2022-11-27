@@ -25,7 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
 import { HelloComponent } from './login/hello/hello.component';
 import { UsersListComponent } from './community/users-list/users-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,13 +40,15 @@ import { CommunityComponent } from './community/community.component';
 import { ObjectiveFormComponent } from './objectives/objective-form/objective-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ActivityComponent } from './activity/activity.component';
+import { ActivityMonthComponent } from './activity/activity-month/activity-month.component';
+import { CommunityProfileComponent } from './community/community-profile/community-profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ProfileComponent,
+    SettingsComponent,
     HelloComponent,
     UsersListComponent,
     ObjectivesComponent,
@@ -59,6 +61,8 @@ import { ActivityComponent } from './activity/activity.component';
     CommunityComponent,
     ObjectiveFormComponent,
     ActivityComponent,
+    ActivityMonthComponent,
+    CommunityProfileComponent,
   ],
   imports: [
     BrowserModule,

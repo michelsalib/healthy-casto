@@ -28,9 +28,14 @@
         Objectifs
       </button>
 
-      <button mat-menu-item routerLink="/profile">
+      <button mat-menu-item [routerLink]="'/community/' + auth.currentUser.uid">
         <mat-icon>account_circle</mat-icon>
         Mon profile
+      </button>
+
+      <button mat-menu-item routerLink="/settings">
+        <mat-icon>settings</mat-icon>
+        Mes paramètres
       </button>
 
       <button mat-menu-item (click)="logout()">

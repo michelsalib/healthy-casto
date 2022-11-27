@@ -27,5 +27,5 @@
 </div>
 
 <div>
-    <app-activity></app-activity>
+    <app-activity-month *ngFor="let month of months" [year]="year" [month]="month"></app-activity-month>
 </div>

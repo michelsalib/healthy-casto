@@ -7,11 +7,11 @@ import { User } from '../models/User';
 import { UsersService } from '../services/db/users.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class SettingsComponent implements OnInit {
   user$: Observable<User>;
 
   constructor(public auth: Auth, private db: Firestore, private usersService: UsersService,  private snackBar: MatSnackBar) {
