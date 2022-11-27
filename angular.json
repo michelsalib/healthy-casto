@@ -14,7 +14,7 @@
       "sourceRoot": "src",
       "prefix": "app",
       "i18n": {
-        "sourceLocale": "fr"
+        "sourceLocale": "fr-FR"
       },
       "architect": {
         "build": {
@@ -36,10 +36,12 @@
             ],
             "scripts": [],
             "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "ngswConfigPath": "ngsw-config.json",
+            "i18nMissingTranslation": "warning"
           },
           "configurations": {
             "production": {
+              "localize": ["fr-FR"],
               "budgets": [
                 {
                   "type": "initial",

@@ -27,8 +27,15 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/fr-FR/",
+        "destination": "/fr-FR/index.html"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "/fr-FR/",
+        "type": 301
       }
     ]
   }

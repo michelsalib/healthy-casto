@@ -49,17 +49,17 @@
     }
 }
 
-mat-select[ng-reflect-value="🟩"],
-.mat-option[ng-reflect-value="🟩"] {
+mat-select.🟩,
+.mat-option[value="🟩"] {
     background-color: rgb(217, 234, 211);
 }
 
-mat-select[ng-reflect-value="🟧"],
-.mat-option[ng-reflect-value="🟧"] {
+mat-select.🟧,
+.mat-option[value="🟧"] {
     background-color: rgb(252, 229, 205);
 }
 
-mat-select[ng-reflect-value="🟥"],
-.mat-option[ng-reflect-value="🟥"] {
+mat-select.🟥,
+.mat-option[value="🟥"] {
     background-color: rgb(244, 204, 204);
 }

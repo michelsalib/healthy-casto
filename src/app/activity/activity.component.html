@@ -11,7 +11,8 @@
                     {{ day | date:'EEEEE' }}
                 </div>
                 <div class="day-objective" *ngFor="let objective of objectives">
-                    <mat-select [value]="activity?.[day]?.[objective.id]" (valueChange)="setActivity($event, day, objective.id, !!activity[day])">
+                    <mat-select [value]="activity?.[day]?.[objective.id]" [ngClass]="activity?.[day]?.[objective.id]"
+                        (valueChange)="setActivity($event, day, objective.id, !!activity[day])">
                         <mat-option [value]="undefined">-</mat-option>
                         <mat-option value="🟥">{{ objective.failure }}</mat-option>
                         <mat-option value="🟧">{{ objective.average }}</mat-option>
