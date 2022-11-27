@@ -1,5 +1,5 @@
 :host {
-    width: 800px;
+    width: 1000px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -17,12 +17,12 @@
     }
 }
 
-.day {
+.day,
+.recap,
+.title {
     display: inline-block;
-    width: 25px;
-    text-align: center;
 
-    &>* {
+    & > * {
         height: 25px;
         line-height: 25px;
         vertical-align: middle;
@@ -47,6 +47,20 @@
             background-color: lightgray;
         }
     }
+}
+
+.title {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.day {
+    width: 25px;
+    text-align: center;
+}
+
+.recap {
+    margin-left: 10px;
 }
 
 mat-select.🟩,

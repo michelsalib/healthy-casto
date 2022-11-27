@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { addDoc, collection, collectionData, CollectionReference, deleteField, doc, docData, DocumentReference, Firestore, setDoc, updateDoc, where } from '@angular/fire/firestore';
+import { collection, collectionData, CollectionReference, deleteField, doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
 import { getDaysInMonth, getYear, isMonday, parse } from 'date-fns';
-import { combineLatest, first, firstValueFrom, forkJoin, lastValueFrom, map, Observable, Subject, switchMap } from 'rxjs';
+import { firstValueFrom, map, Observable, reduce, Subject } from 'rxjs';
 import { Objective } from '../models/Objective';
 import { ActivityEntry, ObjectiveConfig } from '../models/User';
 import { ObjectivesService } from '../services/db/objectives.service';
@@ -72,5 +72,21 @@ export class ActivityComponent implements OnInit {
 
   isMonday(day: string): any {
     return isMonday(parse(day, 'yyyy-MM-dd', 0));
+  }
+
+  computeActivity(month: string, config: ObjectiveConfig, activity: Record<string, ActivityEntry>): number {
+    return Object.keys(activity).filter(day => day.startsWith(month) && activity[day][config.id]).reduce((r, c) => {
+      const act = activity[c][config.id];
+
+      if (act == '🟩') {
+        return ++r;
+      }
+
+      if (act == '🟧') {
+        return r + config.averageValue;
+      }
+
+      return r;
+    }, 0);
   }
 }
