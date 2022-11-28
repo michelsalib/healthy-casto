@@ -1,5 +1,4 @@
-:host {
-}    
+:host {}
 
 h2 {
     margin-top: 20px;
@@ -14,7 +13,7 @@ h2 {
 .title {
     display: inline-block;
 
-    & > * {
+    &>* {
         height: 25px;
         line-height: 25px;
         vertical-align: middle;
@@ -31,7 +30,7 @@ h2 {
     &-objective {
         font-size: 18px;
 
-        ::ng-deep.mat-select-arrow {
+        ::ng-deep.mat-select-arrow-wrapper {
             display: none;
         }
 
@@ -71,4 +70,8 @@ mat-select.🟥,
 .readonly.🟥,
 .mat-option[value="🟥"] {
     background-color: rgb(244, 204, 204);
+}
+
+mat-select.edited {
+    background-color: lightblue;
 }

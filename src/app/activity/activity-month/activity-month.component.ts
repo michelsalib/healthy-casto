@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { collection, collectionData, CollectionReference, Firestore } from '@angular/fire/firestore';
-import { getDaysInMonth, isMonday, parse } from 'date-fns';
+import { addDays, format, getDaysInMonth, isAfter, isBefore, isEqual, isMonday, parse } from 'date-fns';
 import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ActivityEntry, ObjectiveConfig } from 'src/app/models/User';
@@ -22,6 +22,12 @@ export class ActivityMonthComponent implements OnInit {
   activity$: Observable<Record<string, ActivityEntry>> = new Subject();
 
   days!: string[];
+  editedDays: string[] = [];
+  dragData?: {
+    value: string | undefined,
+    objectiveId: string,
+    from: string,
+  };
 
   constructor(private activityService: ActivityService, private db: Firestore, private auth: Auth, private objectivesService: ObjectivesService) {
 
@@ -64,8 +70,8 @@ export class ActivityMonthComponent implements OnInit {
     }, 0);
   }
 
-  async setActivity(value: string, day: string, activity: string) {
-    this.activityService.updateActivity(day, activity, value);
+  async setActivity(value: string, day: string, objectiveId: string) {
+    await this.activityService.updateActivity(day, objectiveId, value);
   }
 
   getIcon(objective: Objective, value: string | undefined): string {
@@ -81,4 +87,71 @@ export class ActivityMonthComponent implements OnInit {
     return ' ';
   }
 
+  dragStart($event: DragEvent, value: string | undefined, day: string, objectiveId: string) {
+    if (!$event.dataTransfer) {
+      return;
+    }
+
+    this.dragData = {
+      from: day,
+      objectiveId,
+      value,
+    };
+
+    $event.dataTransfer.effectAllowed = 'copyMove';
+    $event.dataTransfer.dropEffect = 'copy';
+  }
+
+  dragEnter($event: DragEvent, objectiveId: string, toDate: string) {
+    if (!this.dragData || objectiveId != this.dragData.objectiveId) {
+      return;
+    }
+
+    $event.preventDefault();
+
+    this.editedDays = this.computeRange(this.dragData.from, toDate);
+  }
+
+  dragOver($event: DragEvent, objectiveId: string) {
+    if (!this.dragData || objectiveId != this.dragData.objectiveId) {
+      return;
+    }
+
+    $event.preventDefault();
+  }
+
+  async drop($event: DragEvent, objectiveId: string, toDate: string) {
+    if (!this.dragData || objectiveId != this.dragData.objectiveId) {
+      return;
+    }
+    
+    const data = this.dragData;
+    this.dragData = undefined;
+
+    // compute range
+    const days = this.computeRange(data.from, toDate);
+
+    // apply changes
+    await Promise.all(days.map(d => this.activityService.updateActivity(d, objectiveId, data.value)));
+    this.editedDays = [];
+  }
+
+  private computeRange(fromDay: string, toDay: string): string[] {
+    // compute range
+    let from = parse(fromDay, 'yyyy-MM-dd', new Date());
+    let to = parse(toDay, 'yyyy-MM-dd', new Date());
+    if (isBefore(to, from)) {
+      const temp = from;
+      from = to;
+      to = temp;
+    }
+
+    const days = [];
+    while (isBefore(from, to) || isEqual(from, to)) {
+      days.push(format(from, 'yyyy-MM-dd'));
+      from = addDays(from, 1);
+    }
+
+    return days;
+  }
 }

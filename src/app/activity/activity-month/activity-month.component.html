@@ -19,7 +19,11 @@
             <div class="day-objective" *ngFor="let objective of objectives">
 
                 <mat-select *ngIf="!userId; else readonlyTemplate" [value]="activity?.[day]?.[objective.id]"
-                    [ngClass]="activity?.[day]?.[objective.id]" (valueChange)="setActivity($event, day, objective.id)">
+                    (valueChange)="setActivity($event, day, objective.id)" draggable="true"
+                    (dragstart)="dragStart($event, activity?.[day]?.[objective.id], day, objective.id)"
+                    (drop)="drop($event, objective.id, day)" (dragenter)="dragEnter($event, objective.id, day)"
+                    (dragover)="dragOver($event, objective.id)" [ngClass]="activity?.[day]?.[objective.id]"
+                    [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId">
                     <mat-option [value]="undefined">-</mat-option>
                     <mat-option value="🟥">{{ objective.failure }}</mat-option>
                     <mat-option value="🟧">{{ objective.average }}</mat-option>

@@ -31,17 +31,17 @@ export class ActivityService {
       }));
   }
 
-  async updateActivity(day: string, activity: string, value: string) {
+  async updateActivity(day: string, objectiveId: string, value: string | undefined) {
     const ref = doc(this.db, 'users/' + this.auth.currentUser?.uid + '/activity/' + day);
 
     const activityExists = (await getDoc(ref)).exists();
 
     if (!activityExists) {
-      await setDoc(ref, { [activity]: value });
+      await setDoc(ref, { [objectiveId]: value });
 
       return;
     }
 
-    await updateDoc(ref, activity, value || deleteField());
+    await updateDoc(ref, objectiveId, value || deleteField());
   }
 }
