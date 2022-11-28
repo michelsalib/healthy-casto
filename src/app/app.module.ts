@@ -35,13 +35,14 @@ import { UserObjectivesComponent } from './objectives/user-objectives/user-objec
 import { ObjectiveComponent } from './objectives/objective/objective.component';
 import { UserObjectiveComponent } from './objectives/user-objective/user-objective.component';
 import { LabelPipe } from './objectives/label.pipe';
-import { UsersBadgesComponent } from './community/users-badges/users-badges.component';
 import { CommunityComponent } from './community/community.component';
 import { ObjectiveFormComponent } from './objectives/objective-form/objective-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ActivityComponent } from './activity/activity.component';
 import { ActivityMonthComponent } from './activity/activity-month/activity-month.component';
 import { CommunityProfileComponent } from './community/community-profile/community-profile.component';
+import { FollowBadgeComponent } from './community/follow-badge/follow-badge.component';
+import { UserBadgeComponent } from './community/user-badge/user-badge.component';
 
 @NgModule({
   declarations: [
@@ -57,12 +58,13 @@ import { CommunityProfileComponent } from './community/community-profile/communi
     ObjectiveComponent,
     UserObjectiveComponent,
     LabelPipe,
-    UsersBadgesComponent,
     CommunityComponent,
     ObjectiveFormComponent,
     ActivityComponent,
     ActivityMonthComponent,
     CommunityProfileComponent,
+    FollowBadgeComponent,
+    UserBadgeComponent,
   ],
   imports: [
     BrowserModule,
