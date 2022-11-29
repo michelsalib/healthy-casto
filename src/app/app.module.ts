@@ -113,7 +113,6 @@ import { ImageResizerComponent } from './settings/image-resizer/image-resizer.co
   providers: [
     ScreenTrackingService,
     UserTrackingService,
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, verticalPosition: 'top' } },
     { provide: LOCALE_ID, useValue: 'fr-FR' }
   ],
   bootstrap: [AppComponent]

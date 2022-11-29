@@ -21,7 +21,7 @@ export class ImageResizerComponent implements OnInit {
   }
 
   loadImageFailed() {
-    this.snack.open('Ton image n\'a pas pu être chargée.');
+    this.snack.open('Ton image n\'a pas pu être chargée.', undefined, { duration: 3000, verticalPosition: 'top' });
     this.dialogueRef.close();
   }
 

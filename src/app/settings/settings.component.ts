@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
   async updateDisplayName(displayName: string) {
     await updateDoc(doc(this.db, 'users/' + this.auth.currentUser?.uid), 'displayName', displayName);
 
-    this.snackBar.open('Changements sauvegardés 👍');
+    this.snackBar.open('Changements sauvegardés 👍', undefined, { duration: 3000, verticalPosition: 'top' });
   }
 
   async fileChangeEvent(fileEvent: Event) {
@@ -51,7 +51,7 @@ export class SettingsComponent implements OnInit {
 
       console.log('added image', image);
 
-      this.snackBar.open('Image sauvegardée 😁');
+      this.snackBar.open('Image sauvegardée 😁', undefined, { duration: 3000, verticalPosition: 'top' });
     }
   }
 

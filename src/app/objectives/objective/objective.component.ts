@@ -33,14 +33,14 @@ export class ObjectiveComponent implements OnInit {
     if (!event.checked) {
       await deleteDoc(this.ref);
 
-      this.snackBar.open('Félicitation pour avoir tenu jusque là 🎉');
+      this.snackBar.open('Félicitation pour avoir tenu jusque là 🎉', undefined, { duration: 3000, verticalPosition: 'top' });
 
       return;
     }
 
     await setDoc(this.ref, { target: 15, averageValue: 0 } as ObjectiveConfig);
 
-    this.snackBar.open(`Tu suis maintenant l\'objectif ${this.objective.name} ${this.objective.success}`);
+    this.snackBar.open(`Tu suis maintenant l\'objectif ${this.objective.name} ${this.objective.success}`, undefined, { duration: 3000, verticalPosition: 'top' });
   }
 
   async setTarget($event: MatSliderChange) {

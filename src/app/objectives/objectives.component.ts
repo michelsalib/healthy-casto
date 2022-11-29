@@ -26,7 +26,7 @@ export class ObjectivesComponent implements OnInit {
     if (objective) {
       await this.objectivesDb.add(objective);
   
-      this.snackBar.open('Objectif créée 🫡');
+      this.snackBar.open('Objectif créée 🫡', undefined, { duration: 3000, verticalPosition: 'top' });
     }
   }
 

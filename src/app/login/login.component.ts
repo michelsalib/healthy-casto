@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
     this.router.navigateByUrl('/');
 
-    this.snackBar.open('Bienvenue sur healthy casto 👋');
+    this.snackBar.open('Bienvenue sur healthy casto 👋', undefined, { duration: 3000, verticalPosition: 'top' });
   }
 
   private async createUser() {
