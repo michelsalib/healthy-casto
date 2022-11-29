@@ -6,10 +6,10 @@
 
   <div class="spacer"></div>
 
-  <div *ngIf="auth.currentUser" class="menu">
+  <div *ngIf="user$ | async as user" class="menu">
     <button mat-button class="profile-badge" [matMenuTriggerFor]="menu">
       Menu
-      <img [src]="auth.currentUser.photoURL" referrerpolicy="no-referrer" />
+      <img [src]="user.photoURL" referrerpolicy="no-referrer" />
     </button>
 
     <mat-menu #menu>
@@ -18,7 +18,7 @@
         Accueil
       </button>
 
-      <button mat-menu-item [routerLink]="'/community/' + auth.currentUser.uid">
+      <button mat-menu-item routerLink="/community/me">
         <mat-icon>account_circle</mat-icon>
         Mon profile
       </button>

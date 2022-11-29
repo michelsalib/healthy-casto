@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAnalytics, getAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,6 +45,7 @@ import { ActivityMonthComponent } from './activity/activity-month/activity-month
 import { CommunityProfileComponent } from './community/community-profile/community-profile.component';
 import { FollowBadgeComponent } from './community/follow-badge/follow-badge.component';
 import { UserBadgeComponent } from './community/user-badge/user-badge.component';
+import { ImageResizerComponent } from './settings/image-resizer/image-resizer.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +68,7 @@ import { UserBadgeComponent } from './community/user-badge/user-badge.component'
     CommunityProfileComponent,
     FollowBadgeComponent,
     UserBadgeComponent,
+    ImageResizerComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,6 +83,8 @@ import { UserBadgeComponent } from './community/user-badge/user-badge.component'
 
       return firestore;
     }),
+    provideStorage(() => getStorage()),
+    ImageCropperModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,

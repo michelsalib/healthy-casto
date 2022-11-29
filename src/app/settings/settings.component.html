@@ -1,7 +1,10 @@
 <div *ngIf="user$ | async; let user;">
     <div class="row">
-        <img [src]="user.photoURL" referrerpolicy="no-referrer" />
+        <img [src]="user.photoURL" class="pic" referrerpolicy="no-referrer" />
     </div>
+
+    <input type="file" (change)="fileChangeEvent($event)" />
+    
     <div class="row">
         <mat-form-field appearance="fill">
             <mat-label>Nom</mat-label>
