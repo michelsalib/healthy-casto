@@ -7,6 +7,7 @@
     <div class="days">
         <div class="title">
             <div></div>
+            <div></div>
             <div *ngFor="let objective of objectives">
                 <strong>{{ objective.name }}</strong>
             </div>
@@ -15,6 +16,9 @@
         <div *ngFor="let day of days" class="day" [ngClass]="{ monday: isMonday(day) }">
             <div class="day-letter">
                 {{ day | date:'EEEEE' }}
+            </div>
+            <div class="day-number">
+                {{ day | date:'dd' }}
             </div>
             <div class="day-objective" *ngFor="let objective of objectives">
 
@@ -40,6 +44,7 @@
         </div>
 
         <div class="recap">
+            <div></div>
             <div></div>
             <div *ngFor="let config of objectiveConfigs">
                 {{ computeActivity(month, config, activity) }} / <strong>{{ config.target | label:'short' }}</strong>
