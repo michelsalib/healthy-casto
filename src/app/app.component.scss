@@ -1,5 +1,10 @@
 mat-toolbar {
 
+    .logo {
+        height: 42px;
+        margin: 5px 0;
+    }
+
     &>button:first-child {
         font-size: 20px;
     }
