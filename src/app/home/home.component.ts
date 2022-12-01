@@ -26,10 +26,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.recentUsers$ = this.users.list(orderBy('creationDate'), limitToLast(5));
-    this.followedUsers$ = this.followService.list()
-      .pipe(switchMap(list => {
-        return this.users.list(where(documentId(), 'in', list));
-      }));
+    this.followedUsers$ = this.followService.list();
   }
 
 }
