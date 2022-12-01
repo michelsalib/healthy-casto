@@ -1,1 +1,2 @@
-<img mat-card-avatar [src]="user.photoURL" referrerpolicy="no-referrer" matTooltip="{{ user.displayName }}" [routerLink]="'/community/' + user.id">
+<img mat-card-avatar [src]="user.photoURL" referrerpolicy="no-referrer" matTooltip="{{ tooltip || user.displayName }}"
+    [routerLink]="'/community/' + user.id" [class]="size">

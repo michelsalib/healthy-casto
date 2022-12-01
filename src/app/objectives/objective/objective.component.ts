@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { deleteDoc, doc, docData, DocumentReference, Firestore, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { deleteDoc, doc, docData, DocumentReference, Firestore, getDoc, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, Subject } from 'rxjs';
+import { firstValueFrom, Observable, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
-import { ObjectiveConfig } from 'src/app/models/User';
+import { ObjectiveConfig, User } from 'src/app/models/User';
+import { FollowService } from 'src/app/services/db/follow.service';
+import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.service';
+import { UsersService } from 'src/app/services/db/users.service';
 import { LabelPipe } from '../label.pipe';
 
 @Component({
@@ -19,13 +22,44 @@ export class ObjectiveComponent implements OnInit {
   @Input() objective!: Objective;
   ref!: DocumentReference<ObjectiveConfig>;
   objectiveConfig$: Observable<ObjectiveConfig> = new Subject();
+  users$: Observable<Record<string, { user: User, config: ObjectiveConfig }[]>> = new Subject();
 
-  constructor(public db: Firestore, public auth: Auth, public snackBar: MatSnackBar) { }
+  constructor(private db: Firestore, private auth: Auth, private snackBar: MatSnackBar, private followService: FollowService, private objectiveConfigService: ObjectiveConfigService) { }
 
   ngOnInit(): void {
     this.ref = doc(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}`) as DocumentReference<ObjectiveConfig>;
 
     this.objectiveConfig$ = docData<ObjectiveConfig>(this.ref);
+
+    this.users$ = this.followService.list()
+      .pipe(
+        switchMap(async friends => {
+          if (!friends) {
+            return {};
+          }
+
+          const friendsObjectives = await Promise.all(friends?.map(async user => {
+            const configs = await firstValueFrom(this.objectiveConfigService.list(user.id));
+
+            return {
+              user,
+              configs,
+            }
+          }));
+
+          const result: Record<string, { user: User, config: ObjectiveConfig }[]> = {};
+          for (const { user, configs } of friendsObjectives) {
+            for (const config of configs) {
+              result[config.id] = result[config.id] || [];
+              result[config.id].push({
+                user,
+                config,
+              });
+            }
+          }
+
+          return result;
+        }));
   }
 
 

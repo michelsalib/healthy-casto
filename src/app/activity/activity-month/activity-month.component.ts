@@ -6,6 +6,7 @@ import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ActivityEntry, ObjectiveConfig } from 'src/app/models/User';
 import { ActivityService } from 'src/app/services/db/activity.service';
+import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.service';
 import { ObjectivesService } from 'src/app/services/db/objectives.service';
 
 @Component({
@@ -29,7 +30,7 @@ export class ActivityMonthComponent implements OnInit {
     from: string,
   };
 
-  constructor(private activityService: ActivityService, private db: Firestore, private auth: Auth, private objectivesService: ObjectivesService) {
+  constructor(private activityService: ActivityService, private db: Firestore, private auth: Auth, private objectivesService: ObjectivesService, private objectiveConfigService: ObjectiveConfigService) {
 
   }
 
@@ -38,9 +39,7 @@ export class ActivityMonthComponent implements OnInit {
       return this.month + '-' + String(i + 1).padStart(2, '0');
     });
 
-    firstValueFrom(collectionData(collection(this.db, 'users/' + (this.userId || this.auth.currentUser?.uid) + '/objectives') as CollectionReference<ObjectiveConfig>, {
-      idField: 'id',
-    })).then(async configs => {
+    firstValueFrom(this.objectiveConfigService.list(this.userId)).then(async configs => {
       this.objectives = await Promise.all(
         configs.map(c => firstValueFrom(this.objectivesService.get(c.id)))
       );
@@ -124,7 +123,7 @@ export class ActivityMonthComponent implements OnInit {
     if (!this.dragData || objectiveId != this.dragData.objectiveId) {
       return;
     }
-    
+
     const data = this.dragData;
     this.dragData = undefined;
 

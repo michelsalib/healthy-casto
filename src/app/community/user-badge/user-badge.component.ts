@@ -9,6 +9,8 @@ import { User } from 'src/app/models/User';
 export class UserBadgeComponent implements OnInit {
 
   @Input() user!: User;
+  @Input() size: 'medium' | 'small' = 'medium';
+  @Input() tooltip?: string;
 
   constructor() { }
 

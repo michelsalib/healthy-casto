@@ -5,6 +5,9 @@
             <mat-slide-toggle [checked]="(objectiveConfig$ | async) != null" (change)="toggle($event)">
             </mat-slide-toggle>
         </mat-card-title>
+        <mat-card-subtitle *ngIf="users$ | async as users">
+            <app-user-badge *ngFor="let userConfig of users[objective.id]" [user]="userConfig.user" size="small" tooltip="{{userConfig.user.displayName}} avec un objectif de {{ userConfig.config.target| label }} {{ objective.success }}"></app-user-badge>
+        </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         <p>{{ objective.description }}</p>

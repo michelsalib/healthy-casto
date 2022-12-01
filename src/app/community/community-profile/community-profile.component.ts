@@ -40,14 +40,7 @@ export class CommunityProfileComponent implements OnInit {
       }
 
       this.user$ = this.userDb.get(this.userId);
-      this.followedUsers$ = this.followService.list(this.userId)
-        .pipe(switchMap(list => {
-          if (!list.length) {
-            return [];
-          }
-
-          return this.userDb.list(where(documentId(), 'in', list));
-        }));
+      this.followedUsers$ = this.followService.list(this.userId);
     });
   }
 
