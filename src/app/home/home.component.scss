@@ -4,12 +4,19 @@
     flex-direction: row;
 }
 
+.cards {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
 mat-card {
     width: 250px;
     margin: 10px;
 }
 
 .activity {
+    margin: 0 auto;
     .actions {
         margin-top: 20px;
         display: flex;
