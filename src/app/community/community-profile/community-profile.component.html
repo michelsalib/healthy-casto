@@ -8,14 +8,19 @@
 
             <app-user-objectives [userId]="user.id"></app-user-objectives>
 
-            <button *ngIf="isMe; else followButton" mat-stroked-button routerLink="/objectives">Definir mes objectifs</button>
+            <button *ngIf="isMe; else followButton" mat-stroked-button routerLink="/objectives">Definir mes
+                objectifs</button>
+        </div>
+
+        <div class="follows" *ngIf="followedUsers$ | async as followedUsers">
+            <app-user-badge *ngFor="let user of followedUsers" [user]="user"></app-user-badge>
         </div>
     </div>
 
-    <div>
+    <div class="activity">
         <app-activity [userId]="isMe ? undefined : userId"></app-activity>
     </div>
-    
+
     <ng-template #followButton>
         <app-follow-badge [userId]="userId"></app-follow-badge>
     </ng-template>

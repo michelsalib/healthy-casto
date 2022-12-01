@@ -1,5 +1,14 @@
+:host{
+    margin: 20px 0;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
 mat-card {
-    margin-top: 20px;
+    width: 350px;
+
     transition: all .1s ease-in-out; 
 
     &:hover {
@@ -11,5 +20,7 @@ mat-card {
 [mat-card-avatar] {
     border-width: 1px;
     border-style: solid;
+    width: 75px;
+    height: 75px;
 }
 

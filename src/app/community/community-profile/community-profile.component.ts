@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
+import { documentId, where } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, switchMap } from 'rxjs';
 import { User } from 'src/app/models/User';
+import { FollowService } from 'src/app/services/db/follow.service';
 import { UsersService } from 'src/app/services/db/users.service';
 
 @Component({
@@ -14,8 +16,9 @@ export class CommunityProfileComponent implements OnInit {
   userId: string = '';
   isMe: boolean = false;
   user$: Observable<User> = new Subject();
+  followedUsers$: Observable<User[] | null> = new Subject();
 
-  constructor(private route: ActivatedRoute, private router: Router, private auth: Auth, private userDb: UsersService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private auth: Auth, private userDb: UsersService, private followService: FollowService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -37,6 +40,14 @@ export class CommunityProfileComponent implements OnInit {
       }
 
       this.user$ = this.userDb.get(this.userId);
+      this.followedUsers$ = this.followService.list(this.userId)
+        .pipe(switchMap(list => {
+          if (!list.length) {
+            return [];
+          }
+
+          return this.userDb.list(where(documentId(), 'in', list));
+        }));
     });
   }
 

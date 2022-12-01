@@ -17,9 +17,9 @@ export class FollowService {
     return docData(ref).pipe(map(d => !!d));
   }
 
-  list(): Observable<string[]> {
+  list(userId?: string): Observable<string[]> {
     return collectionData(
-      query(collection(this.db, 'users/' + this.auth.currentUser?.uid + '/follows') as CollectionReference<{ id: string }>),
+      query(collection(this.db, 'users/' + (userId || this.auth.currentUser?.uid) + '/follows') as CollectionReference<{ id: string }>),
       {
         idField: 'id',
       }
