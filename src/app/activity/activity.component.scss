@@ -4,3 +4,17 @@
     flex-direction: column;
     flex-wrap: nowrap;
 }
+
+.year-before {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    z-index: 1001;
+}
+
+.year-next {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    z-index: 1001;
+}

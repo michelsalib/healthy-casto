@@ -1,7 +1,7 @@
 <ng-container *ngIf="activity$ | async as activity">
 
     <h2 class="name">
-        {{ month | date:'MMMM' | titlecase }}
+        {{ month | date:'MMMM yyyy' | titlecase }}
     </h2>
 
     <div class="calendar">

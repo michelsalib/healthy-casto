@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
 import { getYear } from 'date-fns';
-import { ObjectivesService } from '../services/db/objectives.service';
 
 @Component({
   selector: 'app-activity',
@@ -12,16 +10,21 @@ import { ObjectivesService } from '../services/db/objectives.service';
 export class ActivityComponent implements OnInit {
   @Input() userId?: string;
 
-  readonly months;
+  months!: string[];
+  year!: number;
 
-  constructor(private db: Firestore, public auth: Auth, private objectivesService: ObjectivesService) {
-    const year = String(getYear(new Date()));
+  constructor(public auth: Auth) {
+    this.setYear(getYear(new Date()));
+  }
+
+  ngOnInit(): void {
+  }
+
+  setYear(year: number): void {
+    this.year = year;
 
     this.months = new Array(12).fill(0).map((_, i) => {
       return year + '-' + String(i + 1).padStart(2, '0');
     });
-  }
-
-  ngOnInit(): void {
   }
 }

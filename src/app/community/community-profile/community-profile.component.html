@@ -10,6 +10,10 @@
 
             <button *ngIf="isMe; else followButton" mat-stroked-button routerLink="/objectives">Definir mes
                 objectifs</button>
+
+            <ng-template #followButton>
+                <app-follow-badge [userId]="userId"></app-follow-badge>
+            </ng-template>
         </div>
 
         <div class="follows" *ngIf="followedUsers$ | async as followedUsers">
@@ -21,8 +25,6 @@
         <app-activity [userId]="isMe ? undefined : userId"></app-activity>
     </div>
 
-    <ng-template #followButton>
-        <app-follow-badge [userId]="userId"></app-follow-badge>
-    </ng-template>
+    
 
 </ng-container>
