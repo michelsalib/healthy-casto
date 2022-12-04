@@ -4,7 +4,7 @@
         {{ month | date:'MMMM' | titlecase }}
     </h2>
 
-    <div class="days">
+    <div class="calendar">
         <div class="title">
             <div></div>
             <div></div>
@@ -13,33 +13,34 @@
             </div>
         </div>
 
-        <div *ngFor="let day of days" class="day" [ngClass]="{ monday: isMonday(day) }">
-            <div class="day-letter">
-                {{ day | date:'EEEEE' }}
-            </div>
-            <div class="day-number">
-                {{ day | date:'dd' }}
-            </div>
-            <div class="day-objective" *ngFor="let objective of objectives">
+        <div class="days">
+            <div *ngFor="let day of days" class="day" [ngClass]="{ monday: isMonday(day) }">
+                <div class="day-letter">
+                    {{ day | date:'EEEEE' }}
+                </div>
+                <div class="day-number">
+                    {{ day | date:'dd' }}
+                </div>
+                <div class="day-objective" *ngFor="let objective of objectives">
 
-                <mat-select *ngIf="!userId; else readonlyTemplate" [value]="activity?.[day]?.[objective.id]"
-                    (valueChange)="setActivity($event, day, objective.id)" draggable="true"
-                    (dragstart)="dragStart($event, activity?.[day]?.[objective.id], day, objective.id)"
-                    (drop)="drop($event, objective.id, day)" (dragenter)="dragEnter($event, objective.id, day)"
-                    (dragover)="dragOver($event, objective.id)" [ngClass]="activity?.[day]?.[objective.id]"
-                    [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId">
-                    <mat-option [value]="undefined">-</mat-option>
-                    <mat-option value="🟥">{{ objective.failure }}</mat-option>
-                    <mat-option value="🟧">{{ objective.average }}</mat-option>
-                    <mat-option value="🟩">{{ objective.success }}</mat-option>
-                </mat-select>
+                    <mat-select *ngIf="!userId; else readonlyTemplate" [value]="activity?.[day]?.[objective.id]"
+                        (valueChange)="setActivity($event, day, objective.id)" draggable="true"
+                        (dragstart)="dragStart($event, activity?.[day]?.[objective.id], day, objective.id)"
+                        (drop)="drop($event, objective.id, day)" (dragenter)="dragEnter($event, objective.id, day)"
+                        (dragover)="dragOver($event, objective.id)" [ngClass]="activity?.[day]?.[objective.id]"
+                        [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId">
+                        <mat-option [value]="undefined">-</mat-option>
+                        <mat-option value="🟥">{{ objective.failure }}</mat-option>
+                        <mat-option value="🟧">{{ objective.average }}</mat-option>
+                        <mat-option value="🟩">{{ objective.success }}</mat-option>
+                    </mat-select>
 
-                <ng-template #readonlyTemplate>
-                    <div class="readonly" [ngClass]="activity?.[day]?.[objective.id]">
-                        {{ getIcon(objective, activity?.[day]?.[objective.id]) }}
-                    </div>
-                </ng-template>
-
+                    <ng-template #readonlyTemplate>
+                        <div class="readonly" [ngClass]="activity?.[day]?.[objective.id]">
+                            {{ getIcon(objective, activity?.[day]?.[objective.id]) }}
+                        </div>
+                    </ng-template>
+                </div>
             </div>
         </div>
 

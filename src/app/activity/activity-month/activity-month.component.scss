@@ -4,20 +4,42 @@ h2 {
     margin-top: 20px;
 }
 
-.days {
+.calendar {
     margin-bottom: 20px;
+    display: flex;
+
+    .title,
+    .recap {
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+
+    .days {
+        overflow-x: auto;
+        display: flex;
+    }
 }
 
 .day,
 .recap,
 .title {
-    display: inline-block;
-
     &>* {
         height: 25px;
         line-height: 25px;
         vertical-align: middle;
     }
+}
+
+.title {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.day {
+    width: 25px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-align: center;
 
     &.monday {
         border-left: 1px solid black;
@@ -38,16 +60,6 @@ h2 {
             background-color: lightgray;
         }
     }
-}
-
-.title {
-    text-align: right;
-    margin-right: 10px;
-}
-
-.day {
-    width: 25px;
-    text-align: center;
 }
 
 .recap {

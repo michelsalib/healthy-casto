@@ -1,5 +1,6 @@
 .title {
     display: flex;
+    flex-wrap: wrap;
 
     img {
         border-radius: 50%;
@@ -9,11 +10,11 @@
 
     .content {
         margin: 10px 0;
-        display:flex;
+        display: flex;
         flex-direction: column;
         gap: 10px;
 
-        & > * {
+        &>* {
             margin: 0;
         }
 
