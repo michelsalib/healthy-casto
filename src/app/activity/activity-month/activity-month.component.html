@@ -48,7 +48,9 @@
             <div></div>
             <div></div>
             <div *ngFor="let config of objectiveConfigs">
-                {{ computeActivity(month, config, activity) }} / <strong>{{ config.target | label:'short' }}</strong>
+                <ng-container *ngIf="computeScore(month, config, activity) as score">
+                    {{ score.emoji }} {{ score.score }} / <strong>{{ config.target | label:'short' }}</strong>
+                </ng-container>
             </div>
         </div>
     </div>

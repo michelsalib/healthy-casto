@@ -53,20 +53,50 @@ export class ActivityMonthComponent implements OnInit {
     return isMonday(parse(day, 'yyyy-MM-dd', 0));
   }
 
-  computeActivity(month: string, config: ObjectiveConfig, activity: Record<string, ActivityEntry>): number {
-    return Object.keys(activity).filter(day => day.startsWith(month) && activity[day][config.id]).reduce((r, c) => {
-      const act = activity[c][config.id];
+  computeScore(month: string, config: ObjectiveConfig, activity: Record<string, ActivityEntry>): {
+    emoji: string,
+    score: number,
+  } {
+    const activeDays = Object.keys(activity).filter(day => day.startsWith(month) && activity[day][config.id]);
 
-      if (act == '🟩') {
-        return ++r;
-      }
+    const score = activeDays
+      .reduce((r, c) => {
+        const act = activity[c][config.id];
 
-      if (act == '🟧') {
-        return r + config.averageValue;
-      }
+        if (act == '🟩') {
+          return ++r;
+        }
 
-      return r;
-    }, 0);
+        if (act == '🟧') {
+          return r + config.averageValue;
+        }
+
+        return r;
+      }, 0);
+
+    const ratio = score * this.days.length / activeDays.length / Math.min(config.target, this.days.length);
+
+    let emoji = '😶';
+    if (ratio < 0.8) {
+      emoji = '😩';
+    }
+    else if (ratio < 1) {
+      emoji = '😟';
+    }
+    else if (ratio < 1.1) {
+      emoji = '🙂';
+    }
+    else if (ratio < 1.2) {
+      emoji = '😀';
+    }
+    else if (ratio >= 1.2) {
+      emoji = '🤩';
+    }
+
+    return {
+      emoji,
+      score,
+    }
   }
 
   async setActivity(value: string, day: string, objectiveId: string) {
