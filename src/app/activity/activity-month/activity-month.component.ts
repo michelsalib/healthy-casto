@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { collection, collectionData, CollectionReference, Firestore } from '@angular/fire/firestore';
-import { addDays, format, getDaysInMonth, isAfter, isBefore, isEqual, isMonday, parse } from 'date-fns';
+import { addDays, format, getDaysInMonth, isAfter, isBefore, isEqual, isMonday, isThisMonth, isToday, parse } from 'date-fns';
 import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ActivityEntry, ObjectiveConfig } from 'src/app/models/User';
@@ -18,7 +18,10 @@ export class ActivityMonthComponent implements OnInit {
   @Input() userId?: string;
   @Input() month!: string;
 
-  objectiveConfigs: ObjectiveConfig[] = [];
+  @ViewChild('daysContainer') daysContainer!: ElementRef;
+  private needToScroll = false;
+
+  objectiveConfigs: ObjectiveConfig[] | null = null;
   objectives: Objective[] | null = null;
   activity$: Observable<Record<string, ActivityEntry>> = new Subject();
 
@@ -35,7 +38,11 @@ export class ActivityMonthComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.days = new Array(getDaysInMonth(parse(this.month, 'yyyy-MM', 0))).fill(0).map((_, i) => {
+    const month = parse(this.month, 'yyyy-MM', 0);
+
+    this.needToScroll = isThisMonth(month);
+
+    this.days = new Array(getDaysInMonth(month)).fill(0).map((_, i) => {
       return this.month + '-' + String(i + 1).padStart(2, '0');
     });
 
@@ -49,8 +56,27 @@ export class ActivityMonthComponent implements OnInit {
     this.activity$ = this.activityService.getMonth(this.month, this.userId);
   }
 
+  ngAfterViewChecked() {
+    const scrollable = this.daysContainer?.nativeElement as HTMLDivElement;
+
+    if (this.needToScroll && scrollable && this.objectiveConfigs) {
+      const todayDiv = scrollable.querySelector('.today');
+      todayDiv?.scrollIntoView({
+        block: 'center',
+        inline: 'center',
+        behavior: 'smooth',
+      });
+
+      this.needToScroll = false;
+    }
+  }
+
   isMonday(day: string): any {
     return isMonday(parse(day, 'yyyy-MM-dd', 0));
+  }
+
+  isToday(day: string): any {
+    return isToday(parse(day, 'yyyy-MM-dd', 0));
   }
 
   computeScore(month: string, config: ObjectiveConfig, activity: Record<string, ActivityEntry>): {

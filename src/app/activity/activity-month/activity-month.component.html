@@ -13,8 +13,8 @@
             </div>
         </div>
 
-        <div class="days">
-            <div *ngFor="let day of days" class="day" [ngClass]="{ monday: isMonday(day) }">
+        <div class="days" #daysContainer>
+            <div *ngFor="let day of days" class="day" [ngClass]="{ monday: isMonday(day), today: isToday(day) }">
                 <div class="day-letter">
                     {{ day | date:'EEEEE' }}
                 </div>
