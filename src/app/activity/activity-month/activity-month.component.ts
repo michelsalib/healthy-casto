@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { collection, collectionData, CollectionReference, Firestore } from '@angular/fire/firestore';
-import { addDays, format, getDaysInMonth, isAfter, isBefore, isEqual, isMonday, isThisMonth, isToday, parse } from 'date-fns';
-import { combineLatest, firstValueFrom, map, Observable, of, Subject, switchMap } from 'rxjs';
+import { Firestore } from '@angular/fire/firestore';
+import { addDays, format, getDaysInMonth, isBefore, isEqual, isMonday, isThisMonth, isToday, parse } from 'date-fns';
+import { combineLatest, map, Observable, of, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ActivityEntry, ObjectiveConfig } from 'src/app/models/User';
 import { ActivityService } from 'src/app/services/db/activity.service';
@@ -25,10 +25,9 @@ export class ActivityMonthComponent implements OnInit {
     objectiveConfigs: ObjectiveConfig[];
     objectives: Objective[];
     days: string[];
-    activity: Record<string, ActivityEntry>;
+    activity: Record<string, ActivityEntry | undefined>;
   } | null> = new Subject();
 
-  days!: string[];
   editedDays: string[] = [];
   dragData?: {
     value: string | undefined,
@@ -93,7 +92,7 @@ export class ActivityMonthComponent implements OnInit {
     return isToday(parse(day, 'yyyy-MM-dd', 0));
   }
 
-  computeScore(month: string, config: ObjectiveConfig, activity: Record<string, ActivityEntry>): {
+  computeScore(month: string, config: ObjectiveConfig, activity: Record<string, ActivityEntry | undefined>, days: number): {
     emoji: string,
     score: number,
   } {
@@ -114,7 +113,7 @@ export class ActivityMonthComponent implements OnInit {
         return r;
       }, 0);
 
-    const ratio = score * this.days.length / activeDays.length / Math.min(config.target, this.days.length);
+    const ratio = score * days / activeDays.length / Math.min(config.target, days);
 
     let emoji = '😶';
     if (ratio < 0.8) {
