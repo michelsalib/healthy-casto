@@ -1,9 +1,13 @@
-<button mat-mini-fab color="primary" class="year-before" matTooltip="Année précédente" matTooltipPosition="right" (click)="setYear(year - 1)">
-    <mat-icon>navigate_before</mat-icon>
-</button>
-
-<button mat-mini-fab color="primary" class="year-next" matTooltip="Année suivant" matTooltipPosition="left" (click)="setYear(year + 1)">
-    <mat-icon>navigate_next</mat-icon>
-</button>
-
 <app-activity-month *ngFor="let month of months" [month]="month" [userId]="userId"></app-activity-month>
+
+<mat-toolbar>
+    <button mat-stroked-button class="year-before" matTooltipPosition="right" (click)="setYear(year - 1)">
+        <mat-icon>navigate_before</mat-icon>
+        {{ year - 1 }}
+    </button>
+    <div class="spacer">{{ year }}</div>
+    <button mat-stroked-button class="year-next" matTooltipPosition="left" (click)="setYear(year + 1)">
+        {{ year + 1 }}
+        <mat-icon>navigate_next</mat-icon>
+    </button>
+</mat-toolbar>
