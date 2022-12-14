@@ -14,7 +14,7 @@ export class ActivityService {
   constructor(private db: Firestore, private auth: Auth) {
   }
 
-  getMonth(month: string, userId?: string): Observable<Record<string, ActivityEntry>> {
+  getMonth(month: string, userId?: string): Observable<Record<string, ActivityEntry | undefined>> {
     const coll = collection(this.db, 'users/' + (userId || this.auth.currentUser?.uid) + '/activity') as CollectionReference<ActivityEntry>;
     const nextMonth = format(addMonths(parse(month, 'yyyy-MM', new Date()), 1), 'yyyy-MM');
 
