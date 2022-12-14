@@ -96,11 +96,11 @@ export class ActivityMonthComponent implements OnInit {
     emoji: string,
     score: number,
   } {
-    const activeDays = Object.keys(activity).filter(day => day.startsWith(month) && activity[day][config.id]);
+    const activeDays = Object.keys(activity).filter(day => day.startsWith(month) && activity[day]?.[config.id]);
 
     const score = activeDays
       .reduce((r, c) => {
-        const act = activity[c][config.id];
+        const act = activity[c]?.[config.id];
 
         if (act == '🟩') {
           return ++r;
