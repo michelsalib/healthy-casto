@@ -10,10 +10,19 @@ mat-toolbar {
     position: fixed;
     bottom: 0;
     left: 0;
+    justify-content: center;
 
-    .spacer {
+    .space {
         flex-grow: 1;
-        text-align: center;
-        margin: 0;
+        max-width: 1000px;
+        display: flex;
+        flex-direction: row;
+
+        .spacer {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0;
+        }
     }
+
 }
