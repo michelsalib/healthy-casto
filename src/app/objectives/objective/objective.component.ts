@@ -1,15 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { deleteDoc, doc, docData, DocumentReference, Firestore, getDoc, setDoc, updateDoc, where } from '@angular/fire/firestore';
+import { deleteDoc, doc, docData, DocumentReference, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { MatSliderChange } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, Observable, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ObjectiveConfig, User } from 'src/app/models/User';
 import { FollowService } from 'src/app/services/db/follow.service';
 import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.service';
-import { UsersService } from 'src/app/services/db/users.service';
 import { LabelPipe } from '../label.pipe';
 
 @Component({
@@ -24,7 +22,8 @@ export class ObjectiveComponent implements OnInit {
   objectiveConfig$: Observable<ObjectiveConfig> = new Subject();
   users$: Observable<Record<string, { user: User, config: ObjectiveConfig }[]>> = new Subject();
 
-  constructor(private db: Firestore, private auth: Auth, private snackBar: MatSnackBar, private followService: FollowService, private objectiveConfigService: ObjectiveConfigService) { }
+  constructor(private db: Firestore, private auth: Auth, private snackBar: MatSnackBar, private followService: FollowService, private objectiveConfigService: ObjectiveConfigService) {
+  }
 
   ngOnInit(): void {
     this.ref = doc(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}`) as DocumentReference<ObjectiveConfig>;
@@ -44,7 +43,7 @@ export class ObjectiveComponent implements OnInit {
             return {
               user,
               configs,
-            }
+            };
           }));
 
           const result: Record<string, { user: User, config: ObjectiveConfig }[]> = {};
@@ -62,7 +61,6 @@ export class ObjectiveComponent implements OnInit {
         }));
   }
 
-
   async toggle(event: MatSlideToggleChange) {
     if (!event.checked) {
       await deleteDoc(this.ref);
@@ -77,14 +75,13 @@ export class ObjectiveComponent implements OnInit {
     this.snackBar.open(`Tu suis maintenant l\'objectif ${this.objective.name} ${this.objective.success}`, undefined, { duration: 3000, verticalPosition: 'top' });
   }
 
-  async setTarget($event: MatSliderChange) {
-    await updateDoc(this.ref, 'target', $event.value);
+  async setTarget(target: string) {
+    await updateDoc(this.ref, 'target', Number(target));
   }
 
   async setAverageValue(value: number) {
     await updateDoc(this.ref, 'averageValue', value);
   }
-
 
   tooltip(value: number): string {
     return new LabelPipe().transform(value, 'short');

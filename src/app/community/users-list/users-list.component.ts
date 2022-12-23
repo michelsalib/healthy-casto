@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { orderBy } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/services/db/users.service';
 import { User } from '../../models/User';

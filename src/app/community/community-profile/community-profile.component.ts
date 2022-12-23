@@ -1,8 +1,7 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { documentId, where } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject, switchMap } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from 'src/app/models/User';
 import { FollowService } from 'src/app/services/db/follow.service';
 import { UsersService } from 'src/app/services/db/users.service';
@@ -18,7 +17,8 @@ export class CommunityProfileComponent implements OnInit {
   user$: Observable<User> = new Subject();
   followedUsers$: Observable<User[] | null> = new Subject();
 
-  constructor(private route: ActivatedRoute, private router: Router, private auth: Auth, private userDb: UsersService, private followService: FollowService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private auth: Auth, private userDb: UsersService, private followService: FollowService) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {

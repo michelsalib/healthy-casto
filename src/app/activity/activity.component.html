@@ -1,15 +1,15 @@
 <app-activity-month *ngFor="let month of months" [month]="month" [userId]="userId"></app-activity-month>
 
 <mat-toolbar>
-    <div class="space">
-        <button mat-stroked-button class="year-before" matTooltipPosition="right" (click)="setYear(year - 1)">
-            <mat-icon>navigate_before</mat-icon>
-            {{ year - 1 }}
-        </button>
-        <div class="spacer">{{ year }}</div>
-        <button mat-stroked-button class="year-next" matTooltipPosition="left" (click)="setYear(year + 1)">
-            {{ year + 1 }}
-            <mat-icon>navigate_next</mat-icon>
-        </button>
-    </div>
+  <div class="space">
+    <button (click)="setYear(year - 1)" class="year-before" mat-stroked-button matTooltipPosition="right">
+      <mat-icon>navigate_before</mat-icon>
+      {{ year - 1 }}
+    </button>
+    <div class="spacer">{{ year }}</div>
+    <button (click)="setYear(year + 1)" class="year-next" mat-stroked-button matTooltipPosition="left">
+      {{ year + 1 }}
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>

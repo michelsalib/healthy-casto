@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Auth, authState, signOut } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { map, Observable, of, Subject, switchMap } from 'rxjs';
+import { Observable, of, Subject, switchMap } from 'rxjs';
 import { User } from './models/User';
 import { UsersService } from './services/db/users.service';
 
@@ -13,7 +13,8 @@ import { UsersService } from './services/db/users.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  user$: Observable<User | null> = new Subject();;
+  user$: Observable<User | null> = new Subject();
+;
 
   constructor(private auth: Auth, private router: Router, private userDb: UsersService, updates: SwUpdate, snackbar: MatSnackBar) {
     this.user$ = authState(auth).pipe(switchMap(u => {
@@ -24,9 +25,9 @@ export class AppComponent {
         return of<User | null>(null);
       }
     }));
-    
+
     updates.versionUpdates.subscribe(event => {
-      switch(event.type) {
+      switch (event.type) {
         case 'VERSION_READY':
           const snack = snackbar.open('Une nouvelle version du site est prête', 'Rafraîchir');
           snack.onAction().subscribe(() => document.location.reload());

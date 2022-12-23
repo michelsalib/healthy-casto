@@ -35,12 +35,12 @@ export class SettingsComponent implements OnInit {
       data: {
         fileEvent,
       }
-    })
+    });
 
     const image: string = await lastValueFrom(dialog.afterClosed());
 
     if (image) {
-      const imageName = Math.random().toString(36).replace('0.','') + '.png';
+      const imageName = Math.random().toString(36).replace('0.', '') + '.png';
       const imageRef = ref(this.storage, imageName);
 
       await uploadString(imageRef, image, 'data_url');

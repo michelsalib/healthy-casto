@@ -1,35 +1,37 @@
-<mat-card *ngIf="objective">
-    <mat-card-header>
-        <mat-card-title>
-            <span>{{ objective.name }}</span>
-            <mat-slide-toggle [checked]="(objectiveConfig$ | async) != null" (change)="toggle($event)">
-            </mat-slide-toggle>
-        </mat-card-title>
-        <mat-card-subtitle *ngIf="users$ | async as users">
-            <app-user-badge *ngFor="let userConfig of users[objective.id]" [user]="userConfig.user" size="small" tooltip="{{userConfig.user.displayName}} avec un objectif de {{ userConfig.config.target| label }} {{ objective.success }}"></app-user-badge>
-        </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <p>{{ objective.description }}</p>
-        <ng-container *ngIf="objectiveConfig$ | async as objectiveConfig">
-            <p>
-                <mat-divider></mat-divider>
-            </p>
+<mat-card *ngIf="objective" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>{{ objective.name }}</mat-card-title>
+      <mat-card-subtitle *ngIf="users$ | async as users">
+        <app-user-badge *ngFor="let userConfig of users[objective.id]" [user]="userConfig.user" size="small"
+                        tooltip="{{userConfig.user.displayName}} avec un objectif de {{ userConfig.config.target| label }} {{ objective.success }}"></app-user-badge>
+      </mat-card-subtitle>
+      <mat-slide-toggle (change)="toggle($event)" [checked]="(objectiveConfig$ | async) != null"></mat-slide-toggle>
+    </mat-card-title-group>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ objective.description }}</p>
+    <ng-container *ngIf="objectiveConfig$ | async as objectiveConfig">
+      <p>
+        <mat-divider></mat-divider>
+      </p>
 
-            <section class="objective">
-                Objectif {{ objective.success }} {{ objectiveSlider.value | label }} jours
-                <mat-slider #objectiveSlider [ngModel]="objectiveConfig.target" [thumbLabel]="true" min="0" max="31"
-                    [displayWith]="tooltip" (change)="setTarget($event)"></mat-slider>
-            </section>
+      <section class="objective">
+        Objectif {{ objective.success }} {{ ngSliderThumb.value | label }} jours
+        <mat-slider [displayWith]="tooltip" discrete max="31" min="0">
+          <input #ngSliderThumb (change)="setTarget(ngSliderThumb.value)" [ngModel]="objectiveConfig.target"
+                 matSliderThumb/>
+        </mat-slider>
+      </section>
 
-            <section class="average">
-                Un jour {{ objective.average }} compte pour un
-                <mat-select required [ngModel]="objectiveConfig.averageValue" (valueChange)="setAverageValue($event)">
-                    <mat-option [value]="0">echec {{ objective.failure }}</mat-option>
-                    <mat-option [value]="0.5">demi point</mat-option>
-                    <mat-option [value]="1">succès {{ objective.success }}</mat-option>
-                </mat-select>
-            </section>
-        </ng-container>
-    </mat-card-content>
+      <section class="average">
+        Un jour {{ objective.average }} compte pour un
+        <mat-select (valueChange)="setAverageValue($event)" [ngModel]="objectiveConfig.averageValue" required>
+          <mat-option [value]="0">echec {{ objective.failure }}</mat-option>
+          <mat-option [value]="0.5">demi point</mat-option>
+          <mat-option [value]="1">succès {{ objective.success }}</mat-option>
+        </mat-select>
+      </section>
+    </ng-container>
+  </mat-card-content>
 </mat-card>

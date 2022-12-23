@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ImageCroppedEvent, ImageCropperComponent, LoadedImage } from 'ngx-image-cropper';
+import { ImageCropperComponent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-image-resizer',
@@ -12,8 +12,7 @@ export class ImageResizerComponent implements OnInit {
   imageChangedEvent: Event;
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
-
-  constructor(private snack: MatSnackBar,@Inject(MAT_DIALOG_DATA) public data: { fileEvent: Event }, public dialogueRef: MatDialogRef<ImageResizerComponent, string>) {
+  constructor(private snack: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { fileEvent: Event }, public dialogueRef: MatDialogRef<ImageResizerComponent, string>) {
     this.imageChangedEvent = data.fileEvent;
   }
 

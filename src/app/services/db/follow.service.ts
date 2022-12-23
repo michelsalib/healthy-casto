@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { collection, collectionData, CollectionReference, deleteDoc, doc, docData, documentId, Firestore, query, setDoc, where } from '@angular/fire/firestore';
-import { map, Observable, switchMap } from 'rxjs';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { User } from 'src/app/models/User';
 import { UsersService } from './users.service';
 
@@ -20,19 +20,19 @@ export class FollowService {
   }
 
   list(userId?: string): Observable<User[] | null> {
+    const collator = new Intl.Collator();
+
     return collectionData(
       query(collection(this.db, 'users/' + (userId || this.auth.currentUser?.uid) + '/follows') as CollectionReference<{ id: string }>),
       {
         idField: 'id',
       }
     )
-      .pipe(switchMap(list => {
-        if (!list.length) {
-          return [];
-        }
-
-        return this.userDb.list(where(documentId(), 'in', list.map(i => i.id)));
-      }));
+      .pipe(
+        filter(list => !!list.length),
+        switchMap(list => this.userDb.list(where(documentId(), 'in', list.map(i => i.id)))),
+        tap(list => list?.sort((a, b) => collator.compare(a.displayName, b.displayName))),
+      );
   }
 
   async follow(userId: string) {

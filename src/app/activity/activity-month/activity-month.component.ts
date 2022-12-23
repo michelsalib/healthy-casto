@@ -19,21 +19,19 @@ export class ActivityMonthComponent implements OnInit {
   @Input() month!: string;
 
   @ViewChild('daysContainer') daysContainer!: ElementRef;
-  private needToScroll = false;
-
   dataset$: Observable<{
     objectiveConfigs: ObjectiveConfig[];
     objectives: Objective[];
     days: string[];
     activity: Record<string, ActivityEntry | undefined>;
   } | null> = new Subject();
-
   editedDays: string[] = [];
   dragData?: {
     value: string | undefined,
     objectiveId: string,
     from: string,
   };
+  private needToScroll = false;
 
   constructor(private activityService: ActivityService, private db: Firestore, private auth: Auth, private objectivesService: ObjectivesService, private objectiveConfigService: ObjectiveConfigService) {
 

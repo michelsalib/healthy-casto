@@ -1,102 +1,105 @@
 h2 {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .calendar {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
+  display: flex;
+
+  .title,
+  .recap {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  .days {
+    overflow-x: auto;
     display: flex;
 
-    .title,
-    .recap {
-        flex-grow: 0;
-        flex-shrink: 0;
-    }
-
-    .days {
-        overflow-x: auto;
-        display: flex;
-
-        background-image:
-            linear-gradient(to right, #fafafa, #fafafa),
-            linear-gradient(to right, #fafafa, #fafafa),
-            linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0)),
-            linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0));
-        background-position: left center, right center, left center, right center;
-        background-repeat: no-repeat;
-        background-color: #fafafa;
-        background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
-        background-attachment: local, local, scroll, scroll;
-    }
+    background-image: linear-gradient(to right, #fafafa, #fafafa),
+    linear-gradient(to right, #fafafa, #fafafa),
+    linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0)),
+    linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0));
+    background-position: left center, right center, left center, right center;
+    background-repeat: no-repeat;
+    background-color: #fafafa;
+    background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
+    background-attachment: local, local, scroll, scroll;
+  }
 }
 
 .day,
 .recap,
 .title {
-    &>* {
-        height: 25px;
-        line-height: 25px;
-        vertical-align: middle;
-    }
+  & > * {
+    height: 25px;
+    line-height: 25px;
+  }
+
+  mat-select {
+    display: block;
+    height: 25px;
+  }
 }
 
 .title {
-    text-align: right;
-    margin-right: 10px;
+  text-align: right;
+  margin-right: 10px;
 }
 
 .day {
-    width: 25px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    text-align: center;
+  width: 25px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  text-align: center;
 
-    &.monday {
-        border-left: 1px solid black;
+  &.monday {
+    border-left: 1px solid black;
+  }
+
+  &.today {
+    color: #2196f3;
+  }
+
+  &-number {
+    border-bottom: 1px solid black;
+  }
+
+  &-objective {
+    font-size: 18px;
+
+    ::ng-deep .mat-mdc-select-arrow-wrapper {
+      display: none;
     }
 
-    &.today {
-        color: #2196f3;
+    &:hover {
+      background-color: lightgray;
     }
-
-    &-number {
-        border-bottom: 1px solid black;
-    }
-
-    &-objective {
-        font-size: 18px;
-
-        ::ng-deep.mat-select-arrow-wrapper {
-            display: none;
-        }
-
-        &:hover {
-            background-color: lightgray;
-        }
-    }
+  }
 }
 
 .recap {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 mat-select.🟩,
 .readonly.🟩,
-.mat-option[value="🟩"] {
-    background-color: rgb(217, 234, 211);
+.mat-mdc-option[value="🟩"] {
+  background-color: rgb(217, 234, 211);
 }
 
 mat-select.🟧,
 .readonly.🟧,
-.mat-option[value="🟧"] {
-    background-color: rgb(252, 229, 205);
+.mat-mdc-option[value="🟧"] {
+  background-color: rgb(252, 229, 205);
 }
 
 mat-select.🟥,
 .readonly.🟥,
-.mat-option[value="🟥"] {
-    background-color: rgb(244, 204, 204);
+.mat-mdc-option[value="🟥"] {
+  background-color: rgb(244, 204, 204);
 }
 
 mat-select.edited {
-    background-color: lightblue;
+  background-color: lightblue;
 }

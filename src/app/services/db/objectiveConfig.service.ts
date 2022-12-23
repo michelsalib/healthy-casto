@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { collection, collectionData, CollectionReference, deleteDoc, doc, docData, Firestore, query, setDoc } from '@angular/fire/firestore';
+import { collection, collectionData, CollectionReference, Firestore, query } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { ObjectiveConfig } from 'src/app/models/User';
 
@@ -20,5 +20,5 @@ export class ObjectiveConfigService {
       }
     );
   }
-  
+
 }

@@ -13,19 +13,20 @@ import { ObjectiveFormComponent } from './objective-form/objective-form.componen
 })
 export class ObjectivesComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, public objectivesDb: ObjectivesService, public snackBar: MatSnackBar) { }
+  constructor(public dialog: MatDialog, public objectivesDb: ObjectivesService, public snackBar: MatSnackBar) {
+  }
 
   ngOnInit(): void {
   }
 
   async create() {
-    const dialog = await this.dialog.open(ObjectiveFormComponent)
+    const dialog = await this.dialog.open(ObjectiveFormComponent);
 
     const objective: Objective = await lastValueFrom(dialog.afterClosed());
 
     if (objective) {
       await this.objectivesDb.add(objective);
-  
+
       this.snackBar.open('Objectif créée 🫡', undefined, { duration: 3000, verticalPosition: 'top' });
     }
   }

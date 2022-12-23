@@ -9,7 +9,7 @@ import { Db } from './abstract';
 export class ObjectivesService extends Db<Objective> {
 
   constructor(db: Firestore) {
-    super(db, 'objectives')
+    super(db, 'objectives');
   }
 
 }

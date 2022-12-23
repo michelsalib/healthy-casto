@@ -1,48 +1,54 @@
 <div class="cards">
 
-    <mat-card>
-        <mat-card-title>Communauté</mat-card-title>
-        <mat-card-subtitle>Accueille les nouveaux arrivants</mat-card-subtitle>
-        <mat-card-content>
-            <p *ngIf="recentUsers$ | async as recentUsers">
-                <app-user-badge *ngFor="let user of recentUsers" [user]="user"></app-user-badge>
-            </p>
-        </mat-card-content>
-        <mat-card-actions align="end">
-            <button mat-stroked-button routerLink="/community">Visiter</button>
-        </mat-card-actions>
-    </mat-card>
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Communauté</mat-card-title>
+      <mat-card-subtitle>Accueille les nouveaux arrivants</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngIf="recentUsers$ | async as recentUsers">
+        <app-user-badge *ngFor="let user of recentUsers" [user]="user"></app-user-badge>
+      </p>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-stroked-button routerLink="/community">Visiter</button>
+    </mat-card-actions>
+  </mat-card>
 
-    <mat-card>
-        <mat-card-title>Mes Objectifs</mat-card-title>
-        <mat-card-subtitle>C'est le moment de 💪</mat-card-subtitle>
-        <mat-card-content>
-            <app-user-objectives></app-user-objectives>
-        </mat-card-content>
-        <mat-card-actions align="end">
-            <button mat-stroked-button routerLink="/objectives">Definir mes objectifs</button>
-        </mat-card-actions>
-    </mat-card>
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Mes Objectifs</mat-card-title>
+      <mat-card-subtitle>C'est le moment de 💪</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <app-user-objectives></app-user-objectives>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-stroked-button routerLink="/objectives">Definir mes objectifs</button>
+    </mat-card-actions>
+  </mat-card>
 
-    <mat-card>
-        <mat-card-title>Mes abonnements</mat-card-title>
-        <mat-card-subtitle>Retrouve les copains</mat-card-subtitle>
-        <mat-card-content>
-            <p *ngIf="followedUsers$ | async as followedUsers">
-                <app-user-badge *ngFor="let user of followedUsers" [user]="user"></app-user-badge>
-            </p>
-        </mat-card-content>
-        <mat-card-actions align="end">
-            <button mat-stroked-button routerLink="/community">Explorer la communauté</button>
-        </mat-card-actions>
-    </mat-card>
-    
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Mes abonnements</mat-card-title>
+      <mat-card-subtitle>Retrouve les copains</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngIf="followedUsers$ | async as followedUsers">
+        <app-user-badge *ngFor="let user of followedUsers" [user]="user"></app-user-badge>
+      </p>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-stroked-button routerLink="/community">Explorer la communauté</button>
+    </mat-card-actions>
+  </mat-card>
+
 </div>
 
 <div class="activity">
-    <app-activity-month *ngFor="let month of months" [month]="month"></app-activity-month>
+  <app-activity-month *ngFor="let month of months" [month]="month"></app-activity-month>
 
-    <div class="actions">
-        <button mat-stroked-button routerLink="/community/me">Mon historique</button>
-    </div>
+  <div class="actions">
+    <button mat-stroked-button routerLink="/community/me">Mon historique</button>
+  </div>
 </div>

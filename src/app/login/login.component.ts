@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 import { doc, Firestore, getDoc, setDoc, Timestamp } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -12,7 +12,8 @@ import { User } from '../models/User';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public auth: Auth, private router: Router, private db: Firestore, private snackBar: MatSnackBar) { }
+  constructor(public auth: Auth, private router: Router, private db: Firestore, private snackBar: MatSnackBar) {
+  }
 
   ngOnInit(): void {
   }
@@ -41,9 +42,9 @@ export class LoginComponent implements OnInit {
     const user: Omit<User, 'id'> = {
       creationDate: Timestamp.now(),
       displayName: this.auth.currentUser.displayName || '',
-      email: this.auth.currentUser.email|| '',
-      photoURL: this.auth.currentUser.photoURL|| '',
-    }
+      email: this.auth.currentUser.email || '',
+      photoURL: this.auth.currentUser.photoURL || '',
+    };
 
     await setDoc(userRef, user);
   }

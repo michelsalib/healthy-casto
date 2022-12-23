@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { limitToLast, orderBy, where } from '@angular/fire/firestore';
-import { documentId } from '@firebase/firestore';
+import { limitToLast, orderBy } from '@angular/fire/firestore';
 import { getMonth, getYear } from 'date-fns';
-import { Observable, Subject, switchMap } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from '../models/User';
 import { FollowService } from '../services/db/follow.service';
 import { UsersService } from '../services/db/users.service';

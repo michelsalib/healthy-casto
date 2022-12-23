@@ -1,12 +1,12 @@
 <ng-container *ngIf="objectives$ | async; let objectives;">
-    <ng-container *ngIf="objectives.length; else noItem">
-        <mat-chip-list>
-            <ng-container *ngFor="let objective of objectives">
-                <app-user-objective [objectiveConfig]="objective"></app-user-objective>
-            </ng-container>
-        </mat-chip-list>
-    </ng-container>
-    <ng-template #noItem>Au repos</ng-template>
+  <ng-container *ngIf="objectives.length; else noItem">
+    <mat-chip-listbox>
+      <ng-container *ngFor="let objective of objectives">
+        <app-user-objective [objectiveConfig]="objective"></app-user-objective>
+      </ng-container>
+    </mat-chip-listbox>
+  </ng-container>
+  <ng-template #noItem>Au repos</ng-template>
 </ng-container>
 
 

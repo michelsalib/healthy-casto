@@ -1,9 +1,10 @@
 <ng-container>
 
-    <button mat-raised-button color="primary" *ngIf="follows$ | async; else unfollowButton" (click)="unfollow()">Abonné</button>
+  <button (click)="unfollow()" *ngIf="follows$ | async; else unfollowButton" color="primary" mat-raised-button>Abonné
+  </button>
 
-    <ng-template #unfollowButton>
-        <button mat-raised-button (click)="follow()">S'abonner</button>
-    </ng-template>
+  <ng-template #unfollowButton>
+    <button (click)="follow()" mat-raised-button>S'abonner</button>
+  </ng-template>
 
 </ng-container>

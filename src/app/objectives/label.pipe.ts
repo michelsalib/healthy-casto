@@ -7,7 +7,7 @@ type LabelFormat = 'short' | 'long';
 })
 export class LabelPipe implements PipeTransform {
 
-  transform(value: number, format: LabelFormat = 'long'): string {
+  transform(value: number | string, format: LabelFormat = 'long'): string {
     if (value == 31) {
       return format == 'long' ? 'tous les jours' : '💯';
     }

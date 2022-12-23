@@ -1,30 +1,13 @@
 mat-card {
-    width: 250px;
-    margin: 10px;
+  width: 250px;
+  margin: 10px;
 
-    mat-card-header {
-        ::ng-deep {
-            div.mat-card-header-text {
-                width: 100%;
-                margin: 0px !important;
-            }
-        }
+  mat-slide-toggle {
+    margin: 5px;
+  }
 
-        mat-card-title {
-            display: flex;
-            justify-content: space-between;
-        }
-    }
-
-    mat-card-content {
-        .objective {
-            display: flex;
-            flex-direction: column;
-
-            mat-slider {
-                margin-left: -8px;
-                margin-right: -8px;
-            }
-        }
-    }
+  mat-slider {
+    width: 100%;
+    margin: 0;
+  }
 }

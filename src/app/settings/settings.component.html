@@ -1,20 +1,20 @@
 <div *ngIf="user$ | async; let user;">
-    <div class="row">
-        <img [src]="user.photoURL" class="pic" referrerpolicy="no-referrer" />
-    </div>
+  <div class="row">
+    <img [src]="user.photoURL" class="pic" referrerpolicy="no-referrer"/>
+  </div>
 
-    <input type="file" (change)="fileChangeEvent($event)" />
-    
-    <div class="row">
-        <mat-form-field appearance="fill">
-            <mat-label>Nom</mat-label>
-            <input matInput [(ngModel)]="user.displayName" required="required" (change)="updateDisplayName(user.displayName)">
-        </mat-form-field>
-    </div>
-    <div class="row">
-        <strong>Email</strong>: <span>{{ user.email }}</span>
-    </div>
-    <div class="row">
-        <strong>Membre depuis</strong>: <span>{{ user.creationDate.toDate()| date }}</span>
-    </div>
+  <input (change)="fileChangeEvent($event)" type="file"/>
+
+  <div class="row">
+    <mat-form-field appearance="fill">
+      <mat-label>Nom</mat-label>
+      <input (change)="updateDisplayName(user.displayName)" [(ngModel)]="user.displayName" matInput required="required">
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <strong>Email</strong>: <span>{{ user.email }}</span>
+  </div>
+  <div class="row">
+    <strong>Membre depuis</strong>: <span>{{ user.creationDate.toDate()| date }}</span>
+  </div>
 </div>

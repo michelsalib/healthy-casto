@@ -1,10 +1,11 @@
 <h1 mat-dialog-title>Redimensionne ton image</h1>
 <div mat-dialog-content>
 
-    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
-        [roundCropper]="true" format="png" (loadImageFailed)="loadImageFailed()" [autoCrop]="false"></image-cropper>
+  <image-cropper (loadImageFailed)="loadImageFailed()" [aspectRatio]="1 / 1" [autoCrop]="false"
+                 [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [roundCropper]="true"
+                 format="png"></image-cropper>
 
 </div>
-<div mat-dialog-actions align="end">
-    <button mat-raised-button color="accent" (click)="submit()" >Valider</button>
+<div align="end" mat-dialog-actions>
+  <button (click)="submit()" color="accent" mat-raised-button>Valider</button>
 </div>

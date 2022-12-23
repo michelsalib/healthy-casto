@@ -1,15 +1,15 @@
 <mat-toolbar color="primary">
 
   <button mat-button routerLink="/">
-    <img src="./assets/logo/full-logo.png" class="logo" />
+    <img class="logo" src="./assets/logo/full-logo.png"/>
   </button>
 
   <div class="spacer"></div>
 
   <div *ngIf="user$ | async as user" class="menu">
-    <button mat-button class="profile-badge" [matMenuTriggerFor]="menu">
+    <button [matMenuTriggerFor]="menu" class="profile-badge" mat-button>
       Menu
-      <img [src]="user.photoURL" referrerpolicy="no-referrer" />
+      <img [src]="user.photoURL" referrerpolicy="no-referrer"/>
     </button>
 
     <mat-menu #menu>
@@ -38,7 +38,7 @@
         Mes paramètres
       </button>
 
-      <button mat-menu-item (click)="logout()">
+      <button (click)="logout()" mat-menu-item>
         <mat-icon>logout</mat-icon>
         Déconnexion
       </button>

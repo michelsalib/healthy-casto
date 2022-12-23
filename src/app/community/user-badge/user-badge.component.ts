@@ -12,7 +12,8 @@ export class UserBadgeComponent implements OnInit {
   @Input() size: 'medium' | 'small' = 'medium';
   @Input() tooltip?: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

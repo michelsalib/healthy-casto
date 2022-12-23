@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { map, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { FollowService } from 'src/app/services/db/follow.service';
 
 @Component({
@@ -12,7 +12,8 @@ export class FollowBadgeComponent implements OnInit {
   @Input() userId !: string;
   follows$: Observable<boolean> = new Subject();
 
-  constructor(private followService: FollowService) { }
+  constructor(private followService: FollowService) {
+  }
 
   ngOnInit(): void {
     this.follows$ = this.followService.isFollowing(this.userId);
