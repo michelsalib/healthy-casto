@@ -1,4 +1,7 @@
+@use '@angular/material' as mat;
+
 mat-toolbar {
+  @include mat.elevation(2);
 
   .logo {
     height: 42px;
@@ -25,6 +28,6 @@ mat-toolbar {
 }
 
 section {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
 }

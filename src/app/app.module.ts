@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -46,6 +47,8 @@ import { CommunityProfileComponent } from './community/community-profile/communi
 import { FollowBadgeComponent } from './community/follow-badge/follow-badge.component';
 import { UserBadgeComponent } from './community/user-badge/user-badge.component';
 import { ImageResizerComponent } from './settings/image-resizer/image-resizer.component';
+import { UserObjectiveDetailsComponent } from './objectives/user-objective-details/user-objective-details.component';
+import { AveragePipe } from './objectives/average.pipe';
 
 @NgModule({
   declarations: [
@@ -61,6 +64,7 @@ import { ImageResizerComponent } from './settings/image-resizer/image-resizer.co
     ObjectiveComponent,
     UserObjectiveComponent,
     LabelPipe,
+    AveragePipe,
     CommunityComponent,
     ObjectiveFormComponent,
     ActivityComponent,
@@ -69,6 +73,7 @@ import { ImageResizerComponent } from './settings/image-resizer/image-resizer.co
     FollowBadgeComponent,
     UserBadgeComponent,
     ImageResizerComponent,
+    UserObjectiveDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,6 +108,7 @@ import { ImageResizerComponent } from './settings/image-resizer/image-resizer.co
     MatSelectModule,
     MatTooltipModule,
     MatDialogModule,
+    MatBottomSheetModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 :host {
   width: 100%;
   display: flex;
@@ -11,6 +13,8 @@ mat-toolbar {
   bottom: 0;
   left: 0;
   justify-content: center;
+  @include mat.elevation(2);
+  z-index: 1000;
 
   .space {
     flex-grow: 1;

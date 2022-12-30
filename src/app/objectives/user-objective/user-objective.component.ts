@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BehaviorSubject, Observable, pipe, Subject, tap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
-import { ObjectiveConfig } from 'src/app/models/User';
+import { ObjectiveConfig, User } from 'src/app/models/User';
 import { ObjectivesService } from 'src/app/services/db/objectives.service';
+import { UserObjectiveDetailsComponent } from '../user-objective-details/user-objective-details.component';
 
 @Component({
   selector: 'app-user-objective[objectiveConfig]',
@@ -12,14 +14,30 @@ import { ObjectivesService } from 'src/app/services/db/objectives.service';
 export class UserObjectiveComponent implements OnInit {
 
   @Input() objectiveConfig!: ObjectiveConfig;
+  @Input() objective?: Objective;
 
   objective$: Observable<Objective> = new Subject();
 
-  constructor(private db: ObjectivesService) {
+  constructor(private db: ObjectivesService, private bottomSheet: MatBottomSheet) {
   }
 
   ngOnInit(): void {
-    this.objective$ = this.db.get(this.objectiveConfig.id);
+    if (this.objective) {
+      this.objective$ = new BehaviorSubject(this.objective);
+    }
+    else {
+      this.objective$ = this.db.get(this.objectiveConfig.id)
+        .pipe(tap(o => this.objective = o));
+    }
+  }
+
+  openDetails() {
+    this.bottomSheet.open(UserObjectiveDetailsComponent, {
+      data: {
+        objective: this.objective,
+        objectiveConfig: this.objectiveConfig,
+      },
+    });
   }
 
 }

@@ -8,8 +8,8 @@
     <div class="title">
       <div></div>
       <div></div>
-      <div *ngFor="let objective of dataset.objectives">
-        <strong>{{ objective.name }}</strong>
+      <div *ngFor="let objective of dataset.objectives; let i = index">
+        <app-user-objective [objective]="objective" [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
       </div>
     </div>
 

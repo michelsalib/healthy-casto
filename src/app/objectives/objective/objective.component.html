@@ -27,9 +27,9 @@
       <section class="average">
         Un jour {{ objective.average }} compte pour un
         <mat-select (valueChange)="setAverageValue($event)" [ngModel]="objectiveConfig.averageValue" required>
-          <mat-option [value]="0">echec {{ objective.failure }}</mat-option>
-          <mat-option [value]="0.5">demi point</mat-option>
-          <mat-option [value]="1">succès {{ objective.success }}</mat-option>
+          <mat-option [value]="0">{{ '0' | average:objective }}</mat-option>
+          <mat-option [value]="0.5">{{ '0.5' | average:objective }}</mat-option>
+          <mat-option [value]="1">{{ '1' | average:objective }}</mat-option>
         </mat-select>
       </section>
     </ng-container>

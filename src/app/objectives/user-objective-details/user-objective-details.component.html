@@ -1,0 +1,10 @@
+<h3>{{ data.objective.success }} {{ data.objective.name }}</h3>
+<div>
+    {{ data.objective.success }} est un succes, avec un objectif de {{ data.objectiveConfig.target | label }} {{ data.objective.success }} par mois.
+</div>
+<div>
+    {{ data.objective.average }} est un {{ data.objectiveConfig.averageValue | average:data.objective }}.
+</div>
+<div>
+    {{ data.objective.failure }} est un echec.
+</div>
