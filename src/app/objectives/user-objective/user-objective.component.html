@@ -1,4 +1,3 @@
-<mat-chip *ngIf="objective$ | async as objective" (click)="openDetails($event)" [disabled]="false"
-                 matTooltip="Avec un objectif de {{ objectiveConfig.target | label }} {{ objective.success }}">
+<mat-chip *ngIf="objective$ | async as objective" (click)="openDetails($event)" [disabled]="false">
   {{ objective.success }} {{ objective.name }}
 </mat-chip>
