@@ -25,5 +25,9 @@
 
   .follows {
     margin: 10px 35px 0 auto;
+
+    app-user-badge {
+      margin-right: -15px;
+    }
   }
 }

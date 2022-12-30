@@ -2,7 +2,7 @@
   <ng-container *ngIf="objectives.length; else noItem">
     <mat-chip-listbox>
       <ng-container *ngFor="let objective of objectives">
-        <app-user-objective [objectiveConfig]="objective"></app-user-objective>
+        <app-user-objective [user]="user" [objectiveConfig]="objective"></app-user-objective>
       </ng-container>
     </mat-chip-listbox>
   </ng-container>

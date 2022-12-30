@@ -1,24 +1,31 @@
-[mat-card-avatar] {
-  transition: all .1s ease-in-out;
+@use 'sass:map';
+@use '@angular/material' as mat;
 
-  border-radius: 50%;
-  border-width: 1px;
-  border-style: solid;
+:host {
+  display: inline-block;
 
-  &:hover {
-    transform: scale(1.2);
-    cursor: pointer;
+  img {
+    transition: all .1s ease-in-out;
+
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: map.get(mat.$light-theme-foreground-palette, divider);
+
+    &:hover {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    &.medium {
+      height: 60px;
+      width: 60px;
+    }
+
+    &.small {
+      height: 25px;
+      width: 25px;
+    }
   }
 
-  &.medium {
-    margin-right: -15px;
-    height: 60px;
-    width: 60px;
-  }
-
-  &.small {
-    margin-right: -5px;
-    height: 25px;
-    width: 25px;
-  }
 }

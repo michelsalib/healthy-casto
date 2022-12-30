@@ -1,19 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import { getYear } from 'date-fns';
+import { User } from '../models/User';
 
 @Component({
-  selector: 'app-activity',
+  selector: 'app-activity[user]',
   templateUrl: './activity.component.html',
   styleUrls: ['./activity.component.scss']
 })
 export class ActivityComponent implements OnInit {
-  @Input() userId?: string;
+  @Input() user!: User;
 
   months!: string[];
   year!: number;
 
-  constructor(public auth: Auth) {
+  constructor() {
     this.setYear(getYear(new Date()));
   }
 

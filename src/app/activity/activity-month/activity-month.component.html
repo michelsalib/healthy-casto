@@ -9,7 +9,7 @@
       <div></div>
       <div></div>
       <div *ngFor="let objective of dataset.objectives; let i = index">
-        <app-user-objective [objective]="objective" [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
+        <app-user-objective [user]="user" [objective]="objective" [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
       </div>
     </div>
 
@@ -26,7 +26,7 @@
           <mat-select (dragenter)="dragEnter($event, objective.id, day)" (dragover)="dragOver($event, objective.id)"
                       (dragstart)="dragStart($event, dataset.activity[day]?.[objective.id], day, objective.id)" (drop)="drop($event, objective.id, day)"
                       (valueChange)="setActivity($event, day, objective.id)"
-                      *ngIf="!userId; else readonlyTemplate" [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId"
+                      *ngIf="isMe; else readonlyTemplate" [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId"
                       [ngClass]="dataset.activity[day]?.[objective.id]" [value]="dataset.activity[day]?.[objective.id]"
                       draggable="true">
             <mat-option [value]="undefined">-</mat-option>

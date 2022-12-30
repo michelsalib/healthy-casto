@@ -4,19 +4,20 @@ import { Firestore } from '@angular/fire/firestore';
 import { addDays, format, getDaysInMonth, isBefore, isEqual, isMonday, isThisMonth, isToday, parse } from 'date-fns';
 import { combineLatest, map, Observable, of, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
-import { ActivityEntry, ObjectiveConfig } from 'src/app/models/User';
+import { ActivityEntry, ObjectiveConfig, User } from 'src/app/models/User';
 import { ActivityService } from 'src/app/services/db/activity.service';
 import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.service';
 import { ObjectivesService } from 'src/app/services/db/objectives.service';
 
 @Component({
-  selector: 'app-activity-month[month]',
+  selector: 'app-activity-month[month][user]',
   templateUrl: './activity-month.component.html',
   styleUrls: ['./activity-month.component.scss']
 })
 export class ActivityMonthComponent implements OnInit {
-  @Input() userId?: string;
+  @Input() user!: User;
   @Input() month!: string;
+  isMe = false;
 
   @ViewChild('daysContainer') daysContainer!: ElementRef;
   dataset$: Observable<{
@@ -33,11 +34,13 @@ export class ActivityMonthComponent implements OnInit {
   };
   private needToScroll = false;
 
-  constructor(private activityService: ActivityService, private db: Firestore, private auth: Auth, private objectivesService: ObjectivesService, private objectiveConfigService: ObjectiveConfigService) {
+  constructor(private activityService: ActivityService, private auth: Auth, private objectivesService: ObjectivesService, private objectiveConfigService: ObjectiveConfigService) {
 
   }
 
   ngOnInit(): void {
+    this.isMe = this.user.id == this.auth.currentUser?.uid;
+
     const month = parse(this.month, 'yyyy-MM', 0);
 
     this.needToScroll = isThisMonth(month);
@@ -46,13 +49,13 @@ export class ActivityMonthComponent implements OnInit {
       return this.month + '-' + String(i + 1).padStart(2, '0');
     });
 
-    this.dataset$ = this.objectiveConfigService.list(this.userId)
+    this.dataset$ = this.objectiveConfigService.list(this.user.id)
       .pipe(
         switchMap(configs =>
           combineLatest([
             combineLatest(configs.map(c => this.objectivesService.get(c.id))),
             of(configs),
-            this.activityService.getMonth(this.month, this.userId),
+            this.activityService.getMonth(this.month, this.user.id),
             of(days),
           ])
         ),

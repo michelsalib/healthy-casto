@@ -12,7 +12,7 @@ export class ObjectiveConfigService {
   constructor(private db: Firestore, private auth: Auth) {
   }
 
-  list(userId?: string): Observable<ObjectiveConfig[]> {
+  list(userId: string): Observable<ObjectiveConfig[]> {
     return collectionData(
       query(collection(this.db, 'users/' + (userId || this.auth.currentUser?.uid) + '/objectives') as CollectionReference<ObjectiveConfig>),
       {

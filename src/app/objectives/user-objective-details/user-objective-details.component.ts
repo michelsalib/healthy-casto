@@ -1,7 +1,13 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { Objective } from 'src/app/models/Objective';
-import { ObjectiveConfig } from 'src/app/models/User';
+import { ObjectiveConfig, User } from 'src/app/models/User';
+
+export interface UserObjectiveDetailsModel {
+  objective: Objective;
+  objectiveConfig: ObjectiveConfig;
+  user: User;
+}
 
 @Component({
   selector: 'app-user-objective-details',
@@ -10,11 +16,11 @@ import { ObjectiveConfig } from 'src/app/models/User';
 })
 export class UserObjectiveDetailsComponent {
   constructor(
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: { objective: Objective, objectiveConfig: ObjectiveConfig },
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: UserObjectiveDetailsModel,
+    private bottomSheetRef: MatBottomSheetRef<UserObjectiveDetailsComponent>
   ) { }
 
-
-  labelAverage(arg0: number) {
-    throw new Error('Method not implemented.');
+  close() {
+    this.bottomSheetRef.dismiss();
   }
 }

@@ -3,7 +3,7 @@
     <mat-card-title-group>
       <mat-card-title>{{ user.displayName }}</mat-card-title>
       <mat-card-subtitle>
-        <app-user-objectives [userId]="user.id"></app-user-objectives>
+        <app-user-objectives [user]="user"></app-user-objectives>
       </mat-card-subtitle>
       <img [src]="user.photoURL" mat-card-avatar referrerpolicy="no-referrer">
     </mat-card-title-group>

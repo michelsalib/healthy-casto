@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
 h2 {
   margin-top: 20px;
 }
@@ -55,7 +58,7 @@ h2 {
   text-align: center;
 
   &.monday {
-    border-left: 1px solid black;
+    border-left: 1px solid map.get(mat.$light-theme-foreground-palette, divider);
   }
 
   &.today {
@@ -63,7 +66,7 @@ h2 {
   }
 
   &-number {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid map.get(mat.$light-theme-foreground-palette, divider);
   }
 
   &-objective {
