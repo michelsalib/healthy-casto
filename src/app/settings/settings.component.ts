@@ -43,7 +43,10 @@ export class SettingsComponent implements OnInit {
       const imageName = Math.random().toString(36).replace('0.', '') + '.png';
       const imageRef = ref(this.storage, imageName);
 
-      await uploadString(imageRef, image, 'data_url');
+      await uploadString(imageRef, image, 'data_url', {
+        // 1 year of public cache
+        cacheControl: 'public,max-age=31536000,immutable',
+      });
 
       const url = await getDownloadURL(imageRef);
 
