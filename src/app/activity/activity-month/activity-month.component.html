@@ -9,7 +9,8 @@
       <div></div>
       <div></div>
       <div *ngFor="let objective of dataset.objectives; let i = index">
-        <app-user-objective [user]="user" [objective]="objective" [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
+        <app-user-objective [user]="user" [objective]="objective"
+          [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
       </div>
     </div>
 
@@ -24,11 +25,12 @@
         <div *ngFor="let objective of dataset.objectives" class="day-objective">
 
           <mat-select (dragenter)="dragEnter($event, objective.id, day)" (dragover)="dragOver($event, objective.id)"
-                      (dragstart)="dragStart($event, dataset.activity[day]?.[objective.id], day, objective.id)" (drop)="drop($event, objective.id, day)"
-                      (valueChange)="setActivity($event, day, objective.id)"
-                      *ngIf="isMe; else readonlyTemplate" [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId"
-                      [ngClass]="dataset.activity[day]?.[objective.id]" [value]="dataset.activity[day]?.[objective.id]"
-                      draggable="true">
+            (dragstart)="dragStart($event, dataset.activity[day]?.[objective.id], day, objective.id)"
+            (drop)="drop($event, objective.id, day)" (valueChange)="setActivity($event, day, objective.id)"
+            *ngIf="isMe; else readonlyTemplate"
+            [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId"
+            [ngClass]="dataset.activity[day]?.[objective.id]" [value]="dataset.activity[day]?.[objective.id]"
+            draggable="true">
             <mat-option [value]="undefined">-</mat-option>
             <mat-option value="🟥">{{ objective.failure }}</mat-option>
             <mat-option value="🟧">{{ objective.average }}</mat-option>
@@ -56,5 +58,8 @@
   </div>
 
   <mat-divider></mat-divider>
+
+  <button mat-fab matTooltip="Aujourd'hui" matTooltipPosition="left" *ngIf="showScrollButton"
+    (click)="scroll()"><mat-icon>today</mat-icon></button>
 
 </ng-container>

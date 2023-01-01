@@ -30,7 +30,7 @@ export class FollowService {
     )
       .pipe(
         filter(list => !!list.length),
-        switchMap(list => this.userDb.list(where(documentId(), 'in', list.map(i => i.id)))),
+        switchMap(list => this.userDb.list(where(documentId(), 'in', list.slice(0, 10).map(i => i.id)))),
         tap(list => list?.sort((a, b) => collator.compare(a.displayName, b.displayName))),
       );
   }

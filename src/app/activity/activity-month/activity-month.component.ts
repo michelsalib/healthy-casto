@@ -32,7 +32,7 @@ export class ActivityMonthComponent implements OnInit {
     objectiveId: string,
     from: string,
   };
-  private needToScroll = false;
+  public showScrollButton = false;
 
   constructor(private activityService: ActivityService, private auth: Auth, private objectivesService: ObjectivesService, private objectiveConfigService: ObjectiveConfigService) {
 
@@ -43,7 +43,7 @@ export class ActivityMonthComponent implements OnInit {
 
     const month = parse(this.month, 'yyyy-MM', 0);
 
-    this.needToScroll = isThisMonth(month);
+    this.showScrollButton = isThisMonth(month);
 
     const days = new Array(getDaysInMonth(month)).fill(0).map((_, i) => {
       return this.month + '-' + String(i + 1).padStart(2, '0');
@@ -70,19 +70,15 @@ export class ActivityMonthComponent implements OnInit {
       );
   }
 
-  ngAfterViewChecked() {
+  scroll() {
     const scrollable = this.daysContainer?.nativeElement as HTMLDivElement;
-
-    if (this.needToScroll && scrollable) {
-      const todayDiv = scrollable.querySelector('.today');
-      todayDiv?.scrollIntoView({
-        block: 'center',
-        inline: 'center',
-        behavior: 'smooth',
-      });
-
-      this.needToScroll = false;
-    }
+    const todayDiv = scrollable.querySelector('.today');
+    todayDiv?.scrollIntoView({
+      block: 'center',
+      inline: 'center',
+      behavior: 'smooth',
+    });
+    this.showScrollButton = false;
   }
 
   isMonday(day: string): any {

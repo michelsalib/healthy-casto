@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { limitToLast, orderBy } from '@angular/fire/firestore';
-import { getMonth, getYear } from 'date-fns';
+import { addMonths, format, getMonth, getYear } from 'date-fns';
 import { Observable, Subject } from 'rxjs';
 import { User } from '../models/User';
 import { FollowService } from '../services/db/follow.service';
@@ -20,9 +20,13 @@ export class HomeComponent implements OnInit {
   followedUsers$: Observable<User[] | null> = new Subject();
 
   constructor(private users: UsersService, private followService: FollowService, private auth: Auth) {
-    const currentMonth = getMonth(new Date());
-    const year = String(getYear(new Date()));
-    this.months = [currentMonth, currentMonth + 1].map(m => year + '-' + String(m).padStart(2, '0'));
+    const currentMonth = format(new Date(), 'yyyy-MM');
+    const previousMonth = format(addMonths(new Date(), -1), 'yyyy-MM');
+
+    this.months = [
+      previousMonth,
+      currentMonth,
+    ];
   }
 
   ngOnInit(): void {
