@@ -5,25 +5,36 @@
     <mat-form-field appearance="fill" class="full">
       <mat-label>Nom</mat-label>
       <input formControlName="name" matInput>
+      <mat-hint>Un titre de un mot est meilleur</mat-hint>
     </mat-form-field>
     <mat-form-field appearance="fill" class="full">
       <mat-label>Description</mat-label>
       <textarea formControlName="description" matInput></textarea>
     </mat-form-field>
-    <div class="full icons">
-      <mat-form-field appearance="fill" class="third">
-        <mat-label>Objectif validé</mat-label>
-        <input formControlName="success" matInput>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="third">
-        <mat-label>Objectif semi-validé</mat-label>
-        <input formControlName="average" matInput>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="third">
-        <mat-label>Objectif raté</mat-label>
-        <input formControlName="failure" matInput>
-      </mat-form-field>
-    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Objectif validé</mat-label>
+      <input formControlName="success" matInput>
+      <button mat-icon-button matSuffix (click)="form.get('success')?.setValue('🟩')">
+        <mat-icon>undo</mat-icon>
+      </button>
+      <mat-error *ngIf="form.get('success')?.invalid">Utilise un unique charactère</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Objectif semi-validé</mat-label>
+      <input formControlName="average" matInput>
+      <button mat-icon-button matSuffix (click)="form.get('average')?.setValue('🟧')">
+        <mat-icon>undo</mat-icon>
+      </button>
+      <mat-error *ngIf="form.get('average')?.invalid">Utilise un unique charactère</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Objectif raté</mat-label>
+      <input formControlName="failure" matInput>
+      <button mat-icon-button matSuffix (click)="form.get('failure')?.setValue('🟥')">
+        <mat-icon>undo</mat-icon>
+      </button>
+      <mat-error *ngIf="form.get('failure')?.invalid">Utilise un unique charactère</mat-error>
+    </mat-form-field>
   </form>
 </div>
 

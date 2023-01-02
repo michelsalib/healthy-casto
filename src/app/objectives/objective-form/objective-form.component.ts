@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import GraphemeSplitter from 'grapheme-splitter';
 import { Objective } from 'src/app/models/Objective';
 
 @Component({
@@ -10,15 +11,21 @@ import { Objective } from 'src/app/models/Objective';
 })
 export class ObjectiveFormComponent implements OnInit {
 
-  form: FormGroup;
+  form: FormGroup<{
+    name: FormControl<string>;
+    description: FormControl<string>;
+    success: FormControl<string>;
+    average: FormControl<string>;
+    failure: FormControl<string>;
+  }>;
 
-  constructor(public dialogueRef: MatDialogRef<ObjectiveFormComponent, Objective>) {
+  constructor(public dialogueRef: MatDialogRef<ObjectiveFormComponent, Partial<Objective>>) {
     this.form = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      success: new FormControl('🟩', [Validators.required]),
-      average: new FormControl('🟧', [Validators.required]),
-      failure: new FormControl('🟥', [Validators.required]),
+      name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      description: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      success: new FormControl('🟩', { nonNullable: true, validators: [Validators.required, singleCharacterValidator] }),
+      average: new FormControl('🟧', { nonNullable: true, validators: [Validators.required, singleCharacterValidator] }),
+      failure: new FormControl('🟥', { nonNullable: true, validators: [Validators.required, singleCharacterValidator] }),
     });
   }
 
@@ -30,3 +37,15 @@ export class ObjectiveFormComponent implements OnInit {
   }
 
 }
+
+const SPLITTER = new GraphemeSplitter();
+
+const singleCharacterValidator: ValidatorFn = function(control: AbstractControl<string>): ValidationErrors | null {
+  if (SPLITTER.countGraphemes(control.value || '') != 1) {
+    return {
+      singleCharacter: control.value,
+    };
+  }
+
+  return null;
+};

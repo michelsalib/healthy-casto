@@ -21,10 +21,10 @@ export class HomeComponent implements OnInit {
 
   constructor(private users: UsersService, private followService: FollowService, private auth: Auth) {
     const currentMonth = format(new Date(), 'yyyy-MM');
-    const previousMonth = format(addMonths(new Date(), -1), 'yyyy-MM');
+    // const previousMonth = format(addMonths(new Date(), -1), 'yyyy-MM');
 
     this.months = [
-      previousMonth,
+      // previousMonth,
       currentMonth,
     ];
   }

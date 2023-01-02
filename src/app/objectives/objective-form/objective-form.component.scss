@@ -1,19 +1,9 @@
 form {
   display: flex;
   flex-direction: column;
+  min-width: 250px;
 
   .full {
-    width: 500px;
-  }
-
-  .icons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .third {
-      width: 150px;
-    }
-
+    width: 100%;
   }
 }
