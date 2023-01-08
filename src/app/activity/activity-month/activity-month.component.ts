@@ -1,10 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
 import { addDays, format, getDaysInMonth, isBefore, isEqual, isMonday, isThisMonth, isToday, parse } from 'date-fns';
 import { combineLatest, map, Observable, of, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
-import { ActivityEntry, ObjectiveConfig, User } from 'src/app/models/User';
+import { ActivityEntry, DayString, ObjectiveConfig, User } from 'src/app/models/User';
 import { ActivityService } from 'src/app/services/db/activity.service';
 import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.service';
 import { ObjectivesService } from 'src/app/services/db/objectives.service';
@@ -23,7 +22,7 @@ export class ActivityMonthComponent implements OnInit {
   dataset$: Observable<{
     objectiveConfigs: ObjectiveConfig[];
     objectives: Objective[];
-    days: string[];
+    days: DayString[];
     activity: Record<string, ActivityEntry | undefined>;
   } | null> = new Subject();
   editedDays: string[] = [];
@@ -46,7 +45,7 @@ export class ActivityMonthComponent implements OnInit {
     this.showScrollButton = isThisMonth(month);
 
     const days = new Array(getDaysInMonth(month)).fill(0).map((_, i) => {
-      return this.month + '-' + String(i + 1).padStart(2, '0');
+      return this.month + '-' + String(i + 1).padStart(2, '0') as DayString;
     });
 
     this.dataset$ = this.objectiveConfigService.list(this.user.id)
@@ -135,7 +134,7 @@ export class ActivityMonthComponent implements OnInit {
     };
   }
 
-  async setActivity(value: string, day: string, objectiveId: string) {
+  async setActivity(value: string, day: DayString, objectiveId: string) {
     await this.activityService.updateActivity(day, objectiveId, value);
   }
 
@@ -201,7 +200,7 @@ export class ActivityMonthComponent implements OnInit {
     this.editedDays = [];
   }
 
-  private computeRange(fromDay: string, toDay: string): string[] {
+  private computeRange(fromDay: string, toDay: string): DayString[] {
     // compute range
     let from = parse(fromDay, 'yyyy-MM-dd', new Date());
     let to = parse(toDay, 'yyyy-MM-dd', new Date());
@@ -211,9 +210,9 @@ export class ActivityMonthComponent implements OnInit {
       to = temp;
     }
 
-    const days = [];
+    const days: DayString[] = [];
     while (isBefore(from, to) || isEqual(from, to)) {
-      days.push(format(from, 'yyyy-MM-dd'));
+      days.push(format(from, 'yyyy-MM-dd') as DayString);
       from = addDays(from, 1);
     }
 

@@ -15,6 +15,11 @@ export interface ObjectiveConfig {
 }
 
 export interface ActivityEntry {
-  id: string; // the day of activity
   [objectiveId: string]: string;
 }
+
+export type YearActivity = {
+  [day: DayString]: ActivityEntry
+};
+
+export type DayString = `${number}-${number}-${number}`;

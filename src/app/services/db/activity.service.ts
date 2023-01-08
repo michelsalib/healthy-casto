@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { collection, collectionData, CollectionReference, deleteField, doc, Firestore, getDoc, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
-import { documentId } from '@firebase/firestore';
-import { addMonths, format, parse } from 'date-fns';
-import { map, Observable } from 'rxjs';
-import { ActivityEntry } from 'src/app/models/User';
+import { collection, collectionData, CollectionReference, deleteField, doc, docData, Firestore, getDoc, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
+import { documentId, DocumentReference } from '@firebase/firestore';
+import { addYears, format, parse } from 'date-fns';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { ActivityEntry, DayString, YearActivity } from 'src/app/models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -14,34 +14,76 @@ export class ActivityService {
   constructor(private db: Firestore, private auth: Auth) {
   }
 
-  getMonth(month: string, userId?: string): Observable<Record<string, ActivityEntry | undefined>> {
-    const coll = collection(this.db, 'users/' + (userId || this.auth.currentUser?.uid) + '/activity') as CollectionReference<ActivityEntry>;
-    const nextMonth = format(addMonths(parse(month, 'yyyy-MM', new Date()), 1), 'yyyy-MM');
+  getMonth(month: string, userId: string): Observable<YearActivity> {
+    const year = month.split('-')[0];
 
-    return collectionData(
-      query(coll, where(documentId(), '>=', month), where(documentId(), '<', nextMonth)),
-      { idField: 'id', }
-    )
-      .pipe(map(activity => {
-        return activity.reduce<Record<string, ActivityEntry>>((r, c) => {
-          r[c.id] = c;
+    const ref: DocumentReference<YearActivity> = doc(this.db, 'users/' + userId + '/activity/' + year);
 
-          return r;
-        }, {});
-      }));
+    return docData(ref)
+      .pipe(
+        switchMap(d => {
+          if (d) {
+            return of(d);
+          }
+
+          // gold old data format
+          return this.getOldDataFormat(year, userId)
+            // store in new format for next time
+            .pipe(tap(data => {
+              if (userId == this.auth.currentUser?.uid) {
+                setDoc(ref, data);
+              }
+            }));
+        }),
+        map(year => {
+          // only keep current month of data
+          const days = Object.keys(year) as DayString[];
+
+          return days.reduce((result: YearActivity, day: DayString)=> {
+            if (day.startsWith(month)) {
+              result[day] = year[day];
+            }
+
+            return result;
+          }, {});
+        }),
+      );
   }
 
-  async updateActivity(day: string, objectiveId: string, value: string | undefined) {
-    const ref = doc(this.db, 'users/' + this.auth.currentUser?.uid + '/activity/' + day);
+  async updateActivity(day: DayString, objectiveId: string, value: string | undefined) {
+    const ref: DocumentReference<YearActivity> = doc(this.db, 'users/' + this.auth.currentUser?.uid + '/activity/' + day.split('-')[0]);
 
     const activityExists = (await getDoc(ref)).exists();
 
     if (!activityExists) {
-      await setDoc(ref, { [objectiveId]: value });
+      await setDoc(ref, {
+        [day]: {
+          [objectiveId]: value
+        }
+      });
 
       return;
     }
 
-    await updateDoc(ref, objectiveId, value || deleteField());
+    await updateDoc(ref, `${day}.${objectiveId}`, value || deleteField());
+  }
+
+  private getOldDataFormat(year: string, userId: string): Observable<YearActivity> {
+    const coll = collection(this.db, 'users/' + userId + '/activity') as CollectionReference<ActivityEntry & { id: DayString }>;
+    const nextYear = format(addYears(parse(year, 'yyyy', new Date()), 1), 'yyyy');
+
+    return collectionData(
+      query(coll, where(documentId(), '>=', year), where(documentId(), '<', nextYear)),
+      { idField: 'id', }
+    )
+      .pipe(map(activity => {
+        return activity.reduce<YearActivity>((r, c) => {
+          r[c.id] = c;
+
+          delete (c as any).id;
+
+          return r;
+        }, {});
+      }));
   }
 }
