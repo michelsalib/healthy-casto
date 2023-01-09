@@ -1,0 +1,25 @@
+:host {
+    margin: 20px 0;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+mat-card {
+    width: 350px;
+
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        transform: scale(1.01);
+        cursor: pointer;
+    }
+}
+
+[mat-card-avatar] {
+    border-width: 1px;
+    border-style: solid;
+    width: 75px;
+    height: 75px;
+}

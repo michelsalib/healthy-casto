@@ -1,0 +1,11 @@
+<mat-card *ngFor="let group of groups$ | async" [routerLink]="'/group/' + group.id" appearance="outlined">
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>{{ group.displayName }}</mat-card-title>
+            <mat-card-subtitle>
+                {{ group.members.length }} membre(s)
+            </mat-card-subtitle>
+            <img [src]="group.photoURL" mat-card-avatar referrerpolicy="no-referrer">
+        </mat-card-title-group>
+    </mat-card-header>
+</mat-card>

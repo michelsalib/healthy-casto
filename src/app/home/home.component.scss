@@ -2,6 +2,8 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .cards {
@@ -14,7 +16,7 @@
 
 mat-card {
   margin: 10px;
-  min-width: 250px;
+  width: 330px;
 
   mat-card-content {
     flex-grow: 1;

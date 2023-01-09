@@ -1,0 +1,27 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+header {
+    padding: 50px 0;
+
+    h1 {
+        color: map.get(mat.$dark-theme-foreground-palette, text);
+    }
+
+    app-groups-list {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+main {
+    padding: 50px 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: block;
+}
+
+h1 {
+    text-align: center;
+}

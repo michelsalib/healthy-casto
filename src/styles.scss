@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @use './app/login/hello/hello.component-theme' as hello;
 @use './app/community/users-list/users-list.component-theme' as users-list;
+@use './app/community/community.component-theme' as community;
 
 $my-primary: mat.define-palette(mat.$blue-palette, 500);
 $my-accent: mat.define-palette(mat.$amber-palette, 500);
@@ -17,6 +18,7 @@ $my-theme: mat.define-light-theme((color: (primary: $my-primary,
 @include mat.all-component-themes($my-theme);
 @include hello.theme($my-theme);
 @include users-list.theme($my-theme);
+@include community.theme($my-theme);
 
 html,
 body {

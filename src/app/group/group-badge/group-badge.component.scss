@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+:host {
+  display: inline-block;
+
+  img {
+    transition: all .1s ease-in-out;
+
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: map.get(mat.$light-theme-foreground-palette, divider);
+    object-fit: cover;
+
+    &:hover {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    &.medium {
+      height: 60px;
+      width: 60px;
+    }
+
+    &.small {
+      height: 25px;
+      width: 25px;
+    }
+  }
+
+}
