@@ -31,7 +31,9 @@ export class ActivityService {
             // store in new format for next time
             .pipe(tap(data => {
               if (userId == this.auth.currentUser?.uid) {
-                setDoc(ref, data);
+                setDoc(ref, data, {
+                  merge: true
+                });
               }
             }));
         }),
@@ -60,6 +62,8 @@ export class ActivityService {
         [day]: {
           [objectiveId]: value
         }
+      }, {
+        merge: true,
       });
 
       return;
