@@ -1,7 +1,9 @@
 @use '@angular/material' as mat;
 
 mat-toolbar {
-  @include mat.elevation(2);
+  @include mat.elevation(6);
+  z-index: 1000;
+  position: fixed;
 
   .logo {
     height: 42px;
@@ -25,4 +27,8 @@ mat-toolbar {
       }
     }
   }
+}
+
+section {
+  padding-top: 56px;
 }

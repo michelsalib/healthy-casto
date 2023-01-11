@@ -1,0 +1,29 @@
+:host {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: block;
+}
+
+.title {
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+
+    img {
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+        margin-right: 20px;
+        object-fit: cover;
+    }
+
+    .content {
+        .members {
+            margin: 10px 35px 0 auto;
+
+            app-user-badge {
+                margin-right: -15px;
+            }
+        }
+    }
+}

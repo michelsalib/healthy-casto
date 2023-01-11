@@ -1,4 +1,4 @@
-<mat-card *ngFor="let group of groups$ | async" [routerLink]="'/group/' + group.id" appearance="outlined">
+<mat-card *ngFor="let group of groups$ | async" [routerLink]="'/groups/' + group.id" appearance="outlined">
     <mat-card-header>
         <mat-card-title-group>
             <mat-card-title>{{ group.displayName }}</mat-card-title>

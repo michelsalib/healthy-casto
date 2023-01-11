@@ -1,1 +1,17 @@
-<p>group-details works!</p>
+<ng-container *ngIf="dataset$ | async as dataset">
+
+    <div class="title">
+      <img [src]="dataset.group.photoURL" referrerpolicy="no-referrer"/>
+  
+      <div class="content">
+        <h1>{{ dataset.group.displayName }}</h1>
+
+        <div class="members">
+          <app-user-badge *ngFor="let user of dataset.users" [user]="user"></app-user-badge>
+        </div>
+      </div>
+
+    </div>
+  
+  </ng-container>
+  
