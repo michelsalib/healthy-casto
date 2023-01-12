@@ -49,6 +49,9 @@ import { UserBadgeComponent } from './community/user-badge/user-badge.component'
 import { ImageResizerComponent } from './settings/image-resizer/image-resizer.component';
 import { UserObjectiveDetailsComponent } from './objectives/user-objective-details/user-objective-details.component';
 import { AveragePipe } from './objectives/average.pipe';
+import { GroupDetailsComponent } from './group/group-details/group-details.component';
+import { GroupBadgeComponent } from './group/group-badge/group-badge.component';
+import { GroupsListComponent } from './group/groups-list/groups-list.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +77,9 @@ import { AveragePipe } from './objectives/average.pipe';
     UserBadgeComponent,
     ImageResizerComponent,
     UserObjectiveDetailsComponent,
+    GroupDetailsComponent,
+    GroupBadgeComponent,
+    GroupsListComponent,
   ],
   imports: [
     BrowserModule,

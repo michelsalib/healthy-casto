@@ -1,3 +1,9 @@
+:host {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: block;
+}
+
 .row {
   display: flex;
   flex-direction: row;
