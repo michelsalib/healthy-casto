@@ -33,8 +33,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.recents$ = combineLatest([
-      this.users.list(orderBy('creationDate'), limitToLast(6)),
-      this.groups.list(orderBy('creationDate'), limitToLast(6)),
+      this.users.list(orderBy('creationDate'), limitToLast(5)),
+      this.groups.list(orderBy('creationDate'), limitToLast(5)),
     ]).pipe(map(([users, groups]) => ({users, groups})));
     this.followedUsers$ = this.followService.list();
     this.user$ = this.users.get(this.auth.currentUser?.uid as string);

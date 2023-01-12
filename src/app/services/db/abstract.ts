@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 export abstract class Db<T extends { id: string }> {
   private readonly collection: CollectionReference<T>;
 
-  constructor(private db: Firestore, private path: string, private converter?: FirestoreDataConverter<T>) {
+  constructor(protected db: Firestore, private path: string) {
     this.collection = collection(db, path) as CollectionReference<T>;
   }
 

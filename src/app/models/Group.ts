@@ -5,6 +5,7 @@ export interface Group {
   creationDate: Timestamp;
   displayName: string;
   photoURL: string;
+  description: string;
   members: string[];
   admins: [];
 }

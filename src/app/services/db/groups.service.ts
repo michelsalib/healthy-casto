@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
+import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { Group } from 'src/app/models/Group';
 import { Db } from './abstract';
 
@@ -8,7 +9,13 @@ import { Db } from './abstract';
 })
 export class GroupsService extends Db<Group> {
 
-  constructor(db: Firestore) {
+  constructor(db: Firestore, private auth: Auth) {
     super(db, 'groups');
+  }
+
+  async updateFollow(groupId: string, users: string[]) {
+    const ref = doc(this.db, 'groups/' + groupId);
+
+    await updateDoc(ref, 'members', users);
   }
 }

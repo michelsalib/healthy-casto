@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
 import { documentId, where } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, map, Observable, of, Subject, switchMap } from 'rxjs';
@@ -16,9 +17,14 @@ export class GroupDetailsComponent implements OnInit {
   dataset$: Observable<{
     group: Group;
     users: User[] | null;
+    isFollowing: boolean;
   }> = new Subject();
 
-  constructor(private route: ActivatedRoute, private userDb: UsersService, private groupService: GroupsService) {
+  constructor(
+    private route: ActivatedRoute,
+    private userDb: UsersService,
+    private groupService: GroupsService,
+    private auth: Auth) {
   }
 
   ngOnInit(): void {
@@ -31,19 +37,30 @@ export class GroupDetailsComponent implements OnInit {
 
       this.dataset$ = this.groupService.get(groupId)
         .pipe(
-          switchMap(group => 
+          switchMap(group =>
             combineLatest([
               of(group),
-              this.userDb.list(where(documentId(), 'in', group.members.slice(0, 10)))
+              group.members.length ?
+                this.userDb.list(where(documentId(), 'in', group.members.slice(0, 10))) :
+                of([]),
+              of(group.members.includes(this.auth.currentUser?.uid || ''))
             ])
           ),
-          map(([group, users])=> {
+          map(([group, users, isFollowing]) => {
             return {
-              group, users,
+              group, users, isFollowing,
             };
           })
         );
     });
+  }
+
+  follow(group: Group) {
+    this.groupService.updateFollow(group.id, [...group.members, this.auth.currentUser?.uid || '']);
+  }
+
+  unfollow(group: Group) {
+    this.groupService.updateFollow(group.id, group.members.filter(u => u != this.auth.currentUser?.uid));
   }
 
 }

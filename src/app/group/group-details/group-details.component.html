@@ -1,17 +1,28 @@
 <ng-container *ngIf="dataset$ | async as dataset">
 
-    <div class="title">
-      <img [src]="dataset.group.photoURL" referrerpolicy="no-referrer"/>
-  
-      <div class="content">
-        <h1>{{ dataset.group.displayName }}</h1>
+  <div class="title">
+    <img [src]="dataset.group.photoURL" referrerpolicy="no-referrer" />
 
-        <div class="members">
-          <app-user-badge *ngFor="let user of dataset.users" [user]="user"></app-user-badge>
-        </div>
-      </div>
+    <div>
+      <h1>{{ dataset.group.displayName }}</h1>
 
+      <p class="subtitle">
+        {{ dataset.group.description }}
+      </p>
+
+      <button (click)="unfollow(dataset.group)" *ngIf="dataset.isFollowing; else unfollowButton" color="primary"
+        mat-raised-button>Abonné
+      </button>
+
+      <ng-template #unfollowButton>
+        <button (click)="follow(dataset.group)" mat-raised-button>S'abonner</button>
+      </ng-template>
     </div>
-  
-  </ng-container>
-  
+
+  </div>
+
+  <div class="members">
+    <app-user-badge *ngFor="let user of dataset.users" [user]="user"></app-user-badge>
+  </div>
+
+</ng-container>
