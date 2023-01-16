@@ -1,65 +1,73 @@
-<ng-container *ngIf="dataset$ | async as dataset">
+<ng-container *ngIf="dataset$ | async as dataset; else loaderTemplate">
 
-  <h2 class="name">
-    {{ month | date:'MMMM' | titlecase }}
-  </h2>
+  <ng-container *ngFor="let month of dataset.days | keyvalue">
 
-  <div class="calendar">
-    <div class="title">
-      <div></div>
-      <div></div>
-      <div *ngFor="let objective of dataset.objectives; let i = index">
-        <app-user-objective [user]="user" [objective]="objective"
-          [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
+    <h2 class="name">
+      {{ month.key | date:'MMMM' | titlecase }}
+    </h2>
+
+    <div class="calendar">
+      <div class="title">
+        <div></div>
+        <div></div>
+        <div *ngFor="let objective of dataset.objectives; let i = index">
+          <app-user-objective [user]="user" [objective]="objective"
+            [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
+        </div>
+      </div>
+
+      <div #daysContainer class="days">
+        <div *ngFor="let day of month.value" [ngClass]="{ monday: isMonday(day), today: isToday(day) }" class="day">
+          <div class="day-letter">
+            {{ day | date:'EEEEE' }}
+          </div>
+          <div class="day-number">
+            {{ day | date:'dd' }}
+          </div>
+          <div *ngFor="let objective of dataset.objectives" class="day-objective">
+
+            <mat-select (dragenter)="dragEnter($event, objective.id, day)" (dragover)="dragOver($event, objective.id)"
+              (dragstart)="dragStart($event, dataset.activity[day]?.[objective.id], day, objective.id)"
+              (drop)="drop($event, objective.id, day)" (valueChange)="setActivity($event, day, objective.id)"
+              *ngIf="isMe; else readonlyTemplate"
+              [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId"
+              [ngClass]="dataset.activity[day]?.[objective.id]" [value]="dataset.activity[day]?.[objective.id]"
+              draggable="true">
+              <mat-option [value]="undefined">-</mat-option>
+              <mat-option value="🟥">{{ objective.failure }}</mat-option>
+              <mat-option value="🟧">{{ objective.average }}</mat-option>
+              <mat-option value="🟩">{{ objective.success }}</mat-option>
+            </mat-select>
+
+            <ng-template #readonlyTemplate>
+              <div [ngClass]="dataset.activity[day]?.[objective.id]" class="readonly">
+                {{ getIcon(objective, dataset.activity[day]?.[objective.id]) }}
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="recap">
+        <div></div>
+        <div></div>
+        <div *ngFor="let config of dataset.objectiveConfigs">
+          <ng-container *ngIf="computeScore(month.key, config, dataset.activity) as score">
+            {{ score.emoji }} {{ score.score }} / <strong>{{ config.target | label:'short' }}</strong>
+          </ng-container>
+        </div>
       </div>
     </div>
 
-    <div #daysContainer class="days">
-      <div *ngFor="let day of dataset.days" [ngClass]="{ monday: isMonday(day), today: isToday(day) }" class="day">
-        <div class="day-letter">
-          {{ day | date:'EEEEE' }}
-        </div>
-        <div class="day-number">
-          {{ day | date:'dd' }}
-        </div>
-        <div *ngFor="let objective of dataset.objectives" class="day-objective">
+    <mat-divider></mat-divider>
 
-          <mat-select (dragenter)="dragEnter($event, objective.id, day)" (dragover)="dragOver($event, objective.id)"
-            (dragstart)="dragStart($event, dataset.activity[day]?.[objective.id], day, objective.id)"
-            (drop)="drop($event, objective.id, day)" (valueChange)="setActivity($event, day, objective.id)"
-            *ngIf="isMe; else readonlyTemplate"
-            [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId"
-            [ngClass]="dataset.activity[day]?.[objective.id]" [value]="dataset.activity[day]?.[objective.id]"
-            draggable="true">
-            <mat-option [value]="undefined">-</mat-option>
-            <mat-option value="🟥">{{ objective.failure }}</mat-option>
-            <mat-option value="🟧">{{ objective.average }}</mat-option>
-            <mat-option value="🟩">{{ objective.success }}</mat-option>
-          </mat-select>
-
-          <ng-template #readonlyTemplate>
-            <div [ngClass]="dataset.activity[day]?.[objective.id]" class="readonly">
-              {{ getIcon(objective, dataset.activity[day]?.[objective.id]) }}
-            </div>
-          </ng-template>
-        </div>
-      </div>
-    </div>
-
-    <div class="recap">
-      <div></div>
-      <div></div>
-      <div *ngFor="let config of dataset.objectiveConfigs">
-        <ng-container *ngIf="computeScore(month, config, dataset.activity, dataset.days.length) as score">
-          {{ score.emoji }} {{ score.score }} / <strong>{{ config.target | label:'short' }}</strong>
-        </ng-container>
-      </div>
-    </div>
-  </div>
-
-  <mat-divider></mat-divider>
+  </ng-container>
 
   <button mat-fab matTooltip="Aujourd'hui" matTooltipPosition="left" *ngIf="showScrollButton"
     (click)="scroll()"><mat-icon>today</mat-icon></button>
 
 </ng-container>
+
+<ng-template #loaderTemplate>
+  <mat-spinner diameter="50"></mat-spinner>
+</ng-template>

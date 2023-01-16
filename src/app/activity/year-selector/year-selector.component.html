@@ -1,0 +1,13 @@
+<mat-toolbar>
+    <div class="space">
+      <button (click)="setYear(year - 1)" class="year-before" mat-stroked-button matTooltipPosition="right">
+        <mat-icon>navigate_before</mat-icon>
+        {{ year - 1 }}
+      </button>
+      <div class="spacer">{{ year }}</div>
+      <button (click)="setYear(year + 1)" class="year-next" mat-stroked-button matTooltipPosition="left">
+        {{ year + 1 }}
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>

@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+
+mat-toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    justify-content: center;
+    @include mat.elevation(2);
+    z-index: 1000;
+
+    .space {
+        flex-grow: 1;
+        max-width: 1000px;
+        display: flex;
+        flex-direction: row;
+
+        .spacer {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0;
+        }
+    }
+
+}

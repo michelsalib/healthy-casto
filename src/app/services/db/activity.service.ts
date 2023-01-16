@@ -14,9 +14,7 @@ export class ActivityService {
   constructor(private db: Firestore, private auth: Auth) {
   }
 
-  getMonth(month: string, userId: string): Observable<YearActivity> {
-    const year = month.split('-')[0];
-
+  getYear(year: string, userId: string): Observable<YearActivity> {
     const ref: DocumentReference<YearActivity> = doc(this.db, 'users/' + userId + '/activity/' + year);
 
     return docData(ref)
@@ -36,18 +34,6 @@ export class ActivityService {
                 });
               }
             }));
-        }),
-        map(year => {
-          // only keep current month of data
-          const days = Object.keys(year) as DayString[];
-
-          return days.reduce((result: YearActivity, day: DayString)=> {
-            if (day.startsWith(month)) {
-              result[day] = year[day];
-            }
-
-            return result;
-          }, {});
         }),
       );
   }

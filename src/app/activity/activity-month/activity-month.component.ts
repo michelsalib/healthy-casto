@@ -1,29 +1,30 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { addDays, format, getDaysInMonth, isBefore, isEqual, isMonday, isThisMonth, isToday, parse } from 'date-fns';
 import { combineLatest, map, Observable, of, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
-import { ActivityEntry, DayString, ObjectiveConfig, User } from 'src/app/models/User';
+import { DayString, ObjectiveConfig, User, YearActivity } from 'src/app/models/User';
 import { ActivityService } from 'src/app/services/db/activity.service';
 import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.service';
 import { ObjectivesService } from 'src/app/services/db/objectives.service';
+import { computeMonthScore } from '../utils/computeScore';
 
 @Component({
-  selector: 'app-activity-month[month][user]',
+  selector: 'app-activity-month[months][user]',
   templateUrl: './activity-month.component.html',
   styleUrls: ['./activity-month.component.scss']
 })
-export class ActivityMonthComponent implements OnInit {
+export class ActivityMonthComponent implements OnInit, OnChanges {
   @Input() user!: User;
-  @Input() month!: string;
+  @Input() months!: string[];
   isMe = false;
 
   @ViewChild('daysContainer') daysContainer!: ElementRef;
   dataset$: Observable<{
     objectiveConfigs: ObjectiveConfig[];
     objectives: Objective[];
-    days: DayString[];
-    activity: Record<string, ActivityEntry | undefined>;
+    days: Record<string, DayString[]>;
+    activity: YearActivity;
   } | null> = new Subject();
   editedDays: string[] = [];
   dragData?: {
@@ -37,36 +38,43 @@ export class ActivityMonthComponent implements OnInit {
 
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['months']) {
+      this.showScrollButton = this.months.some(m => isThisMonth(parse(m, 'yyyy-MM', 0)));
+
+      const days = this.months.reduce((res, month) => {
+        res[month] = new Array(getDaysInMonth(parse(month, 'yyyy-MM', 0))).fill(0).map((_, i) => {
+          return month + '-' + String(i + 1).padStart(2, '0') as DayString;
+        });
+
+        return res;
+      }, {} as Record<string, DayString[]>);
+
+
+      this.dataset$ = this.objectiveConfigService.list(this.user.id)
+        .pipe(
+          switchMap(configs =>
+            combineLatest([
+              combineLatest(configs.map(c => this.objectivesService.get(c.id))),
+              of(configs),
+              this.activityService.getYear(this.months[0].split('-')[0], this.user.id),
+              of(days),
+            ])
+          ),
+          map(([objectives, objectiveConfigs, activity, days]) => {
+            return {
+              objectives,
+              objectiveConfigs,
+              activity,
+              days,
+            };
+          })
+        );
+    }
+  }
+
   ngOnInit(): void {
     this.isMe = this.user.id == this.auth.currentUser?.uid;
-
-    const month = parse(this.month, 'yyyy-MM', 0);
-
-    this.showScrollButton = isThisMonth(month);
-
-    const days = new Array(getDaysInMonth(month)).fill(0).map((_, i) => {
-      return this.month + '-' + String(i + 1).padStart(2, '0') as DayString;
-    });
-
-    this.dataset$ = this.objectiveConfigService.list(this.user.id)
-      .pipe(
-        switchMap(configs =>
-          combineLatest([
-            combineLatest(configs.map(c => this.objectivesService.get(c.id))),
-            of(configs),
-            this.activityService.getMonth(this.month, this.user.id),
-            of(days),
-          ])
-        ),
-        map(([objectives, objectiveConfigs, activity, days]) => {
-          return {
-            objectives,
-            objectiveConfigs,
-            activity,
-            days,
-          };
-        })
-      );
   }
 
   scroll() {
@@ -88,50 +96,11 @@ export class ActivityMonthComponent implements OnInit {
     return isToday(parse(day, 'yyyy-MM-dd', 0));
   }
 
-  computeScore(month: string, config: ObjectiveConfig, activity: Record<string, ActivityEntry | undefined>, days: number): {
+  computeScore(month: string, config: ObjectiveConfig, activity: YearActivity): {
     emoji: string,
     score: number,
   } {
-    const activeDays = Object.keys(activity).filter(day => day.startsWith(month) && activity[day]?.[config.id]);
-
-    const score = activeDays
-      .reduce((r, c) => {
-        const act = activity[c]?.[config.id];
-
-        if (act == '🟩') {
-          return ++r;
-        }
-
-        if (act == '🟧') {
-          return r + config.averageValue;
-        }
-
-        return r;
-      }, 0);
-
-    const ratio = score * days / activeDays.length / Math.min(config.target, days);
-
-    let emoji = '😶';
-    if (ratio < 0.8) {
-      emoji = '😩';
-    }
-    else if (ratio < 1) {
-      emoji = '😟';
-    }
-    else if (ratio < 1.1) {
-      emoji = '🙂';
-    }
-    else if (ratio < 1.2) {
-      emoji = '😀';
-    }
-    else if (ratio >= 1.2) {
-      emoji = '🤩';
-    }
-
-    return {
-      emoji,
-      score,
-    };
+    return computeMonthScore(month, config, activity);
   }
 
   async setActivity(value: string, day: DayString, objectiveId: string) {

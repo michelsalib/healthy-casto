@@ -1,0 +1,29 @@
+<ng-container *ngIf="dataset$ | async as dataset; else loaderTemplate">
+
+  <ng-container *ngFor="let user of users">
+
+    <h2 class="name">
+      <app-user-badge [user]="user" size="small"></app-user-badge>
+      {{ user.displayName }}
+    </h2>
+
+    <ng-container *ngFor="let month of months">
+      <h3>{{ month | date:'MMMM' | titlecase }}</h3>
+
+      <ng-container *ngFor="let config of dataset.objectiveConfigs[user.id]">
+        {{ dataset.objectives[config.id].name }}
+        <ng-container *ngIf="computeScore(month, config, dataset.activity[user.id]) as score">
+          {{ score.emoji }} {{ score.score }} / <strong>{{ config.target | label:'short' }}</strong>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <mat-divider></mat-divider>
+
+  </ng-container>
+
+</ng-container>
+
+<ng-template #loaderTemplate>
+  <mat-spinner diameter="50"></mat-spinner>
+</ng-template>
