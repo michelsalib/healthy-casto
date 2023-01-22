@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { documentId, where } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { getYear } from 'date-fns';
 import { combineLatest, map, Observable, of, Subject, switchMap } from 'rxjs';
@@ -42,12 +41,10 @@ export class GroupDetailsComponent implements OnInit {
           switchMap(group =>
             combineLatest([
               of(group),
-              group.members.length ?
-                this.userDb.list(where(documentId(), 'in', group.members.slice(0, 10))) :
-                of([]),
+              ...group.members.map(u => this.userDb.get(u)),
             ])
           ),
-          map(([group, users]) => {
+          map(([group, ...users]) => {
             return {
               group,
               users,

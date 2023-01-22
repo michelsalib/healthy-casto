@@ -4,7 +4,16 @@ import { getDaysInMonth, parse } from 'date-fns';
 export function computeMonthScore(month: string, config: ObjectiveConfig, activity: YearActivity): {
     emoji: string,
     score: number,
+    ratio: number,
 } {
+    if (!activity) {
+        return {
+            emoji: '😶',
+            score: NaN,
+            ratio: NaN,
+        };
+    }
+
     const activeDays = (Object.keys(activity) as DayString[]).filter(day => day.startsWith(month) && activity[day]?.[config.id]);
     const days = getDaysInMonth(parse(month, 'yyyy-MM', 0));
 
@@ -45,5 +54,6 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
     return {
         emoji,
         score,
+        ratio,
     };
 }

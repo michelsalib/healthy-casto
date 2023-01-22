@@ -26,12 +26,6 @@ export abstract class Db<T extends { id: string }> {
         idField: 'id',
       }
     );
-
-    // return fromRef(query(this.collection, ...queryFilters))
-    //   .pipe(
-    //     filter(snapshot => !snapshot.metadata.fromCache),
-    //     map((arr) => arr.docs.map((snap) => snapToData(snap, { idField: 'id' }) as T))
-    //   );
   }
 
   get(id: string): Observable<T> {

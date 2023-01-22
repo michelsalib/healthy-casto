@@ -7,16 +7,26 @@
       {{ user.displayName }}
     </h2>
 
-    <ng-container *ngFor="let month of months">
-      <h3>{{ month | date:'MMMM' | titlecase }}</h3>
-
-      <ng-container *ngFor="let config of dataset.objectiveConfigs[user.id]">
-        {{ dataset.objectives[config.id].name }}
-        <ng-container *ngIf="computeScore(month, config, dataset.activity[user.id]) as score">
-          {{ score.emoji }} {{ score.score }} / <strong>{{ config.target | label:'short' }}</strong>
-        </ng-container>
-      </ng-container>
-    </ng-container>
+    <table>
+      <thead>
+        <tr>
+          <td></td>
+          <td *ngFor="let month of months">{{ month | date:'MMM' | titlecase }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let config of dataset.objectiveConfigs[user.id]">
+          <td>
+            <app-user-objective [user]="user" [objectiveConfig]="config" [objective]="dataset.objectives[config.id]"></app-user-objective>
+          </td>
+          <ng-container *ngFor="let month of months">
+            <ng-container *ngIf="computeScore(month, config, dataset.activity[user.id]) as score">
+              <td class="cell" [class]="score.emoji">{{ score.ratio | percent }}</td>
+            </ng-container>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
 
     <mat-divider></mat-divider>
 
