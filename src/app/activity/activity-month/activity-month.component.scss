@@ -1,6 +1,10 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
+mat-spinner {
+  margin: 0 auto;
+}
+
 h2 {
   margin-top: 20px;
 }

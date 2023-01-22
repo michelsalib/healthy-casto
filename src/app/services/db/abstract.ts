@@ -7,7 +7,6 @@ import {
   docData,
   DocumentReference,
   Firestore,
-  FirestoreDataConverter,
   query,
   QueryConstraint
 } from '@angular/fire/firestore';

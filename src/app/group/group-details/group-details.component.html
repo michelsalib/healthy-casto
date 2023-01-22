@@ -25,4 +25,10 @@
     <app-user-badge *ngFor="let user of dataset.users" [user]="user"></app-user-badge>
   </div>
 
+  <div class="activity">
+    <app-group-activity [users]="dataset.users" [year]="year"></app-group-activity>
+  </div>
+
+  <app-year-selector [(year)]="year"></app-year-selector>
+
 </ng-container>

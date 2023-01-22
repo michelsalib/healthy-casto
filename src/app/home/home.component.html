@@ -57,7 +57,7 @@
 
 <main>
   <div class="activity" *ngIf="user$ | async as user">
-    <app-activity-month *ngFor="let month of months" [month]="month" [user]="user"></app-activity-month>
+    <app-activity-month [months]="months" [user]="user"></app-activity-month>
 
     <div class="actions">
       <button mat-stroked-button routerLink="/community/me">Mon historique</button>

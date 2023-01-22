@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -52,6 +53,8 @@ import { AveragePipe } from './objectives/average.pipe';
 import { GroupDetailsComponent } from './group/group-details/group-details.component';
 import { GroupBadgeComponent } from './group/group-badge/group-badge.component';
 import { GroupsListComponent } from './group/groups-list/groups-list.component';
+import { GroupActivityComponent } from './group/group-activity/group-activity.component';
+import { YearSelectorComponent } from './activity/year-selector/year-selector.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +83,8 @@ import { GroupsListComponent } from './group/groups-list/groups-list.component';
     GroupDetailsComponent,
     GroupBadgeComponent,
     GroupsListComponent,
+    GroupActivityComponent,
+    YearSelectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -115,6 +120,7 @@ import { GroupsListComponent } from './group/groups-list/groups-list.component';
     MatTooltipModule,
     MatDialogModule,
     MatBottomSheetModule,
+    MatProgressSpinnerModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

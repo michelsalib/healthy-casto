@@ -19,7 +19,7 @@ export interface ActivityEntry {
 }
 
 export type YearActivity = {
-  [day: DayString]: ActivityEntry
+  [day: DayString]: ActivityEntry | undefined;
 };
 
 export type DayString = `${number}-${number}-${number}`;
