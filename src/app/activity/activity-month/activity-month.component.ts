@@ -55,7 +55,7 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
         .pipe(
           switchMap(configs =>
             combineLatest([
-              combineLatest(configs.map(c => this.objectivesService.get(c.id))),
+              configs.length ? combineLatest(configs.map(c => this.objectivesService.get(c.id))) : of([]),
               of(configs),
               this.activityService.getYear(this.months[0].split('-')[0], this.user.id),
               of(days),

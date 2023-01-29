@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { deleteField, doc, docData, Firestore, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { DocumentReference } from '@firebase/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { DayString, YearActivity } from 'src/app/models/User';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ActivityService {
   getYear(year: string, userId: string): Observable<YearActivity> {
     const ref: DocumentReference<YearActivity> = doc(this.db, 'users/' + userId + '/activity/' + year);
 
-    return docData(ref);
+    return docData(ref).pipe(map(d => d || {}));
   }
 
   async updateActivity(day: DayString, objectiveId: string, value: string | undefined) {
