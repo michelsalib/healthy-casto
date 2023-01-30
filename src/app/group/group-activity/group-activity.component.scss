@@ -25,3 +25,14 @@
 .🤩 {
     background-color: rgb(217, 234, 211);
 }
+
+.objective-cell {
+    width: 120px;
+    text-align: end;
+
+    app-user-objective ::ng-deep mat-chip ::ng-deep [matchipaction] span {
+        max-width: 90px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}

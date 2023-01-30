@@ -1,39 +1,73 @@
-<ng-container *ngIf="dataset$ | async as dataset; else loaderTemplate">
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" *ngIf="dataset$ | async as dataset; else loaderTemplate">
 
-  <ng-container *ngFor="let user of users">
+  <mat-tab label="Membres">
+    <ng-container *ngFor="let user of users">
 
-    <h2 class="name">
-      <app-user-badge [user]="user" size="small"></app-user-badge>
-      {{ user.displayName }}
-    </h2>
-
-    <table>
-      <thead>
-        <tr>
-          <td></td>
-          <td *ngFor="let month of months">{{ month | date:'MMM' | titlecase }}</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let config of dataset.objectiveConfigs[user.id]">
-          <td>
-            <app-user-objective [user]="user" [objectiveConfig]="config" [objective]="dataset.objectives[config.id]"></app-user-objective>
-          </td>
-          <ng-container *ngFor="let month of months">
-            <ng-container *ngIf="computeScore(month, config, dataset.activity[user.id]) as score">
-              <td class="cell" [class]="score.emoji">{{ score.ratio | percent }}</td>
+      <h2 class="name">
+        <app-user-badge [user]="user" size="small"></app-user-badge>
+        {{ user.displayName }}
+      </h2>
+    
+      <table *ngIf="dataset.objectiveConfigs[user.id].length; else noItem">
+        <thead>
+          <tr>
+            <td></td>
+            <td *ngFor="let month of months">{{ month | date:'MMM' | titlecase }}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let config of dataset.objectiveConfigs[user.id]">
+            <td class="objective-cell">
+              <app-user-objective [user]="user" [objectiveConfig]="config"
+                [objective]="dataset.objectives[config.id]"></app-user-objective>
+            </td>
+            <ng-container *ngFor="let month of months">
+              <ng-container *ngIf="computeScore(month, config, dataset.activity[user.id]) as score">
+                <td class="cell" [class]="score.emoji">{{ score.ratio | percent }}</td>
+              </ng-container>
             </ng-container>
-          </ng-container>
-        </tr>
-      </tbody>
-    </table>
+          </tr>
+        </tbody>
+      </table>
+    
+      <mat-divider></mat-divider>
+    
+    </ng-container>
+  </mat-tab>
 
-    <mat-divider></mat-divider>
+  <mat-tab label="Objectifs">
+    <ng-container *ngFor="let objective of dataset.objectives | keyvalue">
+      <h2>{{ objective.value.success }}{{ objective.value.name }}</h2>
 
-  </ng-container>
+      <table>
+        <thead>
+          <tr>
+            <td *ngFor="let month of months">{{ month | date:'MMM' | titlecase }}</td>
+            <td>Total</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <ng-container *ngFor="let month of months">
+              <ng-container *ngIf="computeGroupScore(month, objective.value, dataset) as score">
+                <td class="cell" [class]="score.emoji">{{ score.ratio | percent }}</td>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="computeYearTotal(objective.value, dataset) as score">
+              <td class="cell">{{ score }} {{ objective.value.success }}</td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
 
-</ng-container>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-tab>
+
+</mat-tab-group>
 
 <ng-template #loaderTemplate>
   <mat-spinner diameter="50"></mat-spinner>
 </ng-template>
+
+<ng-template #noItem>Au repos</ng-template>
