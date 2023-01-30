@@ -1,5 +1,5 @@
 import { DayString, ObjectiveConfig, YearActivity } from '../../models/User';
-import { getDaysInMonth, parse } from 'date-fns';
+import { getDate, getDaysInMonth, isThisMonth, parse } from 'date-fns';
 
 export function computeMonthScore(month: string, config: ObjectiveConfig, activity: YearActivity): {
     emoji: string,
@@ -8,14 +8,24 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
 } {
     if (!activity) {
         return {
-            emoji: '😶',
+            emoji: ratioToEmoji(NaN),
             score: NaN,
             ratio: NaN,
         };
     }
 
     const activeDays = (Object.keys(activity) as DayString[]).filter(day => day.startsWith(month) && activity[day]?.[config.id]);
+
+    if (!activeDays.length) {
+        return {
+            emoji: ratioToEmoji(NaN),
+            score: NaN,
+            ratio: NaN,
+        };
+    }
+
     const days = getDaysInMonth(parse(month, 'yyyy-MM', 0));
+    const daysToCount = isThisMonth(new Date()) ? getDate(new Date()) : days;
 
     const score = activeDays
         .reduce((r, c) => {
@@ -32,9 +42,41 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
             return r;
         }, 0);
 
-    const ratio = score * days / activeDays.length / Math.min(config.target, days);
+    const ratio = score * days / daysToCount / Math.min(config.target, days);
 
+    return {
+        emoji: ratioToEmoji(ratio),
+        score,
+        ratio,
+    };
+}
+
+export function computeGroupScore(month: string, data: {
+    config: ObjectiveConfig, activity: YearActivity,
+}[]): {
+    emoji: string,
+    score: number,
+    ratio: number,
+} {
+    const scores = data.map(d => computeMonthScore(month, d.config, d.activity));
+
+    const score = scores.reduce((a, b) => a + b.score, 0) / scores.length;
+    const ratio = scores.reduce((a, b) => a + b.ratio, 0) / scores.length;
+
+    return {
+        emoji: ratioToEmoji(ratio),
+        score,
+        ratio,
+    };
+}
+
+function ratioToEmoji(ratio: number): string {
     let emoji = '😶';
+
+    if (isNaN(ratio)) {
+        return emoji;
+    }
+
     if (ratio < 0.8) {
         emoji = '😩';
     }
@@ -51,9 +93,5 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
         emoji = '🤩';
     }
 
-    return {
-        emoji,
-        score,
-        ratio,
-    };
+    return emoji;
 }
