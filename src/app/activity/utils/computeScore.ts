@@ -1,5 +1,5 @@
 import { DayString, ObjectiveConfig, YearActivity } from '../../models/User';
-import { getDate, getDaysInMonth, isThisMonth, parse } from 'date-fns';
+import { format, getDate, getDaysInMonth, parse } from 'date-fns';
 
 export function computeMonthScore(month: string, config: ObjectiveConfig, activity: YearActivity): {
     emoji: string,
@@ -25,7 +25,7 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
     }
 
     const days = getDaysInMonth(parse(month, 'yyyy-MM', 0));
-    const daysToCount = isThisMonth(new Date()) ? getDate(new Date()) : days;
+    const daysToCount = format(new Date(), 'yyyy-MM') == month ? getDate(new Date()) : days;
 
     const score = activeDays
         .reduce((r, c) => {
