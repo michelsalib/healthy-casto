@@ -11,11 +11,11 @@
       </p>
 
       <button (click)="unfollow(dataset.group)" *ngIf="dataset.isFollowing; else unfollowButton" color="primary"
-        mat-raised-button>Abonné
+        mat-raised-button>Membre
       </button>
 
       <ng-template #unfollowButton>
-        <button (click)="follow(dataset.group)" mat-raised-button>S'abonner</button>
+        <button (click)="follow(dataset.group)" mat-raised-button>Rejoindre le groupe</button>
       </ng-template>
     </div>
 
