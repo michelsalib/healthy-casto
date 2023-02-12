@@ -19,7 +19,6 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
   @Input() months!: string[];
   isMe = false;
 
-  @ViewChild('daysContainer') daysContainer!: ElementRef;
   dataset$: Observable<{
     objectiveConfigs: ObjectiveConfig[];
     objectives: Objective[];
@@ -34,7 +33,12 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
   };
   public showScrollButton = false;
 
-  constructor(private activityService: ActivityService, private auth: Auth, private objectivesService: ObjectivesService, private objectiveConfigService: ObjectiveConfigService) {
+  constructor(
+    private activityService: ActivityService, 
+    private auth: Auth, 
+    private objectivesService: ObjectivesService, 
+    private objectiveConfigService: ObjectiveConfigService,
+    private element: ElementRef) {
 
   }
 
@@ -78,7 +82,7 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
   }
 
   scroll() {
-    const scrollable = this.daysContainer?.nativeElement as HTMLDivElement;
+    const scrollable = this.element.nativeElement as HTMLElement;
     const todayDiv = scrollable.querySelector('.today');
     todayDiv?.scrollIntoView({
       block: 'center',

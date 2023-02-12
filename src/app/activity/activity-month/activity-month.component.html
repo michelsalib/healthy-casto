@@ -18,7 +18,7 @@
           </div>
         </div>
 
-        <div #daysContainer class="days">
+        <div class="days">
           <div *ngFor="let day of month.value" [ngClass]="{ monday: isMonday(day), today: isToday(day) }" class="day">
             <div class="day-letter">
               {{ day | date:'EEEEE' }}
