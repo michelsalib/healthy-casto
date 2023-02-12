@@ -1,16 +1,20 @@
 import { DayString, ObjectiveConfig, YearActivity } from '../../models/User';
 import { format, getDate, getDaysInMonth, parse } from 'date-fns';
 
-export function computeMonthScore(month: string, config: ObjectiveConfig, activity: YearActivity): {
-    emoji: string,
-    score: number,
-    ratio: number,
-} {
+export interface Score {
+    emoji: string;
+    score: number;
+    ratio: number;
+    monthRatio: number;
+} 
+
+export function computeMonthScore(month: string, config: ObjectiveConfig, activity: YearActivity): Score {
     if (!activity) {
         return {
             emoji: ratioToEmoji(NaN),
             score: NaN,
             ratio: NaN,
+            monthRatio: NaN,
         };
     }
 
@@ -21,6 +25,7 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
             emoji: ratioToEmoji(NaN),
             score: NaN,
             ratio: NaN,
+            monthRatio: NaN,
         };
     }
 
@@ -42,31 +47,31 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
             return r;
         }, 0);
 
-    const ratio = score * days / daysToCount / Math.min(config.target, days);
+    const monthRatio = score / Math.min(config.target, days);
+    const ratio = monthRatio * days / daysToCount;
 
     return {
         emoji: ratioToEmoji(ratio),
         score,
         ratio,
+        monthRatio,
     };
 }
 
 export function computeGroupScore(month: string, data: {
     config: ObjectiveConfig, activity: YearActivity,
-}[]): {
-    emoji: string,
-    score: number,
-    ratio: number,
-} {
+}[]): Score {
     const scores = data.map(d => computeMonthScore(month, d.config, d.activity)).filter(s => !isNaN(s.score));
 
     const score = scores.reduce((a, b) => a + b.score, 0) / scores.length;
     const ratio = scores.reduce((a, b) => a + b.ratio, 0) / scores.length;
+    const monthRatio = scores.reduce((a, b) => a + b.monthRatio, 0) / scores.length;
 
     return {
         emoji: ratioToEmoji(ratio),
         score,
         ratio,
+        monthRatio,
     };
 }
 

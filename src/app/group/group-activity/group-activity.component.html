@@ -23,7 +23,7 @@
             </td>
             <ng-container *ngFor="let month of months">
               <ng-container *ngIf="computeScore(month, config, dataset.activity[user.id]) as score">
-                <td class="cell" [class]="score.emoji">{{ score.ratio | percent }}</td>
+                <td class="cell" [class]="score.emoji">{{ score.monthRatio | percent }}</td>
               </ng-container>
             </ng-container>
           </tr>
@@ -50,7 +50,7 @@
           <tr>
             <ng-container *ngFor="let month of months">
               <ng-container *ngIf="computeGroupScore(month, objective.value, dataset) as score">
-                <td class="cell" [class]="score.emoji">{{ score.ratio | percent }}</td>
+                <td class="cell" [class]="score.emoji">{{ score.monthRatio | percent }}</td>
               </ng-container>
             </ng-container>
             <ng-container *ngIf="computeYearTotal(objective.value, dataset) as score">
