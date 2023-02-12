@@ -51,7 +51,7 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
     const ratio = monthRatio * days / daysToCount;
 
     return {
-        emoji: ratioToEmoji(ratio),
+        emoji: score >= config.target ? '🎉' : ratioToEmoji(ratio),
         score,
         ratio,
         monthRatio,
