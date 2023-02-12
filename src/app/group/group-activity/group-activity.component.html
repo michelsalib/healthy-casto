@@ -3,7 +3,7 @@
   <mat-tab label="Membres">
     <ng-container *ngFor="let user of users">
 
-      <h2 class="name">
+      <h2>
         <app-user-badge [user]="user" size="small"></app-user-badge>
         {{ user.displayName }}
       </h2>

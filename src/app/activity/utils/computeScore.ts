@@ -58,7 +58,7 @@ export function computeGroupScore(month: string, data: {
     score: number,
     ratio: number,
 } {
-    const scores = data.map(d => computeMonthScore(month, d.config, d.activity));
+    const scores = data.map(d => computeMonthScore(month, d.config, d.activity)).filter(s => !isNaN(s.score));
 
     const score = scores.reduce((a, b) => a + b.score, 0) / scores.length;
     const ratio = scores.reduce((a, b) => a + b.ratio, 0) / scores.length;
