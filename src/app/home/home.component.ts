@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { limitToLast, orderBy } from '@angular/fire/firestore';
+import { documentId, limitToLast, orderBy, where } from '@angular/fire/firestore';
 import { format } from 'date-fns';
-import { combineLatest, map, Observable, Subject } from 'rxjs';
+import { combineLatest, map, Observable, Subject, switchMap } from 'rxjs';
 import { Group } from '../models/Group';
 import { User } from '../models/User';
 import { FollowService } from '../services/db/follow.service';
@@ -36,8 +36,10 @@ export class HomeComponent implements OnInit {
       this.users.list(orderBy('creationDate'), limitToLast(5)),
       this.groups.list(orderBy('creationDate'), limitToLast(5)),
     ]).pipe(map(([users, groups]) => ({users, groups})));
-    this.followedUsers$ = this.followService.list();
     this.user$ = this.users.get(this.auth.currentUser?.uid as string);
+    this.followedUsers$ = this.user$.pipe(switchMap(u => this.users.list(
+      where(documentId(), 'in', u.follows.slice(0, 10))
+    )));
   }
 
 }

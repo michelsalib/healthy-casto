@@ -1,7 +1,7 @@
 <ng-container *ngIf="user$ | async as user">
 
   <div class="title">
-    <img [src]="user.photoURL" referrerpolicy="no-referrer"/>
+    <img [src]="user.photoURL" referrerpolicy="no-referrer" />
 
     <div class="content">
       <h1>{{ user.displayName }}</h1>
@@ -17,8 +17,20 @@
       </ng-template>
     </div>
 
-    <div *ngIf="followedUsers$ | async as followedUsers" class="follows">
-      <app-user-badge *ngFor="let user of followedUsers" [user]="user"></app-user-badge>
+    <div class="social">
+      <div *ngIf="belongedGroups$ | async as belongedGroups" class="groups">
+        <span class="mat-headline-6">Groupes</span>
+        <app-group-badge *ngFor="let group of belongedGroups" [group]="group"></app-group-badge>
+      </div>
+
+      <div *ngIf="follows$ | async as follows" class="follows">
+        <button mat-button>
+          <strong>{{ follows.followingCount }}</strong> abonnements
+        </button>
+        <button mat-button>
+          <strong>{{ follows.followersCount }}</strong> abonnés
+        </button>
+      </div>
     </div>
   </div>
 

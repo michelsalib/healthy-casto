@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { combineLatest, map, Observable, Subject } from 'rxjs';
+import { Group } from 'src/app/models/Group';
 import { User } from 'src/app/models/User';
 import { FollowService } from 'src/app/services/db/follow.service';
+import { GroupsService } from 'src/app/services/db/groups.service';
 import { UsersService } from 'src/app/services/db/users.service';
 
 @Component({
@@ -15,9 +17,10 @@ export class CommunityProfileComponent implements OnInit {
   userId: string = '';
   isMe: boolean = false;
   user$: Observable<User> = new Subject();
-  followedUsers$: Observable<User[] | null> = new Subject();
+  belongedGroups$: Observable<Group[] | null> = new Subject();
+  follows$: Observable<{ followersCount: number; followingCount: number; }> = new Subject();
 
-  constructor(private route: ActivatedRoute, private router: Router, private auth: Auth, private userDb: UsersService, private followService: FollowService) {
+  constructor(private route: ActivatedRoute, private router: Router, private auth: Auth, private userDb: UsersService, private followService: FollowService, private groupsService: GroupsService) {
   }
 
   ngOnInit(): void {
@@ -40,7 +43,13 @@ export class CommunityProfileComponent implements OnInit {
       }
 
       this.user$ = this.userDb.get(this.userId);
-      this.followedUsers$ = this.followService.list(this.userId);
+      this.belongedGroups$ = this.groupsService.belongedGroups(this.userId);
+      this.follows$ = combineLatest([
+        this.followService.countFollowers(this.userId),
+        this.user$.pipe(map(user => user.follows?.length)),
+      ]).pipe(map(([followersCount, followingCount]) => {
+        return { followersCount: followersCount || 0, followingCount: followingCount || 0 };
+      }));
     });
   }
 
