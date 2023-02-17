@@ -1,20 +1,23 @@
 <ng-container *ngIf="user$ | async as user">
 
   <div class="title">
-    <img [src]="user.photoURL" referrerpolicy="no-referrer" />
 
-    <div class="content">
-      <h1>{{ user.displayName }}</h1>
+    <div class="user">
+      <img [src]="user.photoURL" referrerpolicy="no-referrer" />
 
-      <app-user-objectives [user]="user"></app-user-objectives>
+      <div class="content">
+        <h1>{{ user.displayName }}</h1>
 
-      <button *ngIf="isMe; else followButton" mat-stroked-button routerLink="/objectives">Definir mes
-        objectifs
-      </button>
-
-      <ng-template #followButton>
-        <app-follow-badge [userId]="userId"></app-follow-badge>
-      </ng-template>
+        <app-user-objectives [user]="user"></app-user-objectives>
+  
+        <button *ngIf="isMe; else followButton" mat-stroked-button routerLink="/objectives">Definir mes
+          objectifs
+        </button>
+  
+        <ng-template #followButton>
+          <app-follow-badge [userId]="userId"></app-follow-badge>
+        </ng-template>
+      </div>
     </div>
 
     <div class="social">
@@ -24,11 +27,11 @@
       </div>
 
       <div *ngIf="follows$ | async as follows" class="follows">
-        <button mat-button>
-          <strong>{{ follows.followingCount }}</strong> abonnements
+        <button mat-button (click)="openFollowings()">
+          <strong>{{ follows.followingCount }}</strong> abonnement•s
         </button>
-        <button mat-button>
-          <strong>{{ follows.followersCount }}</strong> abonnés
+        <button mat-button (click)="openFollowers()">
+          <strong>{{ follows.followersCount }}</strong> abonné•e•s
         </button>
       </div>
     </div>

@@ -8,29 +8,34 @@
   display: flex;
   flex-wrap: wrap;
 
-  img {
-    border-radius: 50%;
-    height: 100px;
-    margin: 20px;
-  }
-
-  .content {
+  .user {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    margin-bottom: 20px;
 
-    &>* {
-      margin: 0;
+    img {
+      border-radius: 50%;
+      height: 100px;
+      width: 100px;
+      margin: 20px;
     }
 
-    button {
-      width: fit-content;
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &>* {
+        margin: 0;
+      }
+
+      button {
+        width: fit-content;
+      }
     }
   }
 
   .social {
     flex-grow: 1;
-
 
     .groups {
       display: flex;

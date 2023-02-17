@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, map, Observable, Subject } from 'rxjs';
 import { Group } from 'src/app/models/Group';
@@ -7,6 +8,7 @@ import { User } from 'src/app/models/User';
 import { FollowService } from 'src/app/services/db/follow.service';
 import { GroupsService } from 'src/app/services/db/groups.service';
 import { UsersService } from 'src/app/services/db/users.service';
+import { UsersListComponent, UsersListDetailsModel } from '../users-list/users-list.component';
 
 @Component({
   selector: 'app-community-profile',
@@ -20,7 +22,14 @@ export class CommunityProfileComponent implements OnInit {
   belongedGroups$: Observable<Group[] | null> = new Subject();
   follows$: Observable<{ followersCount: number; followingCount: number; }> = new Subject();
 
-  constructor(private route: ActivatedRoute, private router: Router, private auth: Auth, private userDb: UsersService, private followService: FollowService, private groupsService: GroupsService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: Auth,
+    private userDb: UsersService, 
+    private followService: FollowService, 
+    private groupsService: GroupsService,
+    private bottomSheet: MatBottomSheet) {
   }
 
   ngOnInit(): void {
@@ -50,6 +59,22 @@ export class CommunityProfileComponent implements OnInit {
       ]).pipe(map(([followersCount, followingCount]) => {
         return { followersCount: followersCount || 0, followingCount: followingCount || 0 };
       }));
+    });
+  }
+
+  openFollowers() {
+    this.bottomSheet.open<UsersListComponent, UsersListDetailsModel>(UsersListComponent, {
+      data: {
+        users$: this.followService.getFollowers(this.userId),
+      },
+    });
+  }
+
+  openFollowings() {
+    this.bottomSheet.open<UsersListComponent, UsersListDetailsModel>(UsersListComponent, {
+      data: {
+        users$: this.followService.getFollowings(this.userId),
+      },
     });
   }
 
