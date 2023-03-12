@@ -29,14 +29,14 @@ export class FollowService {
     });
   }
 
-  getFollowings(userId: string): Observable<User[] | null> {
+  getFollowings(userId: string, max: number = 10): Observable<User[] | null> {
     return this.userDb.get(userId).pipe(
       switchMap(user => {
         if (!user?.follows?.length) {
           return of([]);
         }
 
-        return this.userDb.list(where(documentId(), 'in', user.follows.slice(0, 10)));
+        return this.userDb.list(where(documentId(), 'in', user.follows.slice(0, max)));
       })
     );
   }

@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
     this.user$ = this.users.get(this.auth.currentUser?.uid as string);
     this.followed$ = this.user$.pipe(switchMap(u => {
       return combineLatest([
-        this.followService.getFollowings(u.id),
+        this.followService.getFollowings(u.id, 5),
         this.groupsService.belongedGroups(u.id),
       ]);
     })).pipe(map(([users, groups]) => {
