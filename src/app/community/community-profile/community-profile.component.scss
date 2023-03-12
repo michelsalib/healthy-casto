@@ -7,30 +7,25 @@
 .title {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+
+  img {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+  }
 
   .user {
     display: flex;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 10px;
 
-    img {
-      border-radius: 50%;
-      height: 100px;
-      width: 100px;
-      margin: 20px;
+    &>* {
+      margin: 0;
     }
 
-    .content {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-
-      &>* {
-        margin: 0;
-      }
-
-      button {
-        width: fit-content;
-      }
+    button {
+      width: fit-content;
     }
   }
 
@@ -51,5 +46,13 @@
       display: flex;
       justify-content: flex-end;
     }
+  }
+}
+
+
+@media(max-width: 800px) {
+  .user {
+    flex: 0 0 100%;
+    order: 2;
   }
 }
