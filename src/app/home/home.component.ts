@@ -41,7 +41,13 @@ export class HomeComponent implements OnInit {
         this.followService.getFollowings(u.id),
         this.groupsService.belongedGroups(u.id),
       ]);
-    })).pipe(map(([users, groups]) => ({ users, groups })));
+    })).pipe(map(([users, groups]) => {
+      if (!users?.length && groups?.length) {
+        return null;
+      }
+
+      return ({ users, groups });
+    }));
   }
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { arrayRemove, arrayUnion, collection, collectionData, CollectionReference, doc, documentId, Firestore, getCountFromServer, Query, query, updateDoc, where } from '@angular/fire/firestore';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { User } from 'src/app/models/User';
 import { UsersService } from './users.service';
 
@@ -32,6 +32,10 @@ export class FollowService {
   getFollowings(userId: string): Observable<User[] | null> {
     return this.userDb.get(userId).pipe(
       switchMap(user => {
+        if (!user?.follows?.length) {
+          return of([]);
+        }
+
         return this.userDb.list(where(documentId(), 'in', user.follows.slice(0, 10)));
       })
     );

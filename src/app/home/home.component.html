@@ -3,24 +3,33 @@
 
     <mat-card appearance="outlined" *ngIf="followed$ | async as followed">
       <mat-card-header>
-        <mat-card-title>Ma communauté</mat-card-title>
-        <mat-card-subtitle>Mes groupes</mat-card-subtitle>
+        <mat-card-title>Mes abonnements</mat-card-title>
       </mat-card-header>
-      <mat-card-content>
-        <p>
-          <app-group-badge *ngFor="let group of followed.groups" [group]="group"></app-group-badge>
-        </p>
-      </mat-card-content>
-      <mat-card-header>
-        <mat-card-subtitle>Retrouve les cop•ine•ains</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          <app-user-badge *ngFor="let user of followed.users" [user]="user"></app-user-badge>
-        </p>
-      </mat-card-content>
+
+      <ng-container *ngIf="followed?.groups?.length">
+        <mat-card-header>
+          <mat-card-subtitle>Mes groupes</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <app-group-badge *ngFor="let group of followed.groups" [group]="group"></app-group-badge>
+          </p>
+        </mat-card-content>
+      </ng-container>
+
+      <ng-container *ngIf="followed?.users?.length">
+        <mat-card-header>
+          <mat-card-subtitle>Retrouve les cop•ine•ains</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <app-user-badge *ngFor="let user of followed.users" [user]="user"></app-user-badge>
+          </p>
+        </mat-card-content>
+      </ng-container>
+
       <mat-card-actions align="end">
-        <button mat-stroked-button routerLink="/community/me">Voir le détail</button>
+        <button mat-stroked-button routerLink="/community/me">Voir mon profil</button>
       </mat-card-actions>
     </mat-card>
 
