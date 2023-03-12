@@ -19,27 +19,29 @@ export class HomeComponent implements OnInit {
 
   user$: Observable<User> = new Subject();
   recents$: Observable<{ users: User[] | null, groups: Group[] | null } | null> = new Subject();
-  followedUsers$: Observable<User[] | null> = new Subject();
+  followed$: Observable<{ users: User[] | null, groups: Group[] | null } | null> = new Subject();
 
-  constructor(private users: UsersService, private groups: GroupsService, private followService: FollowService, private auth: Auth) {
-    const currentMonth = format(new Date(), 'yyyy-MM');
-    // const previousMonth = format(addMonths(new Date(), -1), 'yyyy-MM');
-
-    this.months = [
-      // previousMonth,
-      currentMonth,
-    ];
+  constructor(
+    private users: UsersService,
+    private groups: GroupsService,
+    private followService: FollowService,
+    private groupsService: GroupsService,
+    private auth: Auth) {
+    this.months = [format(new Date(), 'yyyy-MM')];
   }
 
   ngOnInit(): void {
     this.recents$ = combineLatest([
       this.users.list(orderBy('creationDate'), limitToLast(5)),
       this.groups.list(orderBy('creationDate'), limitToLast(5)),
-    ]).pipe(map(([users, groups]) => ({users, groups})));
+    ]).pipe(map(([users, groups]) => ({ users, groups })));
     this.user$ = this.users.get(this.auth.currentUser?.uid as string);
-    this.followedUsers$ = this.user$.pipe(switchMap(u => this.users.list(
-      where(documentId(), 'in', u.follows.slice(0, 10))
-    )));
+    this.followed$ = this.user$.pipe(switchMap(u => {
+      return combineLatest([
+        this.followService.getFollowings(u.id),
+        this.groupsService.belongedGroups(u.id),
+      ]);
+    })).pipe(map(([users, groups]) => ({ users, groups })));
   }
 
 }
