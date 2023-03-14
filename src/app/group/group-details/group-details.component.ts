@@ -56,11 +56,11 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   follow(group: Group) {
-    this.groupService.updateFollow(group.id, [...group.members, this.auth.currentUser?.uid || '']);
+    this.groupService.join(group.id);
   }
 
   unfollow(group: Group) {
-    this.groupService.updateFollow(group.id, group.members.filter(u => u != this.auth.currentUser?.uid));
+    this.groupService.leave(group.id);
   }
 
 }

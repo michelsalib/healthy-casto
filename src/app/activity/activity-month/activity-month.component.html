@@ -65,8 +65,11 @@
 
     </ng-container>
 
-    <button mat-fab matTooltip="Aujourd'hui" matTooltipPosition="left" *ngIf="showScrollButton"
-      (click)="scroll()"><mat-icon>today</mat-icon></button>
+    <button mat-fab extended  matTooltip="Aujourd'hui" matTooltipPosition="left" *ngIf="showScrollButton"
+      (click)="scroll()">
+      Aujourd'hui
+      <mat-icon>edit_note</mat-icon>
+    </button>
 
   </ng-container>
 

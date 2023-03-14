@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Auth } from '@angular/fire/auth';
+import { map, Observable, Subject } from 'rxjs';
 import { FollowService } from 'src/app/services/db/follow.service';
+import { UsersService } from 'src/app/services/db/users.service';
 
 @Component({
   selector: 'app-follow-badge[userId]',
@@ -12,11 +14,14 @@ export class FollowBadgeComponent implements OnInit {
   @Input() userId !: string;
   follows$: Observable<boolean> = new Subject();
 
-  constructor(private followService: FollowService) {
+  constructor(private followService: FollowService,
+    private userService: UsersService,
+    private auth: Auth) {
   }
 
   ngOnInit(): void {
-    this.follows$ = this.followService.isFollowing(this.userId);
+    this.follows$ = this.userService.get(this.auth.currentUser?.uid as string)
+      .pipe(map(u => u.follows?.includes(this.userId)));
   }
 
   async follow() {

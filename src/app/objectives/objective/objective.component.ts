@@ -30,35 +30,35 @@ export class ObjectiveComponent implements OnInit {
 
     this.objectiveConfig$ = docData<ObjectiveConfig>(this.ref);
 
-    this.users$ = this.followService.list()
-      .pipe(
-        switchMap(async friends => {
-          if (!friends) {
-            return {};
-          }
+    // this.users$ = this.followService.followings(this.auth.currentUser?.uid as string)
+    //   .pipe(
+    //     switchMap(async friends => {
+    //       if (!friends) {
+    //         return {};
+    //       }
 
-          const friendsObjectives = await Promise.all(friends?.map(async user => {
-            const configs = await firstValueFrom(this.objectiveConfigService.list(user.id));
+    //       const friendsObjectives = await Promise.all(friends?.map(async user => {
+    //         const configs = await firstValueFrom(this.objectiveConfigService.list(user.id));
 
-            return {
-              user,
-              configs,
-            };
-          }));
+    //         return {
+    //           user,
+    //           configs,
+    //         };
+    //       }));
 
-          const result: Record<string, { user: User, config: ObjectiveConfig }[]> = {};
-          for (const { user, configs } of friendsObjectives) {
-            for (const config of configs) {
-              result[config.id] = result[config.id] || [];
-              result[config.id].push({
-                user,
-                config,
-              });
-            }
-          }
+    //       const result: Record<string, { user: User, config: ObjectiveConfig }[]> = {};
+    //       for (const { user, configs } of friendsObjectives) {
+    //         for (const config of configs) {
+    //           result[config.id] = result[config.id] || [];
+    //           result[config.id].push({
+    //             user,
+    //             config,
+    //           });
+    //         }
+    //       }
 
-          return result;
-        }));
+    //       return result;
+    //     }));
   }
 
   async toggle(event: MatSlideToggleChange) {

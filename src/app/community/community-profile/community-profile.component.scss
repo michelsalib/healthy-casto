@@ -1,26 +1,26 @@
 :host {
   max-width: 1100px;
-  margin: 0 auto;
+  margin: 15px auto 0 auto;
   display: block;
 }
 
 .title {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 
   img {
     border-radius: 50%;
     height: 100px;
-    margin: 20px;
+    width: 100px;
   }
 
-  .content {
-    margin: 10px 0;
+  .user {
     display: flex;
     flex-direction: column;
     gap: 10px;
 
-    & > * {
+    &>* {
       margin: 0;
     }
 
@@ -29,11 +29,30 @@
     }
   }
 
-  .follows {
-    margin: 10px 35px 0 auto;
+  .social {
+    flex-grow: 1;
 
-    app-user-badge {
-      margin-right: -15px;
+    .groups {
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 15px;
+
+      app-group-badge {
+        margin-right: -15px;
+      }
     }
+
+    .follows {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+
+@media(max-width: 800px) {
+  .user {
+    flex: 0 0 100%;
+    order: 2;
   }
 }
