@@ -1,5 +1,17 @@
-<header>
-  <div class="cards">
+<section class="activity" *ngIf="user$ | async as user">
+  <div>
+    <app-activity-month [months]="months" [user]="user" [title]="welcomeMessage"></app-activity-month>
+
+    <div class="actions">
+      <button mat-stroked-button routerLink="/community/me">Mon profil</button>
+    </div>
+  </div>
+</section>
+
+<mat-divider></mat-divider>
+
+<section class="cards">
+  <div>
 
     <mat-card appearance="outlined" *ngIf="followed$ | async as followed">
       <mat-card-header>
@@ -70,14 +82,4 @@
     </mat-card>
 
   </div>
-</header>
-
-<main>
-  <div class="activity" *ngIf="user$ | async as user">
-    <app-activity-month [months]="months" [user]="user"></app-activity-month>
-
-    <div class="actions">
-      <button mat-stroked-button routerLink="/community/me">Mon historique</button>
-    </div>
-  </div>
-</main>
+</section>

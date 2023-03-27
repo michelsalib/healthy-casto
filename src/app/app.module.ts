@@ -8,7 +8,7 @@ import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingServ
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { enableIndexedDbPersistence, getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
