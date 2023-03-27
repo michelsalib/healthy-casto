@@ -70,7 +70,7 @@ export class ObjectiveComponent implements OnInit {
       return;
     }
 
-    await setDoc(this.ref, { target: 15, averageValue: 0 } as ObjectiveConfig);
+    await setDoc(this.ref, { target: 15, averageValue: 0.5 } as ObjectiveConfig);
 
     this.snackBar.open(`Tu suis maintenant l\'objectif ${this.objective.name} ${this.objective.success}`, undefined, { duration: 3000, verticalPosition: 'top' });
   }

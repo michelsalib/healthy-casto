@@ -17,21 +17,39 @@
       </p>
 
       <section class="objective">
-        Objectif {{ objective.success }} {{ ngSliderThumb.value | label }} jours
+        Objectif mensuel: {{ ngSliderThumb.value | label }} points
         <mat-slider [displayWith]="tooltip" discrete max="31" min="0">
           <input #ngSliderThumb (change)="setTarget(ngSliderThumb.value)" [ngModel]="objectiveConfig.target"
                  matSliderThumb/>
         </mat-slider>
       </section>
 
-      <section class="average">
-        Un jour {{ objective.average }} compte pour un
-        <mat-select (valueChange)="setAverageValue($event)" [ngModel]="objectiveConfig.averageValue" required>
-          <mat-option [value]="0">{{ '0' | average:objective }}</mat-option>
-          <mat-option [value]="0.5">{{ '0.5' | average:objective }}</mat-option>
-          <mat-option [value]="1">{{ '1' | average:objective }}</mat-option>
-        </mat-select>
-      </section>
+      <table>
+        <thead>
+        <tr>
+          <th>Échelle</th>
+          <th>Point</th>
+        </tr>
+        </thead>
+        <tr>
+          <th>{{ objective.success }} <span class="mat-caption">succès !</span></th>
+          <td>1</td>
+        </tr>
+        <tr>
+          <th>{{ objective.average }}</th>
+          <td>
+            <mat-select (valueChange)="setAverageValue($event)" [ngModel]="objectiveConfig.averageValue" required>
+              <mat-option [value]="0">0</mat-option>
+              <mat-option [value]="0.5">½</mat-option>
+              <mat-option [value]="1">1</mat-option>
+            </mat-select>
+          </td>
+        </tr>
+        <tr>
+          <th>{{ objective.failure }} <span class="mat-caption">échec !</span></th>
+          <td>0</td>
+        </tr>
+      </table>
     </ng-container>
   </mat-card-content>
 </mat-card>

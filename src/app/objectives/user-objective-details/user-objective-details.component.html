@@ -17,10 +17,10 @@
         Objectif de {{ data.user.displayName }}:
     </p>
     <p>
-        {{ data.objective.success }} est un succes, avec un objectif de {{ data.objectiveConfig.target | label }} {{ data.objective.success }} par mois.
+        {{ data.objective.success }} fait  1 point, avec un objectif de {{ data.objectiveConfig.target | label }} points par mois.
         <br/>
-        {{ data.objective.average }} est un {{ data.objectiveConfig.averageValue | average:data.objective }}.
+        {{ data.objective.average }} fait {{ data.objectiveConfig.averageValue }} point.
         <br/>
-        {{ data.objective.failure }} est un echec.
+        {{ data.objective.failure }} fait 0 point.
     </p>
 </div>
