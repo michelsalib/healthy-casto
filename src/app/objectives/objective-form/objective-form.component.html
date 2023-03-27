@@ -1,6 +1,10 @@
 <h1 mat-dialog-title>Créer un objectif</h1>
 
 <div mat-dialog-content>
+  <div class="desc">
+    Créez ton objectif et partage le ! Tout le monde pourra y accéder et se l’assigner.
+  </div>
+
   <form [formGroup]="form">
     <mat-form-field appearance="fill" class="full">
       <mat-label>Nom</mat-label>
@@ -11,30 +15,35 @@
       <mat-label>Description</mat-label>
       <textarea formControlName="description" matInput></textarea>
     </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Objectif validé</mat-label>
-      <input formControlName="success" matInput>
-      <button mat-icon-button matSuffix (click)="form.get('success')?.setValue('🟩')">
-        <mat-icon>undo</mat-icon>
-      </button>
-      <mat-error *ngIf="form.get('success')?.invalid">Utilise un unique charactère</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Objectif semi-validé</mat-label>
-      <input formControlName="average" matInput>
-      <button mat-icon-button matSuffix (click)="form.get('average')?.setValue('🟧')">
-        <mat-icon>undo</mat-icon>
-      </button>
-      <mat-error *ngIf="form.get('average')?.invalid">Utilise un unique charactère</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Objectif raté</mat-label>
-      <input formControlName="failure" matInput>
-      <button mat-icon-button matSuffix (click)="form.get('failure')?.setValue('🟥')">
-        <mat-icon>undo</mat-icon>
-      </button>
-      <mat-error *ngIf="form.get('failure')?.invalid">Utilise un unique charactère</mat-error>
-    </mat-form-field>
+    <div class="desc">
+      Choisis les emoji que tu veux faire apparaître ! Supprime le carré et ajoute un emoji à la place.
+    </div>
+    <div class="emojis">
+      <mat-form-field appearance="fill">
+        <mat-label>Objectif validé</mat-label>
+        <input formControlName="success" matInput>
+        <button mat-icon-button matSuffix (click)="form.get('success')?.setValue('🟩')">
+          <mat-icon>undo</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('success')?.invalid">Utilise un unique charactère</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Objectif semi-validé</mat-label>
+        <input formControlName="average" matInput>
+        <button mat-icon-button matSuffix (click)="form.get('average')?.setValue('🟧')">
+          <mat-icon>undo</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('average')?.invalid">Utilise un unique charactère</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Objectif raté</mat-label>
+        <input formControlName="failure" matInput>
+        <button mat-icon-button matSuffix (click)="form.get('failure')?.setValue('🟥')">
+          <mat-icon>undo</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('failure')?.invalid">Utilise un unique charactère</mat-error>
+      </mat-form-field>
+    </div>
   </form>
 </div>
 
