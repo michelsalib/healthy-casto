@@ -1,0 +1,29 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  $color-config: mat.get-color-config($theme);
+  $primary-palette: map.get($color-config, 'primary');
+  $accent-palette: map.get($color-config, 'accent');
+
+  header {
+    background-color: mat.get-color-from-palette($primary-palette, 500);
+
+    h1 {
+      color: map.get(mat.$dark-theme-foreground-palette, text);
+    }
+
+    mat-card-title strong,
+    mat-card-content .mat-small {
+      color: mat.get-color-from-palette($accent-palette, 500);
+    }
+  }
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+
+  @if $color-config !=null {
+    @include color($theme);
+  }
+}
