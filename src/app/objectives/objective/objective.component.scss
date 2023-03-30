@@ -14,4 +14,29 @@ mat-card {
   app-user-badge {
     margin-right: -5px;
   }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+
+    th {
+      text-align: left;
+      font-weight: 500;
+    }
+
+    td {
+      text-align: right;
+    }
+
+    th, td {
+      border: 1px solid #eee;
+      vertical-align: initial;
+      padding: 5px;
+
+      ::ng-deep .mat-mdc-select-value{
+        order: 1;
+        font-size: 14px;
+      }
+    }
+  }
 }

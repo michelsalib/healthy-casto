@@ -8,6 +8,20 @@ import { User } from '../models/User';
 import { FollowService } from '../services/db/follow.service';
 import { GroupsService } from '../services/db/groups.service';
 import { UsersService } from '../services/db/users.service';
+import { random } from 'lodash';
+
+const MESSAGES = [
+  'Profite de chaque moment de ta journée ! 💅',
+  'Tu es capable d\'accomplir de grandes choses ! 🦄',
+  'Bienvenue dans notre oasis de bien-être 🥰',
+  'Tu es sur la bonne voie, continue comme ça ! 💐',
+  'Prends soin de toi, tu le mérites ! 💖',
+  'Chaque effort est une occasion de célébrer, fais la fête ! 🍾',
+  'Tu as le vent en poupe aujourd’hui ! 🏃‍♀️',
+  'Continue sur ta lancée ! 💪',
+  'Ton bien-être est un voyage, pas une destination. ✈️',
+  'Let’s goooooooooo 🌈'
+];
 
 @Component({
   selector: 'app-home',
@@ -16,7 +30,7 @@ import { UsersService } from '../services/db/users.service';
 })
 export class HomeComponent implements OnInit {
   readonly months;
-
+  welcomeMessage = MESSAGES[random(MESSAGES.length)];
   user$: Observable<User> = new Subject();
   recents$: Observable<{ users: User[] | null, groups: Group[] | null } | null> = new Subject();
   followed$: Observable<{ users: User[] | null, groups: Group[] | null } | null> = new Subject();

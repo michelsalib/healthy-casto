@@ -2,10 +2,10 @@
 
   <ng-container *ngIf="dataset.objectives.length">
 
-    <ng-container *ngFor="let month of dataset.days | keyvalue">
+    <ng-container *ngFor="let month of dataset.days | keyvalue; let last = last">
 
       <h2 class="name">
-        {{ month.key | date:'MMMM' | titlecase }}
+        {{ title || (month.key | date:'MMMM' | titlecase) }}
       </h2>
 
       <div class="calendar">
@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="!last"></mat-divider>
 
     </ng-container>
 

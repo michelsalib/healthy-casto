@@ -1,3 +1,51 @@
+<header>
+  <div>
+    <h1>
+      🎯 Les objectifs
+    </h1>
+    <div class="cards">
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <strong>1</strong>Sélectionne un objectif
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>Parmi les objectifs existants</div>
+          <div class="mat-small">- Ou -</div>
+          <div>Crée ton propre objectif !</div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <strong>2</strong>Customise
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          Chaque objectif a 3 niveaux de complétion, représentés par 3 émojis:<br/>
+          Succès = 1 point<br/>
+          Echec = 0 point.<br/>
+          Tu choisis la valeur que tu donnes au niveau intermédiaire.
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <strong>3</strong>Définis combien de points...
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          ...tu souhaites atteindre par mois.
+          <img src="./assets/slide.gif" height="68" width="227"/>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+</header>
+<mat-divider></mat-divider>
 <app-community-objectives></app-community-objectives>
 <button (click)="create()" mat-fab matTooltip="Créer un objectif" matTooltipPosition="left">
   <mat-icon>add</mat-icon>

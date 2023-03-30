@@ -3,6 +3,7 @@
 @use './app/community/users-list/users-list.component-theme' as users-list;
 @use './app/community/community.component-theme' as community;
 @use './app/home/home.component-theme' as home;
+@use './app/objectives/objectives.component-theme' as objectives;
 
 $my-primary: mat.define-palette(mat.$blue-palette, 500);
 $my-accent: mat.define-palette(mat.$amber-palette, 500);
@@ -21,6 +22,7 @@ $my-theme: mat.define-light-theme((color: (primary: $my-primary,
 @include users-list.theme($my-theme);
 @include community.theme($my-theme);
 @include home.theme($my-theme);
+@include objectives.theme($my-theme);
 
 html,
 body {

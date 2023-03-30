@@ -17,6 +17,7 @@ import { computeMonthScore } from '../utils/computeScore';
 export class ActivityMonthComponent implements OnInit, OnChanges {
   @Input() user!: User;
   @Input() months!: string[];
+  @Input() title?: string;
   isMe = false;
 
   dataset$: Observable<{
@@ -34,9 +35,9 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
   public showScrollButton = false;
 
   constructor(
-    private activityService: ActivityService, 
-    private auth: Auth, 
-    private objectivesService: ObjectivesService, 
+    private activityService: ActivityService,
+    private auth: Auth,
+    private objectivesService: ObjectivesService,
     private objectiveConfigService: ObjectiveConfigService,
     private element: ElementRef) {
 
