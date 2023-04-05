@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { chain, keyBy, zipObject } from 'lodash';
 import { combineLatest, map, Observable, Subject } from 'rxjs';
-import { computeGroupScore, computeMonthScore } from 'src/app/activity/utils/computeScore';
+import { blankScore, computeGroupScore, computeMonthScore, Score } from 'src/app/activity/utils/computeScore';
 import { Objective } from 'src/app/models/Objective';
 import { ObjectiveConfig, User, YearActivity } from 'src/app/models/User';
 import { ActivityService } from 'src/app/services/db/activity.service';
@@ -60,30 +60,31 @@ export class GroupActivityComponent implements OnChanges {
     return computeMonthScore(month, config, activity);
   }
 
-  computeGroupScore(month: string, objective: Objective, dataset: GroupActivityModel) {
-    if (!this.users?.length) {
-      return null;
-    }
+  computeGroupScore(month: string, objective: Objective, dataset: GroupActivityModel): Score {
+    const participatingUsers = this.getParticipatingUsersFrom(dataset, objective);
 
-    const participatingUsers = this.users.filter(u => dataset.objectiveConfigs[u.id].find(c => c.id == objective.id));
+    if (!participatingUsers.length) {
+      return blankScore();
+    }
 
     return computeGroupScore(month, participatingUsers.map(u => {
       return {
         activity: dataset.activity[u.id],
-        config: dataset.objectiveConfigs[u.id].find(o => o.id == objective.id) as ObjectiveConfig,
+        config: this.getPublicObjectiveConfigFrom(dataset, u, objective) as ObjectiveConfig,
       };
     }));
   }
 
   computeYearTotal(objective: Objective, dataset: GroupActivityModel): number {
-    if (!this.users?.length) {
+    const participatingUsers = this.getParticipatingUsersFrom(dataset, objective);
+
+    if (!participatingUsers.length) {
       return NaN;
     }
 
-    return this.users
-      .filter(u => dataset.objectiveConfigs[u.id].find(c => c.id == objective.id))
+    return participatingUsers
       .reduce((total, u) => {
-        const config = dataset.objectiveConfigs[u.id].find(o => o.id == objective.id) as ObjectiveConfig;
+        const config = this.getPublicObjectiveConfigFrom(dataset, u, objective) as ObjectiveConfig;
 
         const userScore = Object.values(dataset.activity[u.id]).reduce((r, entry) => {
           const act = entry?.[objective.id];
@@ -100,5 +101,19 @@ export class GroupActivityComponent implements OnChanges {
 
         return total + userScore;
       }, 0);
+  }
+
+  getParticipatingUsersFrom(dataset: GroupActivityModel, objective: Objective): User[] {
+    if (!this.users?.length) {
+      return [];
+    }
+
+    return this.users.filter(u => this.getPublicObjectiveConfigFrom(dataset, u, objective));
+  }
+
+  private getPublicObjectiveConfigFrom(dataset: GroupActivityModel, user: User, objective: Objective): ObjectiveConfig | undefined {
+    const config = dataset.objectiveConfigs[user.id].find(c => c.id == objective.id);
+
+    return config?.private ? undefined : config;
   }
 }

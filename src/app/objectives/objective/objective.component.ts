@@ -87,4 +87,7 @@ export class ObjectiveComponent implements OnInit {
     return new LabelPipe().transform(value, 'short');
   }
 
+  async setPrivate(event: MatSlideToggleChange) {
+    await updateDoc(this.ref, 'private', event.checked);
+  }
 }

@@ -1,26 +1,28 @@
 <div class="header">
-    <div class="title">
-        <h2>
-            {{ data.objective.success }} {{ data.objective.name }}
-        </h2>
+  <div class="title">
+    <h2>
+      {{ data.objective.success }} {{ data.objective.name }}
+      <h3 *ngIf="data.objectiveConfig.private">🔒 objectif privé</h3>
+    </h2>
 
-        <div class="subtitle">
-            {{ data.objective.description }}
-        </div>
+    <div class="subtitle">
+      {{ data.objective.description }}
     </div>
+  </div>
 
-    <app-user-badge [user]="data.user" (click)="close()"></app-user-badge>
+  <app-user-badge [user]="data.user" (click)="close()"></app-user-badge>
 </div>
 
 <div>
-    <p>
-        Objectif de {{ data.user.displayName }}:
-    </p>
-    <p>
-        {{ data.objective.success }} fait  1 point, avec un objectif de {{ data.objectiveConfig.target | label }} points par mois.
-        <br/>
-        {{ data.objective.average }} fait {{ data.objectiveConfig.averageValue }} point.
-        <br/>
-        {{ data.objective.failure }} fait 0 point.
-    </p>
+  <p>
+    Objectif de {{ data.user.displayName }}:
+  </p>
+  <p>
+    {{ data.objective.success }} fait 1 point, avec un objectif de {{ data.objectiveConfig.target | label }} points par
+    mois.
+    <br/>
+    {{ data.objective.average }} fait {{ data.objectiveConfig.averageValue }} point.
+    <br/>
+    {{ data.objective.failure }} fait 0 point.
+  </p>
 </div>

@@ -6,16 +6,20 @@ export interface Score {
     score: number;
     ratio: number;
     monthRatio: number;
-} 
+}
+
+export function blankScore(): Score {
+  return {
+    emoji: ratioToEmoji(NaN),
+    score: NaN,
+    ratio: NaN,
+    monthRatio: NaN,
+  };
+}
 
 export function computeMonthScore(month: string, config: ObjectiveConfig, activity: YearActivity): Score {
     if (!activity) {
-        return {
-            emoji: ratioToEmoji(NaN),
-            score: NaN,
-            ratio: NaN,
-            monthRatio: NaN,
-        };
+        return blankScore();
     }
 
     const activeDays = (Object.keys(activity) as DayString[]).filter(day => day.startsWith(month) && activity[day]?.[config.id]);
