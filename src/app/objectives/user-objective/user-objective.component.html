@@ -1,3 +1,11 @@
-<mat-chip *ngIf="objective$ | async as objective" (click)="openDetails($event)" [disabled]="false">
-  {{ objective.success }} {{ objective.name }}
-</mat-chip>
+<ng-container *ngIf="isMe || !objectiveConfig.private; else privateChip">
+  <mat-chip *ngIf="objective$ | async as objective" (click)="openDetails($event)" [disabled]="false">
+    <span *ngIf="objectiveConfig.private" matChipAvatar>🔒</span>
+    {{ objective.success }} {{ objective.name }}
+  </mat-chip>
+</ng-container>
+<ng-template #privateChip>
+  <mat-chip [disabled]="false">
+    🔒 Privé
+  </mat-chip>
+</ng-template>

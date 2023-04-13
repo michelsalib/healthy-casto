@@ -14,7 +14,7 @@
           <div></div>
           <div *ngFor="let objective of dataset.objectives; let i = index">
             <app-user-objective [user]="user" [objective]="objective"
-              [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
+                                [objectiveConfig]="dataset.objectiveConfigs[i]"></app-user-objective>
           </div>
         </div>
 
@@ -26,15 +26,17 @@
             <div class="day-number">
               {{ day | date:'dd' }}
             </div>
-            <div *ngFor="let objective of dataset.objectives" class="day-objective">
+            <div *ngFor="let objective of dataset.objectives; let i = index" class="day-objective">
 
               <mat-select (dragenter)="dragEnter($event, objective.id, day)" (dragover)="dragOver($event, objective.id)"
-                (dragstart)="dragStart($event, dataset.activity[day]?.[objective.id], day, objective.id)"
-                (drop)="drop($event, objective.id, day)" (valueChange)="setActivity($event, day, objective.id)"
-                *ngIf="isMe; else readonlyTemplate"
-                [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId"
-                [ngClass]="dataset.activity[day]?.[objective.id]" [value]="dataset.activity[day]?.[objective.id]"
-                draggable="true">
+                          (dragstart)="dragStart($event, dataset.activity[day]?.[objective.id], day, objective.id)"
+                          (drop)="drop($event, objective.id, day)"
+                          (valueChange)="setActivity($event, day, objective.id)"
+                          *ngIf="isMe; else readonlyTemplate"
+                          [class.edited]="editedDays.includes(day) && objective.id == dragData?.objectiveId"
+                          [ngClass]="dataset.activity[day]?.[objective.id]"
+                          [value]="dataset.activity[day]?.[objective.id]"
+                          draggable="true">
                 <mat-option [value]="undefined">-</mat-option>
                 <mat-option value="🟥">{{ objective.failure }}</mat-option>
                 <mat-option value="🟧">{{ objective.average }}</mat-option>
@@ -43,7 +45,7 @@
 
               <ng-template #readonlyTemplate>
                 <div [ngClass]="dataset.activity[day]?.[objective.id]" class="readonly">
-                  {{ getIcon(objective, dataset.activity[day]?.[objective.id]) }}
+                  {{ getIcon(objective, dataset.objectiveConfigs[i].private ? undefined : dataset.activity[day]?.[objective.id]) }}
                 </div>
               </ng-template>
             </div>
@@ -65,8 +67,8 @@
 
     </ng-container>
 
-    <button mat-fab extended  matTooltip="Aujourd'hui" matTooltipPosition="left" *ngIf="showScrollButton"
-      (click)="scroll()">
+    <button mat-fab extended matTooltip="Aujourd'hui" matTooltipPosition="left" *ngIf="showScrollButton"
+            (click)="scroll()">
       Aujourd'hui
       <mat-icon>edit_note</mat-icon>
     </button>

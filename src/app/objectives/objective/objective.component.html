@@ -50,6 +50,11 @@
           <td>0</td>
         </tr>
       </table>
+      <p>
+        <mat-slide-toggle class="private" (change)="setPrivate($event)" [ngModel]="objectiveConfig.private">
+          Objectif privé
+        </mat-slide-toggle>
+      </p>
     </ng-container>
   </mat-card-content>
 </mat-card>

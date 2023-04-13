@@ -10,6 +10,7 @@ export interface User {
 }
 
 export interface ObjectiveConfig {
+  private: boolean;
   id: string;
   target: number;
   averageValue: number;

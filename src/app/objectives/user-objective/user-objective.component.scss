@@ -1,5 +1,20 @@
 mat-chip {
-    ::ng-deep [matchipaction] {
-        cursor: pointer;
+  ::ng-deep {
+    .mat-mdc-chip-graphic {
+      padding-right: 0 !important;
     }
+
+    [matChipAvatar] {
+      padding: 4px;
+      background-color: #eeeeee;
+      font-size: 14px;
+      line-height: inherit;
+    }
+
+    [matchipaction] {
+      padding-left: 8px;
+      padding-right: 10px;
+      cursor: pointer;
+    }
+  }
 }

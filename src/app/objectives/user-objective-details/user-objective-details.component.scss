@@ -1,23 +1,23 @@
 .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px 0;
+
+  .title {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 10px 0;
+    flex-direction: column;
 
-    .title {
-        display: flex;
-        flex-direction: column;
-
-        h2 {
-            margin: 0px;
-        }
-
-        .subtitle {
-            color: rgba(0, 0, 0, 0.54);
-        }
+    h2 {
+      margin: 0px;
     }
 
-    app-user-badge {
-        margin-left: 10px;
+    .subtitle {
+      color: rgba(0, 0, 0, 0.54);
     }
+  }
+
+  app-user-badge {
+    margin-left: 10px;
+  }
 }
