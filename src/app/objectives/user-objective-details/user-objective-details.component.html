@@ -2,8 +2,10 @@
   <div class="title">
     <h2>
       {{ data.objective.success }} {{ data.objective.name }}
-      <h3 *ngIf="data.objectiveConfig.private">🔒<em>Objectif privé</em></h3>
+      
     </h2>
+
+    <div *ngIf="data.objectiveConfig.private" class="subtitle">🔒<em>Objectif privé</em></div>
 
     <div class="subtitle">
       {{ data.objective.description }}
