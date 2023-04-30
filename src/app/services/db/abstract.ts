@@ -10,7 +10,7 @@ import {
   query,
   QueryConstraint
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export abstract class Db<T extends { id: string }> {
   private readonly collection: CollectionReference<T>;
@@ -25,7 +25,8 @@ export abstract class Db<T extends { id: string }> {
       {
         idField: 'id',
       }
-    );
+    )
+    .pipe(map(data => data.map(d => this.transform(d))));
   }
 
   get(id: string): Observable<T> {
@@ -34,10 +35,15 @@ export abstract class Db<T extends { id: string }> {
       {
         idField: 'id',
       }
-    );
+    )
+    .pipe(map(data => this.transform(data)));
   }
 
   async add(item: T): Promise<DocumentReference<T>> {
     return addDoc(this.collection, item);
+  }
+
+  protected transform(dbData: any): T {
+    return dbData;
   }
 }

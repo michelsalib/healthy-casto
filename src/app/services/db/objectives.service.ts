@@ -12,4 +12,12 @@ export class ObjectivesService extends Db<Objective> {
     super(db, 'objectives');
   }
 
+  // can cleaned when db is updated
+  protected override transform(dbData: any): Objective {
+    return {
+      triumph: '⭐',
+      ...dbData,
+    };
+  }
+
 }

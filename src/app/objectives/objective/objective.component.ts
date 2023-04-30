@@ -1,13 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { deleteDoc, doc, docData, DocumentReference, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
+import { DocumentReference, Firestore, deleteDoc, doc, docData, setDoc, updateDoc } from '@angular/fire/firestore';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, Observable, Subject, switchMap } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { ObjectiveConfig, User } from 'src/app/models/User';
-import { FollowService } from 'src/app/services/db/follow.service';
-import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.service';
 import { LabelPipe } from '../label.pipe';
 
 @Component({
@@ -22,43 +20,13 @@ export class ObjectiveComponent implements OnInit {
   objectiveConfig$: Observable<ObjectiveConfig> = new Subject();
   users$: Observable<Record<string, { user: User, config: ObjectiveConfig }[]>> = new Subject();
 
-  constructor(private db: Firestore, private auth: Auth, private snackBar: MatSnackBar, private followService: FollowService, private objectiveConfigService: ObjectiveConfigService) {
+  constructor(private db: Firestore, private auth: Auth, private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
     this.ref = doc(this.db, `users/${this.auth.currentUser?.uid}/objectives/${this.objective.id}`) as DocumentReference<ObjectiveConfig>;
 
     this.objectiveConfig$ = docData<ObjectiveConfig>(this.ref);
-
-    // this.users$ = this.followService.followings(this.auth.currentUser?.uid as string)
-    //   .pipe(
-    //     switchMap(async friends => {
-    //       if (!friends) {
-    //         return {};
-    //       }
-
-    //       const friendsObjectives = await Promise.all(friends?.map(async user => {
-    //         const configs = await firstValueFrom(this.objectiveConfigService.list(user.id));
-
-    //         return {
-    //           user,
-    //           configs,
-    //         };
-    //       }));
-
-    //       const result: Record<string, { user: User, config: ObjectiveConfig }[]> = {};
-    //       for (const { user, configs } of friendsObjectives) {
-    //         for (const config of configs) {
-    //           result[config.id] = result[config.id] || [];
-    //           result[config.id].push({
-    //             user,
-    //             config,
-    //           });
-    //         }
-    //       }
-
-    //       return result;
-    //     }));
   }
 
   async toggle(event: MatSlideToggleChange) {

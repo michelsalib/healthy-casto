@@ -14,6 +14,7 @@ export class ObjectiveFormComponent implements OnInit {
   form: FormGroup<{
     name: FormControl<string>;
     description: FormControl<string>;
+    triumph: FormControl<string>;
     success: FormControl<string>;
     average: FormControl<string>;
     failure: FormControl<string>;
@@ -23,6 +24,7 @@ export class ObjectiveFormComponent implements OnInit {
     this.form = new FormGroup({
       name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       description: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      triumph: new FormControl('⭐', { nonNullable: true, validators: [Validators.required, singleCharacterValidator] }),
       success: new FormControl('🟩', { nonNullable: true, validators: [Validators.required, singleCharacterValidator] }),
       average: new FormControl('🟧', { nonNullable: true, validators: [Validators.required, singleCharacterValidator] }),
       failure: new FormControl('🟥', { nonNullable: true, validators: [Validators.required, singleCharacterValidator] }),
