@@ -1,13 +1,14 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { addDays, format, getDaysInMonth, isBefore, isEqual, isMonday, isThisMonth, isToday, parse } from 'date-fns';
-import { combineLatest, map, Observable, of, Subject, switchMap } from 'rxjs';
+import { Observable, Subject, combineLatest, map, of, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { DayString, ObjectiveConfig, User, YearActivity } from 'src/app/models/User';
 import { ActivityService } from 'src/app/services/db/activity.service';
 import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.service';
 import { ObjectivesService } from 'src/app/services/db/objectives.service';
 import { computeMonthScore } from '../utils/computeScore';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-activity-month[months][user]',
@@ -39,7 +40,8 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
     private auth: Auth,
     private objectivesService: ObjectivesService,
     private objectiveConfigService: ObjectiveConfigService,
-    private element: ElementRef) {
+    private element: ElementRef,
+    private snackBar: MatSnackBar) {
 
   }
 
@@ -109,11 +111,17 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
   }
 
   async setActivity(value: string, day: DayString, objectiveId: string) {
+    if (value == '⭐') {
+      this.snackBar.open('Tu t\'es depassé•e 👏', undefined, { duration: 3000, verticalPosition: 'top' });
+    }
+
     await this.activityService.updateActivity(day, objectiveId, value);
   }
 
   getIcon(objective: Objective, value: string | undefined): string {
     switch (value) {
+      case '⭐':
+        return objective.triumph;
       case '🟩':
         return objective.success;
       case '🟧':

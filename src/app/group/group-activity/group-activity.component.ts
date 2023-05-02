@@ -88,8 +88,12 @@ export class GroupActivityComponent implements OnChanges {
 
         const userScore = Object.values(dataset.activity[u.id]).reduce((r, entry) => {
           const act = entry?.[objective.id];
+            if (act == '⭐') {
+                return r + 2;
+            }
+            
             if (act == '🟩') {
-                return ++r;
+                return r + 1;
             }
 
             if (act == '🟧') {

@@ -20,6 +20,14 @@
     </div>
     <div class="emojis">
       <mat-form-field appearance="fill">
+        <mat-label>Objectif sur-performé</mat-label>
+        <input formControlName="triumph" matInput>
+        <button mat-icon-button matSuffix (click)="form.get('triumph')?.setValue('⭐')">
+          <mat-icon>undo</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('success')?.invalid">Utilise un unique charactère</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Objectif validé</mat-label>
         <input formControlName="success" matInput>
         <button mat-icon-button matSuffix (click)="form.get('success')?.setValue('🟩')">

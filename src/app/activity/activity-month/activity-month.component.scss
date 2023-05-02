@@ -105,6 +105,12 @@ button[mat-fab] {
   z-index: 1001;
 }
 
+mat-select.⭐,
+.readonly.⭐,
+.mat-mdc-option[value="⭐"] {
+  background-color: rgb(166, 231, 177);
+}
+
 mat-select.🟩,
 .readonly.🟩,
 .mat-mdc-option[value="🟩"] {

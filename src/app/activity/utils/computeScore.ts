@@ -40,8 +40,12 @@ export function computeMonthScore(month: string, config: ObjectiveConfig, activi
         .reduce((r, c) => {
             const act = activity[c]?.[config.id];
 
+            if (act == '⭐') {
+                return r + 2;
+            }
+
             if (act == '🟩') {
-                return ++r;
+                return r + 1;
             }
 
             if (act == '🟧') {
