@@ -2,6 +2,12 @@
 
   <ng-container *ngIf="dataset.objectives.length">
 
+    <button mat-fab extended matTooltip="Aujourd'hui" matTooltipPosition="left" style="display: none;" #todayButton
+            (click)="scroll()">
+      Aujourd'hui
+      <mat-icon>edit_note</mat-icon>
+    </button>
+
     <ng-container *ngFor="let month of dataset.days | keyvalue; let last = last">
 
       <h2 class="name">
@@ -18,7 +24,7 @@
           </div>
         </div>
 
-        <div class="days">
+        <div class="days" #days>
           <div *ngFor="let day of month.value" [ngClass]="{ monday: isMonday(day), today: isToday(day) }" class="day">
             <div class="day-letter">
               {{ day | date:'EEEEE' }}
@@ -67,12 +73,6 @@
       <mat-divider *ngIf="!last"></mat-divider>
 
     </ng-container>
-
-    <button mat-fab extended matTooltip="Aujourd'hui" matTooltipPosition="left" *ngIf="showScrollButton"
-            (click)="scroll()">
-      Aujourd'hui
-      <mat-icon>edit_note</mat-icon>
-    </button>
 
   </ng-container>
 

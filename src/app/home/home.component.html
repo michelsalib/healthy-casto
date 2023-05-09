@@ -1,6 +1,6 @@
 <section class="activity" *ngIf="user$ | async as user">
   <div>
-    <app-activity-month [months]="months" [user]="user" [title]="welcomeMessage"></app-activity-month>
+    <app-activity-month [months]="months" [user]="user" [title]="welcomeMessage" [focusToday]="true"></app-activity-month>
 
     <div class="actions">
       <button mat-stroked-button routerLink="/community/me">Mon profil</button>
