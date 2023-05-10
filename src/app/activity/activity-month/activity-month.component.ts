@@ -1,7 +1,7 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { addDays, format, getDaysInMonth, isBefore, isEqual, isMonday, isThisMonth, isToday, parse } from 'date-fns';
-import { Observable, Subject, combineLatest, map, of, switchMap } from 'rxjs';
+import { addDays, format, getDaysInMonth, isBefore, isEqual, isMonday, isToday, parse } from 'date-fns';
+import { combineLatest, map, Observable, of, Subject, switchMap } from 'rxjs';
 import { Objective } from 'src/app/models/Objective';
 import { DayString, ObjectiveConfig, User, YearActivity } from 'src/app/models/User';
 import { ActivityService } from 'src/app/services/db/activity.service';
@@ -9,16 +9,18 @@ import { ObjectiveConfigService } from 'src/app/services/db/objectiveConfig.serv
 import { ObjectivesService } from 'src/app/services/db/objectives.service';
 import { computeMonthScore } from '../utils/computeScore';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatFabButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-activity-month[months][user]',
   templateUrl: './activity-month.component.html',
   styleUrls: ['./activity-month.component.scss']
 })
-export class ActivityMonthComponent implements OnInit, OnChanges {
+export class ActivityMonthComponent implements OnInit, OnChanges, OnDestroy {
   @Input() user!: User;
   @Input() months!: string[];
   @Input() title?: string;
+  @Input() focusToday: boolean = false;
   isMe = false;
 
   dataset$: Observable<{
@@ -33,7 +35,35 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
     objectiveId: string,
     from: string,
   };
-  public showScrollButton = false;
+
+  private visibilityObserver?: IntersectionObserver;
+  private todayDiv?: HTMLElement | null;
+
+  @ViewChild('todayButton')
+  private todayButton!: MatFabButton;
+
+  @ViewChildren('days')
+  protected set days(elements: QueryList<ElementRef<HTMLElement>>) {
+    if (!elements.length) {
+      return;
+    }
+
+    this.todayDiv = elements
+      .find(l => !!l.nativeElement.querySelector('.today'))
+      ?.nativeElement.querySelector('.today');
+    if (!this.todayDiv) {
+      return;
+    }
+
+    // observe today div
+    this.visibilityObserver = new IntersectionObserver(entries => this.computeTodayVisibility(entries));
+    this.visibilityObserver.observe(this.todayDiv);
+    requestAnimationFrame(() => {
+      if (this.visibilityObserver) {
+        this.computeTodayVisibility(this.visibilityObserver.takeRecords());
+      }
+    });
+  }
 
   constructor(
     private activityService: ActivityService,
@@ -41,14 +71,13 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
     private objectivesService: ObjectivesService,
     private objectiveConfigService: ObjectiveConfigService,
     private element: ElementRef,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private cdRef: ChangeDetectorRef) {
 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['months']) {
-      this.showScrollButton = this.months.some(m => isThisMonth(parse(m, 'yyyy-MM', 0)));
-
       const days = this.months.reduce((res, month) => {
         res[month] = new Array(getDaysInMonth(parse(month, 'yyyy-MM', 0))).fill(0).map((_, i) => {
           return month + '-' + String(i + 1).padStart(2, '0') as DayString;
@@ -56,7 +85,6 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
 
         return res;
       }, {} as Record<string, DayString[]>);
-
 
       this.dataset$ = this.objectiveConfigService.list(this.user.id)
         .pipe(
@@ -84,15 +112,16 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
     this.isMe = this.user.id == this.auth.currentUser?.uid;
   }
 
-  scroll() {
-    const scrollable = this.element.nativeElement as HTMLElement;
-    const todayDiv = scrollable.querySelector('.today');
-    todayDiv?.scrollIntoView({
+  ngOnDestroy(): void {
+    this.visibilityObserver?.disconnect();
+  }
+
+  scroll(behavior: ScrollBehavior = 'smooth') {
+    this.todayDiv?.scrollIntoView({
       block: 'center',
       inline: 'center',
-      behavior: 'smooth',
+      behavior,
     });
-    this.showScrollButton = false;
   }
 
   isMonday(day: string): any {
@@ -199,5 +228,20 @@ export class ActivityMonthComponent implements OnInit, OnChanges {
     }
 
     return days;
+  }
+
+  private computeTodayVisibility(entry: IntersectionObserverEntry[]) {
+    if (!entry[0]) {
+      return;
+    }
+
+    if (this.focusToday) {
+      this.scroll('instant' as ScrollBehavior);
+      this.focusToday = false;
+    }
+    else {
+      this.todayButton._elementRef.nativeElement.setAttribute('style', entry[0].isIntersecting ? 'display: none' : '');
+      this.cdRef.detectChanges();
+    }
   }
 }
